@@ -1,6 +1,6 @@
 //
 //  Swift_BaseUITests.swift
-//  Swift-BaseUITests
+//  YP-TrackerUITests
 //
 //  Created by SERGEY SHLYAKHIN on 04.04.2023.
 //

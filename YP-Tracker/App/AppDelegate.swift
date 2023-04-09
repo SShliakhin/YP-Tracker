@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  Swift-Base
+//  YP-Tracker
 //
 //  Created by SERGEY SHLYAKHIN on 04.04.2023.
 //

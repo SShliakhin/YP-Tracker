@@ -1,6 +1,6 @@
 //
 //  ViewController.swift
-//  Swift-Base
+//  YP-Tracker
 //
 //  Created by SERGEY SHLYAKHIN on 04.04.2023.
 //
@@ -61,7 +61,7 @@ private extension ViewController {
 // MARK: - Appearance
 private extension ViewController {
 	enum Appearance {
-		static let welcomeText = "Welcome to Swift-Base"
+		static let welcomeText = "Welcome to YP-Tracker"
 		static let backgroundColor = UIColor.orange
 	}
 }
