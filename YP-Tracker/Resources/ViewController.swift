@@ -70,14 +70,49 @@ private extension ViewController {
 import SwiftUI
 struct ViewProvider: PreviewProvider {
 	static var previews: some View {
-		let viewController = ViewController()
-		let labelView = viewController.makeWelcomeLabel() as UIView
-		let labelView2 = viewController.makeWelcomeLabel() as UIView
-		Group {
-			viewController.preview()
+
+		let label = UILabel()
+		label.font = UIFont.systemFont(ofSize: 34.0)
+		label.text = "Welcome"
+
+		let label34 = UILabel()
+		label34.font = Theme.font(style: .bold34)
+		label34.text = "Welcome"
+
+		let label32 = UILabel()
+		label32.font = Theme.font(style: .bold32)
+		label32.text = "Welcome"
+
+		let label19 = UILabel()
+		label19.font = Theme.font(style: .bold19)
+		label19.text = "Welcome"
+
+		let label17 = UILabel()
+		label17.font = Theme.font(style: .regular17)
+		label17.text = "Welcome"
+
+		let label16 = UILabel()
+		label16.font = Theme.font(style: .medium16)
+		label16.text = "Welcome"
+
+		let label12 = UILabel()
+		label12.font = Theme.font(style: .medium12)
+		label12.text = "Welcome"
+
+		let label10 = UILabel()
+		label10.font = Theme.font(style: .medium10)
+		label10.text = "Welcome"
+
+		return Group {
 			VStack(spacing: 0) {
-				labelView.preview().frame(height: 100).padding(.bottom, 20)
-				labelView2.preview().frame(height: 100).padding(.bottom, 20)
+				(label as UIView).preview().frame(height: 40)
+				(label34 as UIView).preview().frame(height: 40)
+				(label32 as UIView).preview().frame(height: 40)
+				(label19 as UIView).preview().frame(height: 40)
+				(label17 as UIView).preview().frame(height: 40)
+				(label16 as UIView).preview().frame(height: 40)
+				(label12 as UIView).preview().frame(height: 40)
+				(label10 as UIView).preview().frame(height: 40)
 			}
 		}
 	}
