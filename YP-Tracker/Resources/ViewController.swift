@@ -79,6 +79,12 @@ struct ViewProvider: PreviewProvider {
 		label.textColor = colors[0]
 		label.backgroundColor = Theme.color(usage: .background)
 
+		let button = UIButton(type: .custom)
+		button.setImage(Theme.image(kind: .addIcon), for: .normal)
+		button.setTitle("Трекеры", for: .normal)
+		button.titleLabel?.font = Theme.font(style: .bold34)
+		button.tintColor = Theme.color(usage: .main)
+
 		let label34 = UILabel()
 		label34.font = Theme.font(style: .bold34)
 		label34.text = "Welcome"
@@ -117,6 +123,7 @@ struct ViewProvider: PreviewProvider {
 		return Group {
 			VStack(spacing: 0) {
 				(label as UIView).preview().frame(height: 40)
+				(button as UIView).preview().frame(height: 40)
 				(label34 as UIView).preview().frame(height: 40)
 				(label32 as UIView).preview().frame(height: 40)
 				(label19 as UIView).preview().frame(height: 40)

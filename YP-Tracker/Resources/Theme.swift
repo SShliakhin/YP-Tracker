@@ -144,7 +144,10 @@ enum Theme {
 
 	// MARK: - Images
 	enum ImageAsset: String {
-		case exampleLogo
+		case practicumLogo, onboardingPage1, onboardingPage2
+		case trackerStartPlaceholder, trackerEmptyPlaceholder, statsPlaceholder
+		case tabTrackerIcon, tabStatsIcon
+		case addIcon, checkmarkIcon, chevronIcon
 	}
 
 	static func image(kind: ImageAsset) -> UIImage {
