@@ -25,6 +25,8 @@
 		5ADD1F0429E358F50072EE78 /* YSDisplay-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5ADD1F0129E358F40072EE78 /* YSDisplay-Regular.ttf */; };
 		5ADD1F0529E358F50072EE78 /* YSDisplay-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5ADD1F0229E358F50072EE78 /* YSDisplay-Bold.ttf */; };
 		5ADD1F0629E358F50072EE78 /* YSDisplay-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5ADD1F0329E358F50072EE78 /* YSDisplay-Medium.ttf */; };
+		5ADD1F0929E38E6E0072EE78 /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADD1F0729E38E6E0072EE78 /* UIColor+Hex.swift */; };
+		5ADD1F0A29E38E6E0072EE78 /* UIColor+Dynamic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADD1F0829E38E6E0072EE78 /* UIColor+Dynamic.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +69,8 @@
 		5ADD1F0129E358F40072EE78 /* YSDisplay-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YSDisplay-Regular.ttf"; sourceTree = "<group>"; };
 		5ADD1F0229E358F50072EE78 /* YSDisplay-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YSDisplay-Bold.ttf"; sourceTree = "<group>"; };
 		5ADD1F0329E358F50072EE78 /* YSDisplay-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YSDisplay-Medium.ttf"; sourceTree = "<group>"; };
+		5ADD1F0729E38E6E0072EE78 /* UIColor+Hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
+		5ADD1F0829E38E6E0072EE78 /* UIColor+Dynamic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Dynamic.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -185,6 +189,7 @@
 		5A65415629DE1A470042503D /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				5ADD1F0B29E38ECA0072EE78 /* Extensions */,
 				5A91DED629E0DF0A001A23C3 /* Utils */,
 			);
 			path = Library;
@@ -208,6 +213,15 @@
 				5A91DED729E0DF58001A23C3 /* UIView+Constraints.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		5ADD1F0B29E38ECA0072EE78 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				5ADD1F0829E38E6E0072EE78 /* UIColor+Dynamic.swift */,
+				5ADD1F0729E38E6E0072EE78 /* UIColor+Hex.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -370,7 +384,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				5A48062129DBA73B0096B7D8 /* ViewController.swift in Sources */,
+				5ADD1F0929E38E6E0072EE78 /* UIColor+Hex.swift in Sources */,
 				5A48063A29DBC5690096B7D8 /* Theme.swift in Sources */,
+				5ADD1F0A29E38E6E0072EE78 /* UIColor+Dynamic.swift in Sources */,
 				5A91DED829E0DF58001A23C3 /* UIView+Constraints.swift in Sources */,
 				5A91DEDA29E12F82001A23C3 /* UIViewController+Preview.swift in Sources */,
 				5A61DD3D29E13FF9001E8665 /* UIView+Preview.swift in Sources */,
