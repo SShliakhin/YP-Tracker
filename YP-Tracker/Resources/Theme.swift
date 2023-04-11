@@ -12,13 +12,13 @@ enum Theme {
 	// MARK: - Fonts
 	enum FontStyle {
 		case preferred(style: UIFont.TextStyle)
-		case bold34
-		case bold32
-		case bold19
-		case regular17
-		case medium16
-		case medium12
-		case medium10
+		case largeTitle // bold34
+		case title1 // bold32
+		case title2 // bold19
+		case body // regular17
+		case callout // medium16
+		case caption1 // medium12
+		case caption2 // medium10
 	}
 
 	static func font(style: FontStyle) -> UIFont {
@@ -27,20 +27,20 @@ enum Theme {
 		switch style {
 		case let .preferred(style: style):
 			customFont = UIFont.preferredFont(forTextStyle: style)
-		case .bold34:
-			customFont = UIFont(name: "YSDisplay-Bold", size: 34.0) ?? UIFont.systemFont(ofSize: 34.0)
-		case .bold32:
-			customFont = UIFont(name: "YSDisplay-Bold", size: 32.0) ?? UIFont.systemFont(ofSize: 32.0)
-		case .bold19:
-			customFont = UIFont(name: "YSDisplay-Bold", size: 19.0) ?? UIFont.systemFont(ofSize: 19.0)
-		case .regular17:
-			customFont = UIFont(name: "YandexSansDisplay-Regular", size: 17.0) ?? UIFont.systemFont(ofSize: 17.0)
-		case .medium16:
-			customFont = UIFont(name: "YSDisplay-Medium", size: 16.0) ?? UIFont.systemFont(ofSize: 16.0)
-		case .medium12:
-			customFont = UIFont(name: "YSDisplay-Medium", size: 12.0) ?? UIFont.systemFont(ofSize: 12.0)
-		case .medium10:
-			customFont = UIFont(name: "YSDisplay-Medium", size: 10.0) ?? UIFont.systemFont(ofSize: 10.0)
+		case .largeTitle:
+			customFont = UIFont(name: "YSDisplay-Bold", size: 34.0) ?? UIFont.preferredFont(forTextStyle: .largeTitle)
+		case .title1:
+			customFont = UIFont(name: "YSDisplay-Bold", size: 32.0) ?? UIFont.preferredFont(forTextStyle: .title1)
+		case .title2:
+			customFont = UIFont(name: "YSDisplay-Bold", size: 19.0) ?? UIFont.preferredFont(forTextStyle: .title3)
+		case .body:
+			customFont = UIFont(name: "YandexSansDisplay-Regular", size: 17.0) ?? UIFont.preferredFont(forTextStyle: .body)
+		case .callout:
+			customFont = UIFont(name: "YSDisplay-Medium", size: 16.0) ?? UIFont.preferredFont(forTextStyle: .callout)
+		case .caption1:
+			customFont = UIFont(name: "YSDisplay-Medium", size: 12.0) ?? UIFont.preferredFont(forTextStyle: .caption1)
+		case .caption2:
+			customFont = UIFont(name: "YSDisplay-Medium", size: 10.0) ?? UIFont.preferredFont(forTextStyle: .caption2)
 		}
 		return customFont
 	}
