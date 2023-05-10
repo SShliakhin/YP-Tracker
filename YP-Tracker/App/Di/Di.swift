@@ -30,7 +30,7 @@ typealias AllDependencies = (IAboutModuleDependency)
 
 // MARK: - ModuleFactory
 
-extension Di: ModuleFactory {
+extension Di: IModuleFactory {
 	func makeStartModule() -> UIViewController {
 		makeAboutModule()
 	}

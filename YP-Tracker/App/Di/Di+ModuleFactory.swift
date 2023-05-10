@@ -2,7 +2,7 @@ import UIKit
 
 // MARK: - ModuleFactory
 
-protocol ModuleFactory: AnyObject {
+protocol IModuleFactory: AnyObject {
 	func makeStartModule() -> UIViewController
 	func makeAboutModule() -> UIViewController
 	func makeMainSimpleModule() -> UIViewController

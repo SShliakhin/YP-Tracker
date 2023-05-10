@@ -2,11 +2,11 @@
 
 import Foundation
 
-protocol ServicesFactory {
+protocol IServiceFactory {
 	func makeLocalFilesProvider() -> FileManager
 }
 
-extension Di: ServicesFactory {
+extension Di: IServiceFactory {
 	func makeLocalFilesProvider() -> FileManager {
 		FileManager.default
 	}

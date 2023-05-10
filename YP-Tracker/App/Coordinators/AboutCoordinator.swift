@@ -1,10 +1,10 @@
 final class AboutCoordinator: BaseCoordinator {
-	private let factory: ModuleFactory
+	private let factory: IModuleFactory
 	let router: IRouter
 
 	var finishFlow: (() -> Void)?
 
-	init(router: IRouter, factory: ModuleFactory) {
+	init(router: IRouter, factory: IModuleFactory) {
 		self.router = router
 		self.factory = factory
 	}
