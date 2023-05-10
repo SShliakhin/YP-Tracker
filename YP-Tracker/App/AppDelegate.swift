@@ -1,10 +1,3 @@
-//
-//  AppDelegate.swift
-//  YP-Tracker
-//
-//  Created by SERGEY SHLYAKHIN on 04.04.2023.
-//
-
 import UIKit
 
 @main

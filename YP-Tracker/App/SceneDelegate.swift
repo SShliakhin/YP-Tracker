@@ -1,13 +1,8 @@
-//
-//  SceneDelegate.swift
-//  YP-Tracker
-//
-//  Created by SERGEY SHLYAKHIN on 04.04.2023.
-//
-
 import UIKit
 
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+	private let appFactory: IAppFactory = Di()
+	private var appCoordinator: ICoordinator?
 	var window: UIWindow?
 
 	func scene(
@@ -16,9 +11,9 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 		options connectionOptions: UIScene.ConnectionOptions
 	) {
 		guard let scene = (scene as? UIWindowScene) else { return }
-		let window = UIWindow(windowScene: scene)
-		window.rootViewController = ViewController()
+		let (window, coordinator) = appFactory.makeKeyWindowWithCoordinator(scene: scene)
 		self.window = window
-		window.makeKeyAndVisible()
+		self.appCoordinator = coordinator
+		coordinator.start()
 	}
 }

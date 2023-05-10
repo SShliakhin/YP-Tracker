@@ -1,50 +1,6 @@
-//
-//  Theme.swift
-//  YP-Tracker
-//
-//  Created by SERGEY SHLYAKHIN on 04.04.2023.
-//
-
 import UIKit
 
-enum Theme {
-
-	// MARK: - Fonts
-	enum FontStyle {
-		case preferred(style: UIFont.TextStyle)
-		case largeTitle // bold34
-		case title1 // bold32
-		case title2 // bold19
-		case body // regular17
-		case callout // medium16
-		case caption1 // medium12
-		case caption2 // medium10
-	}
-
-	static func font(style: FontStyle) -> UIFont {
-		let customFont: UIFont
-
-		switch style {
-		case let .preferred(style: style):
-			customFont = UIFont.preferredFont(forTextStyle: style)
-		case .largeTitle:
-			customFont = UIFont(name: "YSDisplay-Bold", size: 34.0) ?? UIFont.preferredFont(forTextStyle: .largeTitle)
-		case .title1:
-			customFont = UIFont(name: "YSDisplay-Bold", size: 32.0) ?? UIFont.preferredFont(forTextStyle: .title1)
-		case .title2:
-			customFont = UIFont(name: "YSDisplay-Bold", size: 19.0) ?? UIFont.preferredFont(forTextStyle: .title3)
-		case .body:
-			customFont = UIFont(name: "YandexSansDisplay-Regular", size: 17.0) ?? UIFont.preferredFont(forTextStyle: .body)
-		case .callout:
-			customFont = UIFont(name: "YSDisplay-Medium", size: 16.0) ?? UIFont.preferredFont(forTextStyle: .callout)
-		case .caption1:
-			customFont = UIFont(name: "YSDisplay-Medium", size: 12.0) ?? UIFont.preferredFont(forTextStyle: .caption1)
-		case .caption2:
-			customFont = UIFont(name: "YSDisplay-Medium", size: 10.0) ?? UIFont.preferredFont(forTextStyle: .caption2)
-		}
-		return customFont
-	}
-
+extension Theme {
 	// MARK: - Colors
 	private enum FlatColor {
 		enum Tracker {
@@ -150,65 +106,4 @@ enum Theme {
 
 		return customColor
 	}
-
-	// MARK: - Images
-	enum ImageAsset: String {
-		case practicumLogo, onboardingPage1, onboardingPage2
-		case trackerStartPlaceholder, trackerEmptyPlaceholder, statsPlaceholder
-		case tabTrackerIcon, tabStatsIcon
-		case addIcon, checkmarkIcon, chevronIcon
-	}
-
-	static func image(kind: ImageAsset) -> UIImage {
-		return UIImage(named: kind.rawValue) ?? .actions // swiftlint:disable:this image_name_initialization
-	}
-
-	// MARK: - Spacing
-	enum Spacing {
-		case standard
-		case standard2
-		case standardHalf
-		case standard4
-	}
-
-	static func spacing(usage: Spacing) -> CGFloat {
-		let customSpacing: CGFloat
-
-		switch usage {
-		case .standard:
-			customSpacing = 8
-		case .standard2:
-			customSpacing = 16
-		case .standardHalf:
-			customSpacing = 4
-		case .standard4:
-			customSpacing = 32
-		}
-
-		return customSpacing
-	}
-
-	// MARK: - Size
-	enum Size {
-		case cornerRadius
-	}
-
-	static func size(kind: Size) -> CGFloat {
-		let customSize: CGFloat
-
-		switch kind {
-		case .cornerRadius:
-			customSize = 10
-		}
-
-		return customSize
-	}
-
-	// MARK: - DateFormatter
-	static let dateFormatter: DateFormatter = {
-		let formatter = DateFormatter()
-		formatter.dateStyle = .long
-		formatter.timeStyle = .none
-		return formatter
-	}()
 }
