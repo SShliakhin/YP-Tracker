@@ -6,5 +6,10 @@ extension Theme {
 			guard let bundle = Bundle.main.resourcePath else { return "" }
 			return bundle + "/About.md"
 		}()
+
+		static let emojis = [
+			"🙂", "😻", "🌺", "🐶", "❤️", "😱", "😇", "😡", "🥶",
+			"🤔", "🙌", "🍔", "🥦", "🏓", "🥇", "🎸", "🏝", "😪"
+		]
 	}
 }

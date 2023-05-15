@@ -11,9 +11,16 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 		options connectionOptions: UIScene.ConnectionOptions
 	) {
 		guard let scene = (scene as? UIWindowScene) else { return }
-		let (window, coordinator) = appFactory.makeKeyWindowWithCoordinator(scene: scene)
-		self.window = window
-		self.appCoordinator = coordinator
-		coordinator.start()
+
+		let isOnlyScene = false
+		if isOnlyScene {
+			self.window = appFactory.makeKeyWindow(scene: scene)
+		} else {
+			let (window, coordinator) = appFactory.makeKeyWindowWithCoordinator(scene: scene)
+			self.window = window
+
+			self.appCoordinator = coordinator
+			coordinator.start()
+		}
 	}
 }

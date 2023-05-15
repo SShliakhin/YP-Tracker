@@ -1,6 +1,6 @@
 final class AboutCoordinator: BaseCoordinator {
 	private let factory: IModuleFactory
-	let router: IRouter
+	private let router: IRouter
 
 	var finishFlow: (() -> Void)?
 

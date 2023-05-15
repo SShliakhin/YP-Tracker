@@ -42,6 +42,16 @@ private extension MainSimpleCoordinator {
 		addDependency(coordinator)
 		coordinator.start()
 	}
+	func runTabbarFlow() {
+		let coordinator = coordinatorFactory.makeTabbarCoordinator(router: router)
+		coordinator.finishFlow = { [weak self, weak coordinator] in
+			self?.router.dismissModule()
+			self?.removeDependency(coordinator)
+			self?.showMainSimpleModule()
+		}
+		addDependency(coordinator)
+		coordinator.start()
+	}
 }
 
 // MARK: - show Modules
@@ -58,7 +68,7 @@ private extension MainSimpleCoordinator {
 				}
 			case .tab:
 				action = {
-					self.showAboutModule()
+					self.runTabbarFlow()
 				}
 			case .about:
 				action = {

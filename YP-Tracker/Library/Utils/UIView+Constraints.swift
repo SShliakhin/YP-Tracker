@@ -1,10 +1,3 @@
-//
-//  UIView+Constraints.swift
-//  YP-Tracker
-//
-//  Created by SERGEY SHLYAKHIN on 04.04.2023.
-//
-
 import UIKit
 
 extension UIView {
@@ -53,6 +46,16 @@ extension UIView {
 			[
 				make.centerXAnchor.constraint(equalTo: forcedSuperview.centerXAnchor, constant: insets.left),
 				make.centerYAnchor.constraint(equalTo: forcedSuperview.centerYAnchor, constant: insets.top)
+			]
+		}
+	}
+
+	func makeEqualToSuperviewCenterToSafeArea(insets: UIEdgeInsets = .zero) {
+		assert(superview != nil)
+		makeConstraints { make in
+			[
+				make.centerXAnchor.constraint(equalTo: forcedSuperview.safeAreaLayoutGuide.centerXAnchor, constant: insets.left),
+				make.centerYAnchor.constraint(equalTo: forcedSuperview.safeAreaLayoutGuide.centerYAnchor, constant: insets.top)
 			]
 		}
 	}

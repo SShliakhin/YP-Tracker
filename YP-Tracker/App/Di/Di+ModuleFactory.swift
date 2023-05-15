@@ -7,6 +7,10 @@ protocol IModuleFactory: AnyObject {
 	func makeAboutModule() -> UIViewController
 	func makeMainSimpleModule() -> UIViewController
 	func makeOnboardingModule() -> UIViewController
+	func makeTabbarModule() -> UIViewController
+	func makeStatisticsModule() -> UIViewController
+	func makeTrackersModule() -> UIViewController
+	func makeSelectTypeTrackerModule() -> UINavigationController
 }
 
 extension Di {
@@ -30,5 +34,21 @@ extension Di {
 
 	func makeOnboardingModule(dep: AllDependencies) -> UIViewController {
 		return OnboardingViewController()
+	}
+
+	func makeTabbarModule(dep: AllDependencies) -> UIViewController {
+		return TabbarViewController()
+	}
+
+	func makeStatisticsModule(dep: AllDependencies) -> UIViewController {
+		return StatisticsViewController()
+	}
+
+	func makeTrackersModule(dep: AllDependencies) -> UIViewController {
+		return TrackersViewController()
+	}
+
+	func makeSelectTypeTrackerModule(dep: AllDependencies) -> UINavigationController {
+		return UINavigationController(rootViewController: SelectTypeTrackerViewController())
 	}
 }

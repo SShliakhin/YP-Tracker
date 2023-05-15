@@ -32,18 +32,27 @@ typealias AllDependencies = (IAboutModuleDependency)
 
 extension Di: IModuleFactory {
 	func makeStartModule() -> UIViewController {
-		makeAboutModule()
+		makeSelectTypeTrackerModule()
 	}
-
 	func makeAboutModule() -> UIViewController {
 		makeAboutModule(dep: dependencies)
 	}
-
 	func makeMainSimpleModule() -> UIViewController {
 		makeMainSimpleModule(dep: dependencies)
 	}
-
 	func makeOnboardingModule() -> UIViewController {
 		makeOnboardingModule(dep: dependencies)
+	}
+	func makeTabbarModule() -> UIViewController {
+		makeTabbarModule(dep: dependencies)
+	}
+	func makeStatisticsModule() -> UIViewController {
+		makeStatisticsModule(dep: dependencies)
+	}
+	func makeTrackersModule() -> UIViewController {
+		makeTrackersModule(dep: dependencies)
+	}
+	func makeSelectTypeTrackerModule() -> UINavigationController {
+		makeSelectTypeTrackerModule(dep: dependencies)
 	}
 }

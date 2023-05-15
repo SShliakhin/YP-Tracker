@@ -32,7 +32,7 @@ private extension AppCoordinator {
 	}
 
 	func runMainFlow() {
-		let coordinator = factory.makeMainSimpleCoordinator(router: router)
+		let coordinator = factory.makeTabbarCoordinator(router: router)
 		coordinator.start()
 		childCoordinators.append(coordinator)
 	}
