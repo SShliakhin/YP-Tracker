@@ -11,7 +11,7 @@ final class TrackersPresenter: ITrackersPresenter {
 		let viewData: TrackersModels.ViewModel
 
 		switch data {
-		case let .update(categories):
+		case let .update(categories, conditions):
 			var sections: [TrackersModels.ViewModel.Section] = []
 			for category in categories {
 				let section = TrackersModels.ViewModel.Section(
@@ -28,7 +28,7 @@ final class TrackersPresenter: ITrackersPresenter {
 				)
 				sections.append(section)
 			}
-			viewData = TrackersModels.ViewModel.update(sections)
+			viewData = TrackersModels.ViewModel.update(sections, conditions)
 		case let .updateTracker(section, row):
 			let tracker = TrackersModels.ViewModel.TrackerModel(
 				colorString: TrackerColor.green.rawValue,

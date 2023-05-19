@@ -2,6 +2,8 @@ import Foundation
 
 protocol ITrackersInteractor {
 	func viewIsReady()
+	func didTypeNewSearchText(text: String)
+	func didSelectNewDate(date: Date)
 }
 
 typealias SectionWithTrackers = TrackersModels.Response.SectionWithTrackers
@@ -21,12 +23,46 @@ final class TrackersInteractor: ITrackersInteractor {
 		categoriesProvider = dep.categoriesProvider
 	}
 
+	func didTypeNewSearchText(text: String) {
+		if conditions == nil {
+			conditions = TrackersModels.Conditions(
+				date: Date(),
+				searchText: text,
+				filter: TrackerFilter.all,
+				hasAnyTrackers: categoriesProvider.hasAnyTrakers
+			)
+		} else {
+			conditions?.searchText = text
+		}
+
+		viewIsReady()
+	}
+
+	func didSelectNewDate(date: Date) {
+		if conditions == nil {
+			conditions = TrackersModels.Conditions(
+				date: date,
+				searchText: "",
+				filter: TrackerFilter.all,
+				hasAnyTrackers: categoriesProvider.hasAnyTrakers
+			)
+		} else {
+			conditions?.date = date
+			if conditions?.filter == .today {
+				conditions?.filter = .all
+			}
+		}
+
+		viewIsReady()
+	}
+
 	func viewIsReady() {
 		guard let conditions = conditions else {
 			conditions = TrackersModels.Conditions(
 				date: Date(),
 				searchText: "",
-				filter: TrackerFilter.today
+				filter: TrackerFilter.all,
+				hasAnyTrackers: categoriesProvider.hasAnyTrakers
 			)
 			return viewIsReady()
 		}
@@ -70,6 +106,6 @@ final class TrackersInteractor: ITrackersInteractor {
 			sectionsWithTrackers.append(sectionWithTrackers)
 		}
 
-		presenter.present(data: .update(sectionsWithTrackers))
+		presenter.present(data: .update(sectionsWithTrackers, conditions))
 	}
 }

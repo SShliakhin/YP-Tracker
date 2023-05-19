@@ -3,9 +3,10 @@ import Foundation
 enum TrackersModels {
 
 	struct Conditions {
-		let date: Date
-		let searchText: String
-		let filter: TrackerFilter
+		var date: Date
+		var searchText: String
+		var filter: TrackerFilter
+		var hasAnyTrackers: Bool
 	}
 
 	enum Request {
@@ -20,7 +21,7 @@ enum TrackersModels {
 			// swiftlint:disable:next large_tuple
 			let trackers: [(tracker: Tracker, completed: Bool, allTimes: Int)]
 		}
-		case update([SectionWithTrackers])
+		case update([SectionWithTrackers], Conditions)
 		case updateTracker(Int, Int)
 	}
 
@@ -37,7 +38,7 @@ enum TrackersModels {
 			let trackers: [TrackerModel]
 		}
 
-		case update([Section])
+		case update([Section], Conditions)
 		case updateTracker(Int, Int, TrackerModel)
 	}
 }

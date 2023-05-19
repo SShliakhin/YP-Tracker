@@ -1,6 +1,8 @@
 import Foundation
 
 protocol ICategoriesProvider {
+	var hasAnyTrakers: Bool { get }
+
 	func getCategoriesNames() -> [String]
 	func getCategories(date: Date, text: String?, completed: Bool?) -> [TrackerCategory]
 	// swiftlint:disable:next large_tuple
@@ -8,6 +10,10 @@ protocol ICategoriesProvider {
 }
 
 final class CategoriesProvider: ICategoriesProvider {
+	var hasAnyTrakers: Bool {
+		!categoriesManager.getTrackers().isEmpty
+	}
+
 	private let categoriesManager: ICategoriesManager
 	private let calendar = Calendar.current
 
@@ -52,10 +58,9 @@ final class CategoriesProvider: ICategoriesProvider {
 			return trackersUUID.contains(record.trackerId) && isTheSameDay
 		}
 
-		// получим списко сколько раз каждый трекер был выполнен
-		allTimesCompleted = categoriesManager.getCompletedTrackers().reduce(into: [:]) { times, record in
-			times[record.trackerId, default: 0] += 1
-		}
+		// получим список сколько раз каждый трекер был выполнен
+		allTimesCompleted = categoriesManager.getCompletedTrackers()
+			.reduce(into: [:]) { $0[$1.trackerId, default: 0] += 1 }
 
 		// дополнительно отфильтруем по фильтру трекеров
 		switch completed {

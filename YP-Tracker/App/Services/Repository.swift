@@ -26,13 +26,13 @@ final class TrackerCategoriesStub: ICategoriesRepository {
 				emoji: "🤔",
 				color: TrackerColor.red.rawValue,
 				schedule: [
-					1: true,
+					1: false,
 					2: true,
 					3: true,
 					4: true,
 					5: true,
 					6: true,
-					7: true
+					7: false
 				]
 			),
 			Tracker(

@@ -10,14 +10,21 @@ final class TrackersViewController: UIViewController {
 	private var dataSource: [TrackersModels.ViewModel.Section] = []
 	var didSendEventClosure: ((TrackersViewController.Event) -> Void)?
 
-	private var searchText = "" // { didSet { applySnapshot() } }
+	private var searchText = "" {
+		didSet {
+			if searchText != oldValue {
+				searchController.searchBar.searchTextField.text = searchText
+				interactor.didTypeNewSearchText(text: searchText)
+			}
+		}
+	}
 
 	private lazy var addTrackerBarButtonItem: UIBarButtonItem = makeAddTrackerBarButtonItem()
 	private lazy var datePicker: UIDatePicker = makeDatePicker()
 	private lazy var searchController: UISearchController = makeSearchController()
 
 	private lazy var collectionView: UICollectionView = makeCollectionView()
-	private lazy var emptyView: UIView = makeEmptyView()
+	private lazy var emptyView: EmptyView = makeEmptyView()
 
 	// MARK: - Inits
 
@@ -46,13 +53,39 @@ final class TrackersViewController: UIViewController {
 	}
 }
 
+// MARK: - Event
+extension TrackersViewController {
+	enum Event {
+		case addTracker
+	}
+}
+
+// MARK: - Actions
+private extension TrackersViewController {
+	@objc func didTapAddTrackerButton(_ sender: Any) {
+		didSendEventClosure?(.addTracker)
+	}
+	@objc func didDateSelect(_ sender: Any) {
+		interactor.didSelectNewDate(date: datePicker.date)
+	}
+}
+
 // MARK: - ITrackersViewController
 
 extension TrackersViewController: ITrackersViewController {
 	func render(viewModel: TrackersModels.ViewModel) {
 		switch viewModel {
-		case let .update(sections):
+		case let .update(sections, conditions):
 			dataSource = sections
+
+			searchText = conditions.searchText
+			datePicker.setDate(conditions.date, animated: true)
+
+			if conditions.hasAnyTrackers {
+				emptyView.update(with: EmptyInputData.emptySearchTrackers)
+			}
+			emptyView.isHidden = !sections.isEmpty
+
 			collectionView.reloadData()
 		case let .updateTracker(section, row, tracker):
 			print("Обновить трекер:", section, row, tracker)
@@ -112,37 +145,12 @@ extension TrackersViewController: UICollectionViewDelegate {
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) { }
 }
 
-// MARK: - Event
-extension TrackersViewController {
-	enum Event {
-		case addTracker
-	}
-}
+// MARK: - UISearchResultsUpdating
 
-// MARK: - UISearchBarDelegate
-
-extension TrackersViewController: UISearchBarDelegate, UISearchControllerDelegate {
-	func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-		searchText = ""
-	}
-
-	func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-		self.searchText = searchText.lowercased()
-	}
-}
-
-// MARK: - Data filter
-private extension TrackersViewController {
-	func applySnapshot() {}
-}
-
-// MARK: - Actions
-private extension TrackersViewController {
-	@objc func didTapAddTrackerButton(_ sender: Any) {
-		didSendEventClosure?(.addTracker)
-	}
-	@objc func didDateSelect(_ sender: Any) {
-		print("Выбрана дата: \(datePicker.date)")
+extension TrackersViewController: UISearchResultsUpdating {
+	func updateSearchResults(for searchController: UISearchController) {
+		guard let newValue = searchController.searchBar.searchTextField.text?.lowercased() else { return }
+		searchText = newValue
 	}
 }
 
@@ -202,20 +210,23 @@ private extension TrackersViewController {
 		return picker
 	}
 	func makeSearchController() -> UISearchController {
-		let search = UISearchController()
-
-		search.delegate = self
-		search.searchBar.delegate = self
+		// VC сам покажет результат
+		let search = UISearchController(searchResultsController: nil)
+		// подписываемся
+		search.searchResultsUpdater = self
+		// рекомендации - вводим строку поиска и сразу видим результат
+		search.obscuresBackgroundDuringPresentation = false
 
 		search.searchBar.placeholder = Appearance.searchPlacholder
 		search.searchBar.searchTextField.font = Theme.font(style: .body)
 		search.searchBar.searchTextField.textColor = Theme.color(usage: .main)
 
+		// хардкод для изменения надписи кнопки отмена, инетересно есть другой более правильный способ???
 		search.searchBar.setValue(Appearance.searchCancelButtonTitle, forKey: "cancelButtonText")
 
 		return search
 	}
-	func makeEmptyView() -> UIView {
+	func makeEmptyView() -> EmptyView {
 		let view = EmptyView()
 		view.update(with: EmptyInputData.emptyStartTrackers)
 
@@ -240,12 +251,12 @@ private extension TrackersViewController {
 		collectionView.dataSource = self
 		collectionView.delegate = self
 
-		// пока здесь, надо в обновление потом
-		emptyView.isHidden = true
-
 		return collectionView
 	}
+}
 
+// MARK: - CompositionalLayout
+private extension TrackersViewController {
 	func createLayout() -> UICollectionViewCompositionalLayout {
 		UICollectionViewCompositionalLayout { [weak self] _, _ in
 			guard let self = self else { return nil }
