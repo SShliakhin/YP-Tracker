@@ -40,6 +40,7 @@ final class TrackerCell: UICollectionViewCell {
 		let title: String
 		let dayTime: String
 		let isCompleted: Bool
+		let isButtonEnabled: Bool
 		let event: (() -> Void)?
 	}
 }
@@ -63,6 +64,7 @@ extension TrackerCell.TrackerCellModel: ICellViewModel {
 			cell.completeButton.backgroundColor = color
 		}
 		cell.completeButton.event = event
+		cell.completeButton.isEnabled = isButtonEnabled
 	}
 }
 
@@ -196,6 +198,7 @@ struct TrackerCell_Previews: PreviewProvider {
 			title: "Учить iOS много много учить еще учить",
 			dayTime: "5 раз",
 			isCompleted: false,
+			isButtonEnabled: true,
 			event: nil
 		)
 		model1.setup(cell: view1)
@@ -207,6 +210,7 @@ struct TrackerCell_Previews: PreviewProvider {
 			title: "Бабушка прислала открытку в вотсапе",
 			dayTime: "3 раза",
 			isCompleted: true,
+			isButtonEnabled: false,
 			event: nil
 		)
 		model2.setup(cell: view2)
@@ -218,6 +222,7 @@ struct TrackerCell_Previews: PreviewProvider {
 			title: "Хорошее настроение",
 			dayTime: "3 раза",
 			isCompleted: false,
+			isButtonEnabled: false,
 			event: nil
 		)
 		model3.setup(cell: view3)

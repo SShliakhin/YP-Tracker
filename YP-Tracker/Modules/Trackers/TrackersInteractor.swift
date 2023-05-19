@@ -4,15 +4,16 @@ protocol ITrackersInteractor {
 	func viewIsReady()
 	func didTypeNewSearchText(text: String)
 	func didSelectNewDate(date: Date)
+	func didCompleteUncompleteTracker(section: Int, row: Int)
 }
-
-typealias SectionWithTrackers = TrackersModels.Response.SectionWithTrackers
 
 final class TrackersInteractor: ITrackersInteractor {
 	private let categoriesProvider: ICategoriesProvider
 	private let presenter: ITrackersPresenter
 
 	private var conditions: TrackersModels.Conditions?
+
+	typealias SectionWithTrackers = TrackersModels.Response.SectionWithTrackers
 
 	init(
 		presenter: ITrackersPresenter,
@@ -21,6 +22,18 @@ final class TrackersInteractor: ITrackersInteractor {
 	) {
 		self.presenter = presenter
 		categoriesProvider = dep.categoriesProvider
+	}
+
+	func didCompleteUncompleteTracker(section: Int, row: Int) {
+		guard let conditions = conditions else {
+			return
+		}
+
+		if categoriesProvider.completeUncompleteTrackerByPlace(
+			section: section,
+			row: row,
+			date: conditions.date
+		) { updateTrackers() }
 	}
 
 	func didTypeNewSearchText(text: String) {
@@ -35,7 +48,7 @@ final class TrackersInteractor: ITrackersInteractor {
 			conditions?.searchText = text
 		}
 
-		viewIsReady()
+		updateTrackers()
 	}
 
 	func didSelectNewDate(date: Date) {
@@ -48,24 +61,30 @@ final class TrackersInteractor: ITrackersInteractor {
 			)
 		} else {
 			conditions?.date = date
+			// странный фильтр .today, если можем менять дату, то значит меняем и фильтр
 			if conditions?.filter == .today {
 				conditions?.filter = .all
 			}
 		}
 
-		viewIsReady()
+		updateTrackers()
 	}
 
 	func viewIsReady() {
-		guard let conditions = conditions else {
+		if conditions == nil {
 			conditions = TrackersModels.Conditions(
 				date: Date(),
 				searchText: "",
 				filter: TrackerFilter.all,
 				hasAnyTrackers: categoriesProvider.hasAnyTrakers
 			)
-			return viewIsReady()
 		}
+
+		updateTrackers()
+	}
+
+	private func updateTrackers() {
+		guard let conditions = conditions else { return }
 
 		let categories: [TrackerCategory]
 

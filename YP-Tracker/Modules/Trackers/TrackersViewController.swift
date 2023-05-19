@@ -116,7 +116,13 @@ extension TrackersViewController: UICollectionViewDataSource {
 			title: tracker.title,
 			dayTime: tracker.dayTime,
 			isCompleted: tracker.isCompleted,
-			event: { print("здесь событие на завершение трекера") }
+			isButtonEnabled: tracker.isActionEnabled,
+			event: { [weak self] in
+				self?.interactor.didCompleteUncompleteTracker(
+					section: indexPath.section,
+					row: indexPath.row
+				)
+			}
 		)
 		return collectionView.dequeueReusableCell(withModel: model, for: indexPath)
 	}

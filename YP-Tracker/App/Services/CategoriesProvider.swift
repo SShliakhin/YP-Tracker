@@ -4,9 +4,11 @@ protocol ICategoriesProvider {
 	var hasAnyTrakers: Bool { get }
 
 	func getCategoriesNames() -> [String]
+	func getCategories() -> [TrackerCategory]
 	func getCategories(date: Date, text: String?, completed: Bool?) -> [TrackerCategory]
 	// swiftlint:disable:next large_tuple
 	func getTrackerBoxByID(_ id: UUID) -> (tracker: Tracker, completed: Bool, allTimes: Int)?
+	func completeUncompleteTrackerByPlace(section: Int, row: Int, date: Date) -> Bool
 }
 
 final class CategoriesProvider: ICategoriesProvider {
@@ -31,6 +33,10 @@ final class CategoriesProvider: ICategoriesProvider {
 
 	func getCategoriesNames() -> [String] {
 		categoriesManager.getCategories().map { $0.title }
+	}
+
+	func getCategories() -> [TrackerCategory] {
+		categories
 	}
 
 	func getCategories(date: Date, text: String?, completed: Bool?) -> [TrackerCategory] {
@@ -107,5 +113,24 @@ final class CategoriesProvider: ICategoriesProvider {
 			completedTrackers.contains(where: { $0.trackerId == id }),
 			allTimesCompleted[tracker.id] ?? 0
 		)
+	}
+
+	func completeUncompleteTrackerByPlace(section: Int, row: Int, date: Date) -> Bool {
+		// не безопасно!!!
+		let trackerID = categories[section].trackers[row]
+		guard let (_, completed, _) = getTrackerBoxByID(trackerID) else { return false }
+
+		if completed {
+			categoriesManager.cancelCompletedTracker(
+				trackerID: trackerID,
+				date: date
+			)
+		} else {
+			categoriesManager.addCompletedTracker(
+				trackerID: trackerID,
+				date: date
+			)
+		}
+		return true
 	}
 }

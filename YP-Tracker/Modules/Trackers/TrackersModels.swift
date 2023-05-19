@@ -32,6 +32,7 @@ enum TrackersModels {
 			let title: String
 			let dayTime: String
 			let isCompleted: Bool
+			let isActionEnabled: Bool
 		}
 		struct Section {
 			let title: String

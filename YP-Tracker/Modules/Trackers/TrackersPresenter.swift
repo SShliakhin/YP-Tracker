@@ -1,3 +1,4 @@
+import Foundation
 protocol ITrackersPresenter {
 	/// Подготавливает данные на редринг вьюконтроллеру
 	func present(data: TrackersModels.Response)
@@ -6,44 +7,41 @@ protocol ITrackersPresenter {
 final class TrackersPresenter: ITrackersPresenter {
 	weak var viewController: ITrackersViewController?
 
+	typealias TrackerSection = TrackersModels.ViewModel.Section
+	typealias TrackerModel = TrackersModels.ViewModel.TrackerModel
+
 	func present(data: TrackersModels.Response) {
 
 		let viewData: TrackersModels.ViewModel
 
 		switch data {
 		case let .update(categories, conditions):
-			var sections: [TrackersModels.ViewModel.Section] = []
+			let isActionEnabled = checkIsActionEnabled(date: conditions.date)
+			var sections: [TrackerSection] = []
 			for category in categories {
-				let section = TrackersModels.ViewModel.Section(
+				let section = TrackerSection(
 					title: category.sectionName,
 					trackers: category.trackers.map({ tracker, completed, allTimes in
-						TrackersModels.ViewModel.TrackerModel(
+						TrackerModel(
 							colorString: tracker.color,
 							emoji: tracker.emoji,
 							title: tracker.title,
 							dayTime: "\(allTimes) дн./дней",
-							isCompleted: completed
+							isCompleted: completed,
+							isActionEnabled: isActionEnabled
 						)
 					})
 				)
 				sections.append(section)
 			}
 			viewData = TrackersModels.ViewModel.update(sections, conditions)
-		case let .updateTracker(section, row):
-			let tracker = TrackersModels.ViewModel.TrackerModel(
-				colorString: TrackerColor.green.rawValue,
-				emoji: "",
-				title: "",
-				dayTime: "дн./дней",
-				isCompleted: true
-			)
-			viewData = TrackersModels.ViewModel.updateTracker(
-				section,
-				row,
-				tracker
-			)
+			viewController?.render(viewModel: viewData)
+		case .updateTracker:
+			break
 		}
+	}
 
-		viewController?.render(viewModel: viewData)
+	private func checkIsActionEnabled(date: Date) -> Bool {
+		Calendar.current.startOfDay(for: Date()) >= Calendar.current.startOfDay(for: date)
 	}
 }
