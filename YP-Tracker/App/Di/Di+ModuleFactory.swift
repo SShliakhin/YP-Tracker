@@ -45,7 +45,15 @@ extension Di {
 	}
 
 	func makeTrackersModule(dep: AllDependencies) -> UIViewController {
-		return TrackersViewController()
+		let presenter = TrackersPresenter()
+		let interactor = TrackersInteractor(
+			presenter: presenter,
+			dep: dep
+		)
+		let view = TrackersViewController(interactor: interactor)
+		presenter.viewController = view
+
+		return view
 	}
 
 	func makeSelectTypeTrackerModule(dep: AllDependencies) -> UINavigationController {

@@ -32,7 +32,7 @@ final class AboutViewController: UIViewController {
 
 		setup()
 		applyStyle()
-		setupConstraints()
+		setConstraints()
 
 		interactor.viewIsReady()
 	}
@@ -76,7 +76,7 @@ private extension AboutViewController {
 		view.backgroundColor = Theme.color(usage: .white)
 	}
 
-	func setupConstraints() {
+	func setConstraints() {
 		[
 			aboutTextView
 		].forEach { view.addSubview($0) }

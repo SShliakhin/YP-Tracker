@@ -11,12 +11,14 @@ final class Di {
 
 		// MARK: - подготовка локальных сервисов
 		dependencies = Dependency(
-			localFilesProvider: makeLocalFilesProvider()
+			localFilesProvider: makeLocalFilesProvider(),
+			categoriesProvider: makeCategoriesProvider()
 		)
 	}
 
 	struct Dependency: AllDependencies {
 		let localFilesProvider: FileManager
+		let categoriesProvider: ICategoriesProvider
 	}
 }
 
@@ -26,7 +28,14 @@ protocol IAboutModuleDependency {
 	var localFilesProvider: FileManager { get }
 }
 
-typealias AllDependencies = (IAboutModuleDependency)
+protocol ITrackersModuleDependency {
+	var categoriesProvider: ICategoriesProvider { get }
+}
+
+typealias AllDependencies = (
+	IAboutModuleDependency &
+	ITrackersModuleDependency
+)
 
 // MARK: - ModuleFactory
 

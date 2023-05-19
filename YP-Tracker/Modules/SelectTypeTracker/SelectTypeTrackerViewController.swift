@@ -26,7 +26,7 @@ final class SelectTypeTrackerViewController: UIViewController {
 
 		setup()
 		applyStyle()
-		setupConstraints()
+		setConstraints()
 	}
 }
 
@@ -60,7 +60,7 @@ private extension SelectTypeTrackerViewController {
 		title = Appearance.title
 		view.backgroundColor = Theme.color(usage: .white)
 	}
-	func setupConstraints() {
+	func setConstraints() {
 		let stack = UIStackView()
 		stack.axis = .vertical
 		stack.spacing = Theme.spacing(usage: .standard2)
@@ -75,14 +75,14 @@ private extension SelectTypeTrackerViewController {
 			[
 				make.leadingAnchor.constraint(equalTo: stack.leadingAnchor),
 				make.trailingAnchor.constraint(equalTo: stack.trailingAnchor),
-				make.heightAnchor.constraint(equalToConstant: Appearance.heightButton)
+				make.heightAnchor.constraint(equalToConstant: Theme.size(kind: .buttonHeight))
 			]
 		}
 		eventButton.makeConstraints { make in
 			[
 				make.leadingAnchor.constraint(equalTo: stack.leadingAnchor),
 				make.trailingAnchor.constraint(equalTo: stack.trailingAnchor),
-				make.heightAnchor.constraint(equalToConstant: Appearance.heightButton)
+				make.heightAnchor.constraint(equalToConstant: Theme.size(kind: .buttonHeight))
 			]
 		}
 
@@ -121,7 +121,6 @@ private extension SelectTypeTrackerViewController {
 		static let habitTitle = "Привычка"
 		static let eventTitle = "Нерегулярное событие"
 
-		static let heightButton: CGFloat = 60
 		static let stackInsets: UIEdgeInsets = .init(
 			top: 0,
 			left: 20,

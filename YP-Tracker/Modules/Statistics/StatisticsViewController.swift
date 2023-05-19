@@ -17,7 +17,7 @@ final class StatisticsViewController: UIViewController {
 
 		setup()
 		applyStyle()
-		setupConstraints()
+		setConstraints()
 	}
 }
 
@@ -35,7 +35,7 @@ private extension StatisticsViewController {
 		title = Appearance.title
 		view.backgroundColor = Theme.color(usage: .white)
 	}
-	func setupConstraints() {
+	func setConstraints() {
 		let stackView = UIStackView()
 		stackView.axis = .vertical
 		stackView.spacing = Theme.spacing(usage: .standard)

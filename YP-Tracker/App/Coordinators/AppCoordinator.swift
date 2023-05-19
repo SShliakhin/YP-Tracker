@@ -2,7 +2,7 @@ final class AppCoordinator: BaseCoordinator {
 	private let factory: ICoordinatorFactory
 	private let router: IRouter
 
-	private var isOnboarding = false
+	private var isOnboarding = true
 
 	init(router: IRouter, factory: ICoordinatorFactory) {
 		self.router = router

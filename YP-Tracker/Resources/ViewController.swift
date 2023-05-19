@@ -19,7 +19,7 @@ final class ViewController: UIViewController {
 
 		setup()
 		applyStyle()
-		setupConstraints()
+		setConstraints()
 	}
 }
 
@@ -29,7 +29,7 @@ private extension ViewController {
 	func applyStyle() {
 		view.backgroundColor = Appearance.backgroundColor
 	}
-	func setupConstraints() {
+	func setConstraints() {
 		[
 			welcomeLabel
 		].forEach { item in

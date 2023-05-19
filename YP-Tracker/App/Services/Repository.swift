@@ -11,11 +11,14 @@ final class TrackerCategoriesStub: ICategoriesRepository {
 	private var trackers: [Tracker] = []
 
 	init() {
-		trackers = getTrackers()
+		trackers = getInitialTrackers()
 	}
 
-	// swiftlint:disable:next function_body_length
 	func getTrackers() -> [Tracker] {
+		trackers
+	}
+	// swiftlint:disable:next function_body_length
+	func getInitialTrackers() -> [Tracker] {
 		[
 			Tracker(
 				id: UUID(),

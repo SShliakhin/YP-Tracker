@@ -27,7 +27,7 @@ final class MainSimpleViewController: UIViewController {
 
 		setup()
 		applyStyle()
-		setupConstraints()
+		setConstraints()
 	}
 }
 
@@ -73,7 +73,7 @@ private extension MainSimpleViewController {
 		title = Appearance.title
 		view.backgroundColor = Theme.color(usage: .white)
 	}
-	func setupConstraints() {
+	func setConstraints() {
 		let stack = UIStackView()
 		stack.axis = .vertical
 		stack.spacing = Theme.spacing(usage: .standard2)

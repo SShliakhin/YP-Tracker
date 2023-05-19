@@ -37,7 +37,7 @@ final class CreateEditTrackerViewController: UIViewController {
 
 		setup()
 		applyStyle()
-		setupConstraints()
+		setConstraints()
 	}
 }
 
@@ -58,7 +58,7 @@ private extension CreateEditTrackerViewController {
 		title = Appearance.titleNew
 		view.backgroundColor = Theme.color(usage: .white)
 	}
-	func setupConstraints() {}
+	func setConstraints() {}
 }
 
 // MARK: - UI make
@@ -101,7 +101,7 @@ private extension CreateEditTrackerViewController {
 		button.titleLabel?.font = Theme.font(style: .callout)
 		button.backgroundColor = Theme.color(usage: .white)
 		button.layer.cornerRadius = Theme.size(kind: .cornerRadius)
-		button.layer.borderWidth = Theme.size(kind: .borderWight)
+		button.layer.borderWidth = Theme.size(kind: .smallBorder)
 		button.layer.borderColor = Theme.color(usage: .attention).cgColor
 
 		button.event = didSendEventClosure?(.cancel)

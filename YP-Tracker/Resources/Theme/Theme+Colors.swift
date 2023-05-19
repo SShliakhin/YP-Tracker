@@ -68,6 +68,7 @@ extension Theme {
 		case black
 		case gray
 		case lightGray
+		case clear
 	}
 
 	static func color(usage: Color) -> UIColor {
@@ -102,6 +103,8 @@ extension Theme {
 			customColor = FlatColor.DayNight.gray
 		case .lightGray:
 			customColor = FlatColor.DayNight.lightGray
+		case .clear:
+			customColor = FlatColor.DayNight.white.withAlphaComponent(0.3)
 		}
 
 		return customColor

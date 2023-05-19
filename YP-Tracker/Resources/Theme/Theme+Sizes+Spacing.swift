@@ -32,11 +32,13 @@ extension Theme {
 	// MARK: - Size
 	enum Size {
 		case cornerRadius
+		case largeRadius
 		case mediumRadius
 		case smallRadius
 		case textFieldHeight
 		case buttonHeight
-		case borderWight
+		case largeBorder
+		case smallBorder
 	}
 
 	static func size(kind: Size) -> CGFloat {
@@ -45,6 +47,8 @@ extension Theme {
 		switch kind {
 		case .cornerRadius:
 			customSize = 16
+		case .largeRadius:
+			customSize = 12
 		case .mediumRadius:
 			customSize = 10
 		case .smallRadius:
@@ -53,7 +57,9 @@ extension Theme {
 			customSize = 75
 		case .buttonHeight:
 			customSize = 60
-		case .borderWight:
+		case .largeBorder:
+			customSize = 3
+		case .smallBorder:
 			customSize = 1
 		}
 

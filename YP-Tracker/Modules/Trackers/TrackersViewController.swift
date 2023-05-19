@@ -1,16 +1,34 @@
 import UIKit
 
+protocol ITrackersViewController: AnyObject {
+	/// Рендрит вьюмодель
+	func render(viewModel: TrackersModels.ViewModel)
+}
+
 final class TrackersViewController: UIViewController {
+	private let interactor: ITrackersInteractor
+	private var dataSource: [TrackersModels.ViewModel.Section] = []
 	var didSendEventClosure: ((TrackersViewController.Event) -> Void)?
-	private var searchText = "" { didSet { applySnapshot() } }
+
+	private var searchText = "" // { didSet { applySnapshot() } }
 
 	private lazy var addTrackerBarButtonItem: UIBarButtonItem = makeAddTrackerBarButtonItem()
 	private lazy var datePicker: UIDatePicker = makeDatePicker()
-	private lazy var searchField: UISearchController = makeSearchField()
+	private lazy var searchController: UISearchController = makeSearchController()
 
+	private lazy var collectionView: UICollectionView = makeCollectionView()
 	private lazy var emptyView: UIView = makeEmptyView()
 
 	// MARK: - Inits
+
+	init(interactor: ITrackersInteractor) {
+		self.interactor = interactor
+		super.init(nibName: nil, bundle: nil)
+	}
+
+	required init?(coder: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
+	}
 
 	deinit {
 		print("TrackersViewController deinit")
@@ -22,8 +40,76 @@ final class TrackersViewController: UIViewController {
 
 		setup()
 		applyStyle()
-		setupConstraints()
+		setConstraints()
+
+		interactor.viewIsReady()
 	}
+}
+
+// MARK: - ITrackersViewController
+
+extension TrackersViewController: ITrackersViewController {
+	func render(viewModel: TrackersModels.ViewModel) {
+		switch viewModel {
+		case let .update(sections):
+			dataSource = sections
+			collectionView.reloadData()
+		case let .updateTracker(section, row, tracker):
+			print("Обновить трекер:", section, row, tracker)
+		}
+	}
+}
+
+// MARK: - UICollectionViewDataSource
+
+extension TrackersViewController: UICollectionViewDataSource {
+	func numberOfSections(in collectionView: UICollectionView) -> Int {
+		dataSource.count
+	}
+
+	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+		dataSource[section].trackers.count
+	}
+
+	func collectionView(
+		_ collectionView: UICollectionView,
+		cellForItemAt indexPath: IndexPath
+	) -> UICollectionViewCell {
+
+		let tracker = dataSource[indexPath.section].trackers[indexPath.row]
+		let model = TrackerCell.TrackerCellModel(
+			colorString: tracker.colorString,
+			emoji: tracker.emoji,
+			title: tracker.title,
+			dayTime: tracker.dayTime,
+			isCompleted: tracker.isCompleted,
+			event: { print("здесь событие на завершение трекера") }
+		)
+		return collectionView.dequeueReusableCell(withModel: model, for: indexPath)
+	}
+
+	func collectionView(
+		_ collectionView: UICollectionView,
+		viewForSupplementaryElementOfKind kind: String,
+		at indexPath: IndexPath
+	) -> UICollectionReusableView {
+
+		let section = dataSource[indexPath.section]
+		let model = HeaderSupplementaryView.HeaderSupplementaryViewModel(
+			title: section.title
+		)
+		return collectionView.dequeueReusableSupplementaryView(
+			kind: kind,
+			withModel: model,
+			for: indexPath
+		)
+	}
+}
+
+// MARK: - UICollectionViewDelegate
+
+extension TrackersViewController: UICollectionViewDelegate {
+	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) { }
 }
 
 // MARK: - Event
@@ -65,25 +151,23 @@ private extension TrackersViewController {
 	func setup() {
 		navigationItem.leftBarButtonItem = addTrackerBarButtonItem
 		navigationItem.rightBarButtonItem = UIBarButtonItem(customView: datePicker)
-		navigationItem.searchController = searchField
+		navigationItem.searchController = searchController
 	}
 	func applyStyle() {
 		title = Appearance.title
 		view.backgroundColor = Theme.color(usage: .white)
 	}
-	func setupConstraints() {
-		let stackView = UIStackView()
-		stackView.axis = .vertical
-		stackView.spacing = Theme.spacing(usage: .standard)
+	func setConstraints() {
 
 		[
+			collectionView,
 			emptyView
 		].forEach { item in
-			stackView.addArrangedSubview(item)
+			view.addSubview(item)
 		}
 
-		view.addSubview(stackView)
-		stackView.makeEqualToSuperviewCenterToSafeArea()
+		collectionView.makeEqualToSuperviewToSafeArea()
+		emptyView.makeEqualToSuperviewCenterToSafeArea()
 
 		datePicker.makeConstraints { make in
 			[
@@ -117,7 +201,7 @@ private extension TrackersViewController {
 
 		return picker
 	}
-	func makeSearchField() -> UISearchController {
+	func makeSearchController() -> UISearchController {
 		let search = UISearchController()
 
 		search.delegate = self
@@ -136,6 +220,106 @@ private extension TrackersViewController {
 		view.update(with: EmptyInputData.emptyStartTrackers)
 
 		return view
+	}
+
+	func makeCollectionView() -> UICollectionView {
+		let layout = createLayout()
+
+		let collectionView = UICollectionView(
+			frame: .zero,
+			collectionViewLayout: layout
+		)
+
+		collectionView.register(models: [
+			TrackerCell.TrackerCellModel.self
+		])
+		collectionView.registerSupplementaryView(models: [
+			(HeaderSupplementaryView.HeaderSupplementaryViewModel.self, UICollectionView.elementKindSectionHeader)
+		])
+
+		collectionView.dataSource = self
+		collectionView.delegate = self
+
+		// пока здесь, надо в обновление потом
+		emptyView.isHidden = true
+
+		return collectionView
+	}
+
+	func createLayout() -> UICollectionViewCompositionalLayout {
+		UICollectionViewCompositionalLayout { [weak self] _, _ in
+			guard let self = self else { return nil }
+			return self.createTrackerItemLayout()
+		}
+	}
+
+	func createLayoutSection(
+		group: NSCollectionLayoutGroup,
+		behavior: UICollectionLayoutSectionOrthogonalScrollingBehavior,
+		interGroupSpacing: CGFloat,
+		supplementaryItem: [NSCollectionLayoutBoundarySupplementaryItem]
+	) -> NSCollectionLayoutSection {
+		let section = NSCollectionLayoutSection(group: group)
+		section.orthogonalScrollingBehavior = behavior
+		section.interGroupSpacing = interGroupSpacing
+		section.boundarySupplementaryItems = supplementaryItem
+
+		return section
+	}
+
+	func createTrackerItemLayout() -> NSCollectionLayoutSection {
+		let itemSize = NSCollectionLayoutSize(
+			widthDimension: .fractionalWidth(1.0),
+			heightDimension: .fractionalHeight(1.0)
+		)
+		let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+		let groupSize = NSCollectionLayoutSize(
+			widthDimension: .fractionalWidth(1.0),
+			heightDimension: .absolute(132) // смог только так, какой то недочет в лайауте элемента
+		)
+		let group = NSCollectionLayoutGroup.horizontal(
+			layoutSize: groupSize,
+			subitem: item,
+			count: 2 // кол-во элементов в группе
+		)
+		group.interItemSpacing = .fixed(9) // расстояние между элементами по горизонтали
+
+		let section = createLayoutSection(
+			group: group, // минимально let section = NSCollectionLayoutSection(group: group)
+			behavior: .none, // важно для скроллинга
+			interGroupSpacing: 16, // по вертикали между группами
+			supplementaryItem: [supplementaryHeaderItem()]
+		)
+
+		section.contentInsets = .init(
+			top: 12,
+			leading: 16,
+			bottom: 32,
+			trailing: 16
+		)
+
+		return section
+	}
+
+	func supplementaryHeaderItem() -> NSCollectionLayoutBoundarySupplementaryItem {
+		let itemSize = NSCollectionLayoutSize(
+			widthDimension: .fractionalWidth(1.0),
+			heightDimension: .estimated(19.0)
+		)
+		let item = NSCollectionLayoutBoundarySupplementaryItem(
+			layoutSize: itemSize,
+			elementKind: UICollectionView.elementKindSectionHeader,
+			alignment: .topLeading
+		)
+		item.contentInsets = .init(
+			top: .zero,
+			leading: 12,
+			bottom: .zero,
+			trailing: 12
+		)
+
+		return item
 	}
 }
 

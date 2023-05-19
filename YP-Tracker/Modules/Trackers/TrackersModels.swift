@@ -1,0 +1,43 @@
+import Foundation
+
+enum TrackersModels {
+
+	struct Conditions {
+		let date: Date
+		let searchText: String
+		let filter: TrackerFilter
+	}
+
+	enum Request {
+		case update(Conditions)
+		case changeFilter
+		case completeUncompleTracker(Int, Int)
+	}
+
+	enum Response {
+		struct SectionWithTrackers {
+			let sectionName: String
+			// swiftlint:disable:next large_tuple
+			let trackers: [(tracker: Tracker, completed: Bool, allTimes: Int)]
+		}
+		case update([SectionWithTrackers])
+		case updateTracker(Int, Int)
+	}
+
+	enum ViewModel {
+		struct TrackerModel {
+			let colorString: String
+			let emoji: String
+			let title: String
+			let dayTime: String
+			let isCompleted: Bool
+		}
+		struct Section {
+			let title: String
+			let trackers: [TrackerModel]
+		}
+
+		case update([Section])
+		case updateTracker(Int, Int, TrackerModel)
+	}
+}
