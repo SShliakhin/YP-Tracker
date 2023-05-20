@@ -10,7 +10,7 @@ final class EmptyView: UIView {
 		super.init(frame: frame)
 
 		applyStyle()
-		setupConstaints()
+		setConstaints()
 	}
 
 	required init?(coder: NSCoder) {
@@ -34,7 +34,7 @@ private extension EmptyView {
 		backgroundColor = .clear
 	}
 
-	func setupConstaints() {
+	func setConstaints() {
 		let backgroundView = UIView()
 		addSubview(backgroundView)
 

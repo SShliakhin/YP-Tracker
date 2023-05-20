@@ -79,6 +79,8 @@
 		5AE1F02A2A09628400103F08 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE1F0232A09628400103F08 /* AboutViewController.swift */; };
 		5AE1F02B2A09628400103F08 /* MainSimpleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE1F0252A09628400103F08 /* MainSimpleViewController.swift */; };
 		5AE1F02D2A096D1B00103F08 /* AboutWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE1F02C2A096D1B00103F08 /* AboutWorker.swift */; };
+		5AE6BDE72A18187A0068CB53 /* CellCorner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE6BDE62A18187A0068CB53 /* CellCorner.swift */; };
+		5AE6BDE92A18D38F0068CB53 /* YPCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE6BDE82A18D38F0068CB53 /* YPCell.swift */; };
 		5AF5CAF22A12385F004AB8D2 /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF5CAF12A12385F004AB8D2 /* Repository.swift */; };
 		5AF5CAF42A124EA4004AB8D2 /* CategoriesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF5CAF32A124EA4004AB8D2 /* CategoriesProvider.swift */; };
 		5AF5CAF62A125333004AB8D2 /* CategoriesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF5CAF52A125333004AB8D2 /* CategoriesManager.swift */; };
@@ -179,6 +181,8 @@
 		5AE1F0232A09628400103F08 /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		5AE1F0252A09628400103F08 /* MainSimpleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainSimpleViewController.swift; sourceTree = "<group>"; };
 		5AE1F02C2A096D1B00103F08 /* AboutWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutWorker.swift; sourceTree = "<group>"; };
+		5AE6BDE62A18187A0068CB53 /* CellCorner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellCorner.swift; sourceTree = "<group>"; };
+		5AE6BDE82A18D38F0068CB53 /* YPCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YPCell.swift; sourceTree = "<group>"; };
 		5AF5CAF12A12385F004AB8D2 /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
 		5AF5CAF32A124EA4004AB8D2 /* CategoriesProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesProvider.swift; sourceTree = "<group>"; };
 		5AF5CAF52A125333004AB8D2 /* CategoriesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesManager.swift; sourceTree = "<group>"; };
@@ -332,6 +336,7 @@
 			children = (
 				5AE12A352A0BE8CF0054D782 /* Main */,
 				5A45EA612A0CEA7E003269D3 /* Trackers */,
+				5AE6BDEA2A1919BF0068CB53 /* YPModule */,
 				5A8D1DAE2A0D6EE100A2924F /* SelectTypeTracker */,
 				5A84742E2A0F56AE00C2F93E /* CreateEditTracker */,
 				5A45EA5E2A0CE7AB003269D3 /* Statistics */,
@@ -385,6 +390,7 @@
 				5A91DED929E12F82001A23C3 /* UIViewController+Preview.swift */,
 				5A61DD3C29E13FF9001E8665 /* UIView+Preview.swift */,
 				5A91DED729E0DF58001A23C3 /* UIView+Constraints.swift */,
+				5AE6BDE62A18187A0068CB53 /* CellCorner.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -524,6 +530,22 @@
 				5AE1F0252A09628400103F08 /* MainSimpleViewController.swift */,
 			);
 			path = MainSimple;
+			sourceTree = "<group>";
+		};
+		5AE6BDEA2A1919BF0068CB53 /* YPModule */ = {
+			isa = PBXGroup;
+			children = (
+				5AE6BDEB2A1919D70068CB53 /* Cell */,
+			);
+			path = YPModule;
+			sourceTree = "<group>";
+		};
+		5AE6BDEB2A1919D70068CB53 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				5AE6BDE82A18D38F0068CB53 /* YPCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		5AF5CAF72A12BB62004AB8D2 /* Services */ = {
@@ -699,6 +721,7 @@
 				5AE1F0112A0945A500103F08 /* Di.swift in Sources */,
 				5A8D1DAD2A0D6ED000A2924F /* SelectTypeTrackerViewController.swift in Sources */,
 				5A84742D2A0E9A7500C2F93E /* CreateEditTrackerViewController.swift in Sources */,
+				5AE6BDE92A18D38F0068CB53 /* YPCell.swift in Sources */,
 				5A48062129DBA73B0096B7D8 /* ViewController.swift in Sources */,
 				5A45EA602A0CE96D003269D3 /* TrackersViewController.swift in Sources */,
 				5AE12A202A0A6B360054D782 /* AppCoordinator.swift in Sources */,
@@ -728,6 +751,7 @@
 				5AE1F00E2A0944D400103F08 /* Router.swift in Sources */,
 				5AE12A2D2A0B93B70054D782 /* Theme+Constants.swift in Sources */,
 				5A91DED829E0DF58001A23C3 /* UIView+Constraints.swift in Sources */,
+				5AE6BDE72A18187A0068CB53 /* CellCorner.swift in Sources */,
 				5AA5FA2E2A13CE4F0056633B /* UICollectionView+Extensions.swift in Sources */,
 				5AA5FA382A1439CE0056633B /* TrackerCell.swift in Sources */,
 				5AA5FA322A1409420056633B /* TrackerColorCell.swift in Sources */,
