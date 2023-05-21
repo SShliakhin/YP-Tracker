@@ -59,20 +59,20 @@ private extension MainSimpleCoordinator {
 	func showMainSimpleModule() {
 		let module = factory.makeMainSimpleModule()
 		let moduleVC = module as? MainSimpleViewController
-		moduleVC?.didSendEventClosure = { event in
+		moduleVC?.didSendEventClosure = { [weak self] event in
 			let action: (() -> Void)
 			switch event {
 			case .onboarding:
 				action = {
-					self.runOnboardingFlow()
+					self?.runOnboardingFlow()
 				}
 			case .tab:
 				action = {
-					self.runTabbarFlow()
+					self?.runTabbarFlow()
 				}
 			case .about:
 				action = {
-					self.runAboutFlow() // вариант с флоу
+					self?.runAboutFlow() // вариант с флоу
 					// self.showAboutModule() // вариант без flow
 				}
 			}
@@ -84,10 +84,10 @@ private extension MainSimpleCoordinator {
 	func showAboutModule() {
 		let module = factory.makeAboutModule()
 		let moduleVC = module as? AboutViewController
-		moduleVC?.didSendEventClosure = { event in
+		moduleVC?.didSendEventClosure = { [weak self] event in
 			switch event {
 			case .finish:
-				self.showMainSimpleModule()
+				self?.showMainSimpleModule()
 			}
 		}
 		router.setRootModule(module)

@@ -42,25 +42,25 @@ private extension TabbarCoordinator {
 	func showTabbarModule() {
 		let module = factory.makeTabbarModule()
 		let moduleVC = module as? TabbarViewController
-		moduleVC?.didSendEventClosure = { event in
+		moduleVC?.didSendEventClosure = { [weak self] event in
 			let action: (() -> Void)
 			switch event {
 			case let .trackers(navController):
 				action = { [unowned self] in
 					if navController.viewControllers.isEmpty {
-						self.runTrackersFlowInTab(navCotroller: navController)
+						self?.runTrackersFlowInTab(navCotroller: navController)
 					}
 				}
 			case let .statistics(navController):
 				action = { [unowned self] in
 					if navController.viewControllers.isEmpty {
-						self.showStatisticsModuleInTab(router: navController)
+						self?.showStatisticsModuleInTab(router: navController)
 					}
 				}
 			case let .viewDidLoad(navController):
 				action = { [unowned self] in
 					if navController.viewControllers.isEmpty {
-						self.runTrackersFlowInTab(navCotroller: navController)
+						self?.runTrackersFlowInTab(navCotroller: navController)
 					}
 				}
 			}

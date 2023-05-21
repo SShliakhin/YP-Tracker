@@ -23,10 +23,10 @@ private extension OnboardingCoordinator {
 	func showOnboardingModule() {
 		let module = factory.makeOnboardingModule()
 		let moduleVC = module as? OnboardingViewController
-		moduleVC?.didSendEventClosure = { event in
+		moduleVC?.didSendEventClosure = { [weak self] event in
 			switch event {
 			case .start:
-				self.finishFlow?()
+				self?.finishFlow?()
 			}
 		}
 		router.setRootModule(module)

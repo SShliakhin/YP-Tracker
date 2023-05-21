@@ -23,10 +23,10 @@ private extension AboutCoordinator {
 	func showAboutModule() {
 		let module = factory.makeAboutModule()
 		let moduleVC = module as? AboutViewController
-		moduleVC?.didSendEventClosure = { event in
+		moduleVC?.didSendEventClosure = { [weak self] event in
 			switch event {
 			case .finish:
-				self.finishFlow?()
+				self?.finishFlow?()
 			}
 		}
 		router.setRootModule(module)
