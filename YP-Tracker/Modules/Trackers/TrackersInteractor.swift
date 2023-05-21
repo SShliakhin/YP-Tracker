@@ -5,88 +5,63 @@ protocol ITrackersInteractor {
 	func didTypeNewSearchText(text: String)
 	func didSelectNewDate(date: Date)
 	func didCompleteUncompleteTracker(section: Int, row: Int)
+	func getConditions() -> TrackerConditions
 }
 
 final class TrackersInteractor: ITrackersInteractor {
 	private let categoriesProvider: ICategoriesProvider
 	private let presenter: ITrackersPresenter
 
-	private var conditions: TrackersModels.Conditions?
+	private var conditions: TrackerConditions
 
 	typealias SectionWithTrackers = TrackersModels.Response.SectionWithTrackers
 
 	init(
 		presenter: ITrackersPresenter,
 		dep: ITrackersModuleDependency,
-		conditions: TrackersModels.Conditions? = nil
+		conditions: TrackerConditions
 	) {
 		self.presenter = presenter
-		categoriesProvider = dep.categoriesProvider
+		self.categoriesProvider = dep.categoriesProvider
+		self.conditions = conditions
+	}
+
+	func getConditions() -> TrackerConditions {
+		conditions
 	}
 
 	func didCompleteUncompleteTracker(section: Int, row: Int) {
-		guard let conditions = conditions else {
-			return
-		}
-
 		if categoriesProvider.completeUncompleteTrackerByPlace(
 			section: section,
 			row: row,
 			date: conditions.date
-		) { updateTrackers() }
+		) {
+			updateTrackers()
+		}
 	}
 
 	func didTypeNewSearchText(text: String) {
-		if conditions == nil {
-			conditions = TrackersModels.Conditions(
-				date: Date(),
-				searchText: text,
-				filter: TrackerFilter.all,
-				hasAnyTrackers: categoriesProvider.hasAnyTrakers
-			)
-		} else {
-			conditions?.searchText = text
-		}
-
+		conditions.searchText = text
 		updateTrackers()
 	}
 
 	func didSelectNewDate(date: Date) {
-		if conditions == nil {
-			conditions = TrackersModels.Conditions(
-				date: date,
-				searchText: "",
-				filter: TrackerFilter.all,
-				hasAnyTrackers: categoriesProvider.hasAnyTrakers
-			)
-		} else {
-			conditions?.date = date
-			// странный фильтр .today, если можем менять дату, то значит меняем и фильтр
-			if conditions?.filter == .today {
-				conditions?.filter = .all
-			}
+		conditions.date = date
+		// странный фильтр .today, если можем менять дату, то значит меняем и фильтр
+		if conditions.filter == .today {
+			conditions.filter = .all
 		}
-
 		updateTrackers()
 	}
 
 	func viewIsReady() {
-		if conditions == nil {
-			conditions = TrackersModels.Conditions(
-				date: Date(),
-				searchText: "",
-				filter: TrackerFilter.all,
-				hasAnyTrackers: categoriesProvider.hasAnyTrakers
-			)
-		}
-
 		updateTrackers()
 	}
 
 	private func updateTrackers() {
-		guard let conditions = conditions else { return }
-
 		let categories: [TrackerCategory]
+
+		conditions.hasAnyTrackers = categoriesProvider.hasAnyTrakers
 
 		switch conditions.filter {
 		case .today:
@@ -107,7 +82,7 @@ final class TrackersInteractor: ITrackersInteractor {
 				text: conditions.searchText,
 				completed: true
 			)
-		case .umcompleted:
+		case .uncompleted:
 			categories = categoriesProvider.getCategories(
 				date: conditions.date,
 				text: conditions.searchText,

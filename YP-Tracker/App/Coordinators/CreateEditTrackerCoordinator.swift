@@ -3,7 +3,7 @@ final class CreateEditTrackerCoordinator: BaseCoordinator {
 	private let router: IRouter
 	private let trackerAction: Tracker.Action
 
-	private var trackerTempData: TrackerTempData?
+	// private var trackerTempData: TrackerTempData?
 
 	var finishFlow: (() -> Void)?
 

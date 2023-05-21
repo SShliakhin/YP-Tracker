@@ -31,7 +31,6 @@ private extension TabbarCoordinator {
 			self?.router.dismissModule()
 			self?.removeDependency(coordinator)
 			self?.finishFlow?()
-			// self?.showTrackersModuleInTab(router: navCotroller)
 		}
 		addDependency(coordinator)
 		coordinator.start()
@@ -49,7 +48,6 @@ private extension TabbarCoordinator {
 			case let .trackers(navController):
 				action = { [unowned self] in
 					if navController.viewControllers.isEmpty {
-						// self.showTrackersModuleInTab(router: navController)
 						self.runTrackersFlowInTab(navCotroller: navController)
 					}
 				}
@@ -62,7 +60,6 @@ private extension TabbarCoordinator {
 			case let .viewDidLoad(navController):
 				action = { [unowned self] in
 					if navController.viewControllers.isEmpty {
-						// self.showTrackersModuleInTab(router: navController)
 						self.runTrackersFlowInTab(navCotroller: navController)
 					}
 				}
@@ -79,18 +76,6 @@ private extension TabbarCoordinator {
 
 	func showStatisticsModuleInTab(router: UINavigationController) {
 		let module = factory.makeStatisticsModule()
-		router.pushViewController(module, animated: true)
-	}
-
-	func showTrackersModuleInTab(router: UINavigationController) {
-		let module = factory.makeTrackersModule()
-		let moduleVC = module as? TrackersViewController
-		moduleVC?.didSendEventClosure = { event in
-			switch event {
-			case .addTracker:
-				self.tabbarController?.selectedIndex = 1
-			}
-		}
 		router.pushViewController(module, animated: true)
 	}
 }

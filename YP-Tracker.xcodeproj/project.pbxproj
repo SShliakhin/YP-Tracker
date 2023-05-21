@@ -81,6 +81,11 @@
 		5AE1F02D2A096D1B00103F08 /* AboutWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE1F02C2A096D1B00103F08 /* AboutWorker.swift */; };
 		5AE6BDE72A18187A0068CB53 /* CellCorner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE6BDE62A18187A0068CB53 /* CellCorner.swift */; };
 		5AE6BDE92A18D38F0068CB53 /* YPCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE6BDE82A18D38F0068CB53 /* YPCell.swift */; };
+		5AE6BDED2A1924580068CB53 /* YPViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE6BDEC2A1924580068CB53 /* YPViewController.swift */; };
+		5AE6BDEF2A197BCD0068CB53 /* YPModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE6BDEE2A197BCD0068CB53 /* YPModels.swift */; };
+		5AE6BDF12A197E610068CB53 /* YPInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE6BDF02A197E610068CB53 /* YPInteractor.swift */; };
+		5AE6BDF32A1989D30068CB53 /* YPPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE6BDF22A1989D30068CB53 /* YPPresenter.swift */; };
+		5AE6BDF52A19D8770068CB53 /* TrackerConditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE6BDF42A19D8770068CB53 /* TrackerConditions.swift */; };
 		5AF5CAF22A12385F004AB8D2 /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF5CAF12A12385F004AB8D2 /* Repository.swift */; };
 		5AF5CAF42A124EA4004AB8D2 /* CategoriesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF5CAF32A124EA4004AB8D2 /* CategoriesProvider.swift */; };
 		5AF5CAF62A125333004AB8D2 /* CategoriesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF5CAF52A125333004AB8D2 /* CategoriesManager.swift */; };
@@ -183,6 +188,11 @@
 		5AE1F02C2A096D1B00103F08 /* AboutWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutWorker.swift; sourceTree = "<group>"; };
 		5AE6BDE62A18187A0068CB53 /* CellCorner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellCorner.swift; sourceTree = "<group>"; };
 		5AE6BDE82A18D38F0068CB53 /* YPCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YPCell.swift; sourceTree = "<group>"; };
+		5AE6BDEC2A1924580068CB53 /* YPViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YPViewController.swift; sourceTree = "<group>"; };
+		5AE6BDEE2A197BCD0068CB53 /* YPModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YPModels.swift; sourceTree = "<group>"; };
+		5AE6BDF02A197E610068CB53 /* YPInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YPInteractor.swift; sourceTree = "<group>"; };
+		5AE6BDF22A1989D30068CB53 /* YPPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YPPresenter.swift; sourceTree = "<group>"; };
+		5AE6BDF42A19D8770068CB53 /* TrackerConditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerConditions.swift; sourceTree = "<group>"; };
 		5AF5CAF12A12385F004AB8D2 /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
 		5AF5CAF32A124EA4004AB8D2 /* CategoriesProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesProvider.swift; sourceTree = "<group>"; };
 		5AF5CAF52A125333004AB8D2 /* CategoriesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesManager.swift; sourceTree = "<group>"; };
@@ -327,6 +337,7 @@
 				5A8D1DB22A0DAFAB00A2924F /* TrackerRecord.swift */,
 				5A8D1DB12A0DAFAB00A2924F /* TrackerColor.swift */,
 				5AF5CAF82A12D0A4004AB8D2 /* TrackerFilter.swift */,
+				5AE6BDF42A19D8770068CB53 /* TrackerConditions.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -536,6 +547,10 @@
 			isa = PBXGroup;
 			children = (
 				5AE6BDEB2A1919D70068CB53 /* Cell */,
+				5AE6BDEE2A197BCD0068CB53 /* YPModels.swift */,
+				5AE6BDF02A197E610068CB53 /* YPInteractor.swift */,
+				5AE6BDF22A1989D30068CB53 /* YPPresenter.swift */,
+				5AE6BDEC2A1924580068CB53 /* YPViewController.swift */,
 			);
 			path = YPModule;
 			sourceTree = "<group>";
@@ -718,6 +733,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5AE6BDF52A19D8770068CB53 /* TrackerConditions.swift in Sources */,
 				5AE1F0112A0945A500103F08 /* Di.swift in Sources */,
 				5A8D1DAD2A0D6ED000A2924F /* SelectTypeTrackerViewController.swift in Sources */,
 				5A84742D2A0E9A7500C2F93E /* CreateEditTrackerViewController.swift in Sources */,
@@ -728,6 +744,7 @@
 				5AE1F02A2A09628400103F08 /* AboutViewController.swift in Sources */,
 				5AF5CAF62A125333004AB8D2 /* CategoriesManager.swift in Sources */,
 				5AE12A2B2A0B936B0054D782 /* Theme+DateFormatter.swift in Sources */,
+				5AE6BDEF2A197BCD0068CB53 /* YPModels.swift in Sources */,
 				5A45EA5D2A0CD9BC003269D3 /* StatisticsViewController.swift in Sources */,
 				5ADD1F0929E38E6E0072EE78 /* UIColor+Hex.swift in Sources */,
 				5AE1F0282A09628400103F08 /* AboutModels.swift in Sources */,
@@ -762,7 +779,9 @@
 				5A8D1DB72A0DAFAB00A2924F /* TrackerRecord.swift in Sources */,
 				5AA7AD0E2A1648E20022C334 /* TrackersPresenter.swift in Sources */,
 				5A8D1DB62A0DAFAB00A2924F /* TrackerColor.swift in Sources */,
+				5AE6BDED2A1924580068CB53 /* YPViewController.swift in Sources */,
 				5AA5FA332A1409420056633B /* TrackerEmojiCell.swift in Sources */,
+				5AE6BDF12A197E610068CB53 /* YPInteractor.swift in Sources */,
 				5AA5FA2B2A13CDCC0056633B /* ICellViewModel.swift in Sources */,
 				5AE12A272A0B926D0054D782 /* Theme+Images.swift in Sources */,
 				5A45EA682A0D22CE003269D3 /* EmptyView.swift in Sources */,
@@ -772,6 +791,7 @@
 				5AE12A322A0BC70F0054D782 /* TrackersCoordinator.swift in Sources */,
 				5A84742B2A0E91BC00C2F93E /* CreateEditTrackerCoordinator.swift in Sources */,
 				5AE1F00C2A0944D400103F08 /* IRouter.swift in Sources */,
+				5AE6BDF32A1989D30068CB53 /* YPPresenter.swift in Sources */,
 				5A8474302A0F764A00C2F93E /* UIButton+Event.swift in Sources */,
 				5A61DD3D29E13FF9001E8665 /* UIView+Preview.swift in Sources */,
 				5A48061D29DBA73B0096B7D8 /* AppDelegate.swift in Sources */,

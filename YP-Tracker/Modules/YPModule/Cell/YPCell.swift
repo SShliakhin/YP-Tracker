@@ -1,6 +1,6 @@
 import UIKit
 
-final class YPCell: UICollectionViewCell {
+final class YPCell: UITableViewCell {
 	// MARK: - UI Elements
 
 	private lazy var titleLabel = makeTitleLabel()
@@ -12,8 +12,8 @@ final class YPCell: UICollectionViewCell {
 
 	// MARK: - Inits
 
-	override init(frame: CGRect) {
-		super.init(frame: frame)
+	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+		super.init(style: style, reuseIdentifier: reuseIdentifier)
 
 		applyStyle()
 		setConstraints()
@@ -31,11 +31,21 @@ final class YPCell: UICollectionViewCell {
 		titleLabel.text = nil
 		descriptionLabel.text = nil
 		event = nil
+		for view in innerView.subviews {
+			view.removeFromSuperview()
+		}
 	}
 
 	// MARK: - Data model for cell
 
+	enum InnerViewType {
+		case switchType
+		case chevronType
+		case checkmarkType
+	}
+
 	struct YPCellModel {
+		let type: InnerViewType
 		let title: String
 		let description: String
 		let hasDivider: Bool
@@ -43,69 +53,39 @@ final class YPCell: UICollectionViewCell {
 		let isSelected: Bool
 		let event: (() -> Void)?
 	}
-
-	struct YPCellSwitchModel {
-		let model: YPCellModel
-	}
-	struct YPCellChevronModel {
-		let model: YPCellModel
-	}
-	struct YPCellCheckmarkModel {
-		let model: YPCellModel
-	}
 }
 
 // MARK: - ICellViewModel
 
-extension YPCell.YPCellSwitchModel: ICellViewModel {
+extension YPCell.YPCellModel: ICellViewModel {
 	func setup(cell: YPCell) {
-		cell.titleLabel.text = model.title
-		cell.descriptionLabel.text = model.description
+		cell.titleLabel.text = title
+		cell.descriptionLabel.text = description
 
-		cell.dividerView.isHidden = !model.hasDivider
-		cell.layer.maskedCorners = model.outCorner.cornerMask
+		cell.dividerView.isHidden = !hasDivider
+		cell.layer.maskedCorners = outCorner.cornerMask
 
-		let innerView = cell.makeSwitch()
-		cell.innerView.addSubview(innerView)
-		innerView.makeEqualToSuperview()
+		let innerView: UIView
 
-		innerView.isOn = model.isSelected
-
-		cell.event = model.event
-	}
-}
-
-extension YPCell.YPCellChevronModel: ICellViewModel {
-	func setup(cell: YPCell) {
-		cell.titleLabel.text = model.title
-		cell.descriptionLabel.text = model.description
-
-		cell.dividerView.isHidden = !model.hasDivider
-		cell.layer.maskedCorners = model.outCorner.cornerMask
-
-		let innerView = cell.makeChevronImageView()
-		cell.innerView.addSubview(innerView)
-		innerView.makeEqualToSuperview()
-
-		cell.event = model.event
-	}
-}
-
-extension YPCell.YPCellCheckmarkModel: ICellViewModel {
-	func setup(cell: YPCell) {
-		cell.titleLabel.text = model.title
-		cell.descriptionLabel.text = model.description
-
-		cell.dividerView.isHidden = !model.hasDivider
-		cell.layer.maskedCorners = model.outCorner.cornerMask
-
-		if model.isSelected {
-			let innerView = cell.makeCheckmarkImageView()
-			cell.innerView.addSubview(innerView)
-			innerView.makeEqualToSuperview()
+		switch type {
+		case .switchType:
+			let switchView = cell.makeSwitch()
+			switchView.isOn = isSelected
+			innerView = switchView
+		case .chevronType:
+			innerView = cell.makeChevronImageView()
+		case .checkmarkType:
+			if isSelected {
+				innerView = cell.makeCheckmarkImageView()
+			} else {
+				innerView = UIView()
+			}
 		}
 
-		cell.event = model.event
+		cell.innerView.addSubview(innerView)
+		innerView.makeEqualToSuperview()
+
+		cell.event = event
 	}
 }
 
@@ -116,7 +96,7 @@ private extension YPCell {
 		layer.cornerRadius = Theme.size(kind: .mediumRadius)
 		layer.masksToBounds = true
 
-		layoutMargins = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16) // надо это дело проверить
+		// layoutMargins = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16) // проверить
 	}
 
 	func setConstraints() {
@@ -220,80 +200,74 @@ struct YPCell_Previews: PreviewProvider {
 	static var previews: some View {
 
 		let viewSwitch = YPCell()
-		let modelSwitch = YPCell.YPCellSwitchModel(
-			model: .init(
-				title: "Label",
-				description: "Описание",
-				hasDivider: true,
-				outCorner: [.top],
-				isSelected: true,
-				event: nil
-			)
+		let modelSwitch = YPCell.YPCellModel(
+			type: .switchType,
+			title: "Label",
+			description: "Описание",
+			hasDivider: true,
+			outCorner: [.top],
+			isSelected: true,
+			event: nil
 		)
 		modelSwitch.setup(cell: viewSwitch)
 
 		let viewSwitch2 = YPCell()
-		let modelSwitch2 = YPCell.YPCellSwitchModel(
-			model: .init(
-				title: "Label",
-				description: "Описание",
-				hasDivider: false,
-				outCorner: [.bottom],
-				isSelected: false,
-				event: nil
-			)
+		let modelSwitch2 = YPCell.YPCellModel(
+			type: .switchType,
+			title: "Label",
+			description: "Описание",
+			hasDivider: false,
+			outCorner: [.bottom],
+			isSelected: false,
+			event: nil
 		)
 		modelSwitch2.setup(cell: viewSwitch2)
 
 		let viewChevron = YPCell()
-		let modelChevron = YPCell.YPCellChevronModel(
-			model: .init(
-				title: "Label",
-				description: "Описание",
-				hasDivider: true,
-				outCorner: [.top],
-				isSelected: true,
-				event: nil
-			)
+		let modelChevron = YPCell.YPCellModel(
+			type: .chevronType,
+			title: "Label",
+			description: "Описание",
+			hasDivider: true,
+			outCorner: [.top],
+			isSelected: true,
+			event: nil
 		)
 		modelChevron.setup(cell: viewChevron)
 
 		let viewChevron2 = YPCell()
-		let modelChevron2 = YPCell.YPCellChevronModel(
-			model: .init(
-				title: "Label",
-				description: "",
-				hasDivider: false,
-				outCorner: [.bottom],
-				isSelected: false,
-				event: nil
-			)
+		let modelChevron2 = YPCell.YPCellModel(
+			type: .chevronType,
+			title: "Label",
+			description: "",
+			hasDivider: false,
+			outCorner: [.bottom],
+			isSelected: false,
+			event: nil
 		)
 		modelChevron2.setup(cell: viewChevron2)
 
 		let viewCheckmark = YPCell()
-		let modelCheckmark = YPCell.YPCellCheckmarkModel(
-			model: .init(
-				title: "Label",
-				description: "Описание",
-				hasDivider: true,
-				outCorner: [.top],
-				isSelected: true,
-				event: nil
-			)
+		let modelCheckmark = YPCell.YPCellModel(
+			type: .checkmarkType,
+			title: "Label",
+			description: "Описание",
+			hasDivider: true,
+			outCorner: [.top],
+			isSelected: true,
+			event: nil
 		)
 		modelCheckmark.setup(cell: viewCheckmark)
 
 		let viewCheckmark2 = YPCell()
-		let modelCheckmark2 = YPCell.YPCellCheckmarkModel(
-			model: .init(
-				title: "Label",
-				description: "Описание",
-				hasDivider: false,
-				outCorner: [.bottom],
-				isSelected: false,
-				event: nil
-			)
+		let modelCheckmark2 = YPCell.YPCellModel(
+			type: .checkmarkType,
+			title: "Label",
+			description: "Описание",
+			hasDivider: false,
+			outCorner: [.bottom],
+			isSelected: false,
+			event: nil
 		)
 		modelCheckmark2.setup(cell: viewCheckmark2)
 

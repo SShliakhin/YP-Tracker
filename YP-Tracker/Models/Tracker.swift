@@ -29,15 +29,7 @@ extension Tracker {
 		case save // преобразуем TrackerTempData в трекер с новым/старым UUID
 		case cancel
 		// продолжить редактирование нового/существующего(UUID) -> TrackerTempData/save/cancel
-		case reedit(TrackerTempData, UUID?)
+		// case reedit(TrackerTempData, UUID?)
+		case selectFilter(TrackerFilter)
 	}
-}
-
-struct TrackerTempData {
-	let type: Tracker.TrackerType
-	var title: String
-	var emoji: String
-	var color: String
-	var schedule: [Int: Bool]
-	var category: UUID
 }

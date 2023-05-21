@@ -8,6 +8,7 @@ protocol ITrackersViewController: AnyObject {
 final class TrackersViewController: UIViewController {
 	private let interactor: ITrackersInteractor
 	private var dataSource: [TrackersModels.ViewModel.Section] = []
+
 	var didSendEventClosure: ((TrackersViewController.Event) -> Void)?
 
 	private var searchText = "" {
@@ -24,7 +25,8 @@ final class TrackersViewController: UIViewController {
 	private lazy var searchController: UISearchController = makeSearchController()
 
 	private lazy var collectionView: UICollectionView = makeCollectionView()
-	private lazy var emptyView: EmptyView = makeEmptyView()
+	private lazy var emptyView = makeEmptyView()
+	private lazy var filtersButton = makeFiltersButton()
 
 	// MARK: - Inits
 
@@ -56,14 +58,18 @@ final class TrackersViewController: UIViewController {
 // MARK: - Event
 extension TrackersViewController {
 	enum Event {
-		case addTracker
+		case addTracker(TrackerConditions)
+		case selectFilter(TrackerConditions)
 	}
 }
 
 // MARK: - Actions
 private extension TrackersViewController {
 	@objc func didTapAddTrackerButton(_ sender: Any) {
-		didSendEventClosure?(.addTracker)
+		didSendEventClosure?(.addTracker(interactor.getConditions()))
+	}
+	@objc func didTapSelectFilterButton(_ sender: Any) {
+		didSendEventClosure?(.selectFilter(interactor.getConditions()))
 	}
 	@objc func didDateSelect(_ sender: Any) {
 		interactor.didSelectNewDate(date: datePicker.date)
@@ -87,8 +93,6 @@ extension TrackersViewController: ITrackersViewController {
 			emptyView.isHidden = !sections.isEmpty
 
 			collectionView.reloadData()
-		case let .updateTracker(section, row, tracker):
-			print("Обновить трекер:", section, row, tracker)
 		}
 	}
 }
@@ -172,10 +176,10 @@ private extension TrackersViewController {
 		view.backgroundColor = Theme.color(usage: .white)
 	}
 	func setConstraints() {
-
 		[
 			collectionView,
-			emptyView
+			emptyView,
+			filtersButton
 		].forEach { item in
 			view.addSubview(item)
 		}
@@ -186,6 +190,17 @@ private extension TrackersViewController {
 		datePicker.makeConstraints { make in
 			[
 				make.widthAnchor.constraint(lessThanOrEqualToConstant: Appearance.datePickerWidth)
+			]
+		}
+
+		filtersButton.makeConstraints { make in
+			make.size(CGSize(width: 114, height: 50)) +
+			[
+				make.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+				make.bottomAnchor.constraint(
+					equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+					constant: -Theme.spacing(usage: .standard2)
+				)
 			]
 		}
 	}
@@ -237,6 +252,19 @@ private extension TrackersViewController {
 		view.update(with: EmptyInputData.emptyStartTrackers)
 
 		return view
+	}
+	func makeFiltersButton() -> UIButton {
+		let button = UIButton()
+
+		button.setTitle(Appearance.filtersButtonTitle, for: .normal)
+		button.setTitleColor(Theme.color(usage: .white), for: .normal)
+		button.titleLabel?.font = Theme.font(style: .body)
+		button.backgroundColor = Theme.color(usage: .accent)
+		button.layer.cornerRadius = Theme.size(kind: .cornerRadius)
+
+		button.addTarget(self, action: #selector(didTapSelectFilterButton), for: .primaryActionTriggered)
+
+		return button
 	}
 
 	func makeCollectionView() -> UICollectionView {
@@ -344,6 +372,7 @@ private extension TrackersViewController {
 private extension TrackersViewController {
 	enum Appearance {
 		static let title = "Трекеры"
+		static let filtersButtonTitle = "Фильтры"
 		static let datePickerWidth: CGFloat = 104
 		static let searchPlacholder = "Поиск"
 		static let searchCancelButtonTitle = "Отмена"

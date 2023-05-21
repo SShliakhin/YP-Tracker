@@ -1,4 +1,5 @@
 import Foundation
+
 protocol ITrackersPresenter {
 	/// Подготавливает данные на редринг вьюконтроллеру
 	func present(data: TrackersModels.Response)
@@ -36,8 +37,6 @@ final class TrackersPresenter: ITrackersPresenter {
 			}
 			viewData = TrackersModels.ViewModel.update(sections, conditions)
 			viewController?.render(viewModel: viewData)
-		case .updateTracker:
-			break
 		}
 	}
 

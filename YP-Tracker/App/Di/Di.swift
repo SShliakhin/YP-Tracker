@@ -41,7 +41,7 @@ typealias AllDependencies = (
 
 extension Di: IModuleFactory {
 	func makeStartModule() -> UIViewController {
-		makeSelectTypeTrackerModule()
+		makeYPModule(trackerAction: .selectFilter(.today))
 	}
 	func makeAboutModule() -> UIViewController {
 		makeAboutModule(dep: dependencies)
@@ -58,8 +58,11 @@ extension Di: IModuleFactory {
 	func makeStatisticsModule() -> UIViewController {
 		makeStatisticsModule(dep: dependencies)
 	}
-	func makeTrackersModule() -> UIViewController {
-		makeTrackersModule(dep: dependencies)
+	func makeTrackersModule(conditions: TrackerConditions) -> UIViewController {
+		makeTrackersModule(dep: dependencies, conditions: conditions)
+	}
+	func makeYPModule(trackerAction: Tracker.Action) -> UINavigationController {
+		makeYPModule(dep: dependencies, trackerAction: trackerAction)
 	}
 	func makeSelectTypeTrackerModule() -> UINavigationController {
 		makeSelectTypeTrackerModule(dep: dependencies)
