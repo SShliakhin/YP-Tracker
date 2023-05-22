@@ -2,6 +2,7 @@ import Foundation
 
 protocol ITrackersInteractor {
 	func viewIsReady()
+	func updateConditions(newConditions: TrackerConditions)
 	func didTypeNewSearchText(text: String)
 	func didSelectNewDate(date: Date)
 	func didCompleteUncompleteTracker(section: Int, row: Int)
@@ -18,12 +19,24 @@ final class TrackersInteractor: ITrackersInteractor {
 
 	init(
 		presenter: ITrackersPresenter,
-		dep: ITrackersModuleDependency,
-		conditions: TrackerConditions
+		dep: ITrackersModuleDependency
 	) {
 		self.presenter = presenter
 		self.categoriesProvider = dep.categoriesProvider
-		self.conditions = conditions
+
+		self.conditions = TrackerConditions(
+			date: Date(),
+			searchText: "",
+			filter: .all,
+			hasAnyTrackers: false
+		)
+	}
+
+	func updateConditions(newConditions: TrackerConditions) {
+		if conditions != newConditions {
+			conditions = newConditions
+			updateTrackers()
+		}
 	}
 
 	func getConditions() -> TrackerConditions {

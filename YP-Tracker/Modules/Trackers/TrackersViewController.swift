@@ -3,6 +3,7 @@ import UIKit
 protocol ITrackersViewController: AnyObject {
 	/// Рендрит вьюмодель
 	func render(viewModel: TrackersModels.ViewModel)
+	func updateConditions(conditions: TrackerConditions)
 }
 
 final class TrackersViewController: UIViewController {
@@ -94,6 +95,9 @@ extension TrackersViewController: ITrackersViewController {
 
 			collectionView.reloadData()
 		}
+	}
+	func updateConditions(conditions: TrackerConditions) {
+		interactor.updateConditions(newConditions: conditions)
 	}
 }
 

@@ -100,7 +100,6 @@ private extension YPViewController {
 	}
 
 	func applyStyle() {
-		title = Appearance.title
 		view.backgroundColor = Theme.color(usage: .white)
 	}
 

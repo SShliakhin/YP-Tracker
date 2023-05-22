@@ -1,9 +1,17 @@
 import UIKit
+
 final class TrackersCoordinator: BaseCoordinator {
 	private let factory: IModuleFactory
 	private let router: IRouter
 
-	private var conditions: TrackerConditions
+	private var onUpdateConditions: ((TrackerConditions) -> Void)?
+	private var conditions: TrackerConditions {
+		didSet(newValue) {
+			if conditions != newValue {
+				onUpdateConditions?(conditions)
+			}
+		}
+	}
 	private var schedule: [Int: Bool] = [:] // в отдельный метод
 
 	var finishFlow: (() -> Void)?
@@ -32,8 +40,12 @@ final class TrackersCoordinator: BaseCoordinator {
 // MARK: - show Modules
 private extension TrackersCoordinator {
 	func showTrackersModule() {
-		let module = factory.makeTrackersModule(conditions: conditions)
+		let module = factory.makeTrackersModule()
 		let moduleVC = module as? TrackersViewController
+
+		onUpdateConditions = { [weak moduleVC] conditions in
+			moduleVC?.updateConditions(conditions: conditions)
+		}
 		moduleVC?.didSendEventClosure = { [weak self] event in
 			switch event {
 			case let .addTracker(conditions):
@@ -44,6 +56,7 @@ private extension TrackersCoordinator {
 				self?.showSelectFilterModule()
 			}
 		}
+
 		router.setRootModule(module)
 	}
 
@@ -51,21 +64,21 @@ private extension TrackersCoordinator {
 		let module = factory.makeYPModule(
 			trackerAction: .selectFilter(conditions.filter)
 		)
-		let moduleVC = module.viewControllers.first as? YPViewController
+		let moduleVC = module as? YPViewController
 		moduleVC?.didSendEventClosure = { [weak self] event in
 			switch event {
 			case let .didSelectFilter(filter):
 				self?.conditions.filter = filter
 				self?.router.dismissModule()
-				self?.start()
 			}
 		}
-		router.present(module)
+		moduleVC?.title = "Фильтры"
+		router.present(UINavigationController(rootViewController: module))
 	}
 
 	func showSelectTypeTrackerModule() {
 		let module = factory.makeSelectTypeTrackerModule()
-		let moduleVC = module.viewControllers.first as? SelectTypeTrackerViewController
+		let moduleVC = module as? SelectTypeTrackerViewController
 		moduleVC?.didSendEventClosure = { [weak self] event in
 			let action: (() -> Void)
 			switch event {
@@ -84,7 +97,7 @@ private extension TrackersCoordinator {
 			}
 			return action
 		}
-		router.present(module)
+		router.present(UINavigationController(rootViewController: module))
 	}
 }
 

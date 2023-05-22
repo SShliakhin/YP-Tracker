@@ -32,7 +32,10 @@ protocol ITrackersModuleDependency {
 	var categoriesProvider: ICategoriesProvider { get }
 }
 
+protocol IEmptyDependency {}
+
 typealias AllDependencies = (
+	IEmptyDependency &
 	IAboutModuleDependency &
 	ITrackersModuleDependency
 )
@@ -41,7 +44,8 @@ typealias AllDependencies = (
 
 extension Di: IModuleFactory {
 	func makeStartModule() -> UIViewController {
-		makeYPModule(trackerAction: .selectFilter(.today))
+		let view = makeCreateEditTrackerModule(trackerAction: .selectFilter(.today))
+		return UINavigationController(rootViewController: view)
 	}
 	func makeAboutModule() -> UIViewController {
 		makeAboutModule(dep: dependencies)
@@ -58,13 +62,16 @@ extension Di: IModuleFactory {
 	func makeStatisticsModule() -> UIViewController {
 		makeStatisticsModule(dep: dependencies)
 	}
-	func makeTrackersModule(conditions: TrackerConditions) -> UIViewController {
-		makeTrackersModule(dep: dependencies, conditions: conditions)
+	func makeTrackersModule() -> UIViewController {
+		makeTrackersModule(dep: dependencies)
 	}
-	func makeYPModule(trackerAction: Tracker.Action) -> UINavigationController {
+	func makeYPModule(trackerAction: Tracker.Action) -> UIViewController {
 		makeYPModule(dep: dependencies, trackerAction: trackerAction)
 	}
-	func makeSelectTypeTrackerModule() -> UINavigationController {
+	func makeSelectTypeTrackerModule() -> UIViewController {
 		makeSelectTypeTrackerModule(dep: dependencies)
+	}
+	func makeCreateEditTrackerModule(trackerAction: Tracker.Action) -> UIViewController {
+		makeCreateEditTrackerModule(dep: dependencies, trackerAction: trackerAction)
 	}
 }

@@ -9,9 +9,10 @@ protocol IModuleFactory: AnyObject {
 	func makeOnboardingModule() -> UIViewController
 	func makeTabbarModule() -> UIViewController
 	func makeStatisticsModule() -> UIViewController
-	func makeTrackersModule(conditions: TrackerConditions) -> UIViewController
-	func makeSelectTypeTrackerModule() -> UINavigationController
-	func makeYPModule(trackerAction: Tracker.Action) -> UINavigationController
+	func makeTrackersModule() -> UIViewController
+	func makeSelectTypeTrackerModule() -> UIViewController
+	func makeYPModule(trackerAction: Tracker.Action) -> UIViewController
+	func makeCreateEditTrackerModule(trackerAction: Tracker.Action) -> UIViewController
 }
 
 extension Di {
@@ -45,12 +46,11 @@ extension Di {
 		return StatisticsViewController()
 	}
 
-	func makeTrackersModule(dep: AllDependencies, conditions: TrackerConditions) -> UIViewController {
+	func makeTrackersModule(dep: AllDependencies) -> UIViewController {
 		let presenter = TrackersPresenter()
 		let interactor = TrackersInteractor(
 			presenter: presenter,
-			dep: dep,
-			conditions: conditions
+			dep: dep
 		)
 		let view = TrackersViewController(interactor: interactor)
 		presenter.viewController = view
@@ -58,7 +58,11 @@ extension Di {
 		return view
 	}
 
-	func makeYPModule(dep: AllDependencies, trackerAction: Tracker.Action) -> UINavigationController {
+	func makeSelectTypeTrackerModule(dep: AllDependencies) -> UIViewController {
+		return SelectTypeTrackerViewController()
+	}
+
+	func makeYPModule(dep: AllDependencies, trackerAction: Tracker.Action) -> UIViewController {
 		let presenter = YPPresenter()
 		let interactor = YPInteractor(
 			presenter: presenter,
@@ -68,10 +72,19 @@ extension Di {
 		let view = YPViewController(interactor: interactor)
 		presenter.viewController = view
 
-		return UINavigationController(rootViewController: view)
+		return view
 	}
 
-	func makeSelectTypeTrackerModule(dep: AllDependencies) -> UINavigationController {
-		return UINavigationController(rootViewController: SelectTypeTrackerViewController())
+	func makeCreateEditTrackerModule(dep: AllDependencies, trackerAction: Tracker.Action) -> UIViewController {
+		let presenter = CreateEditTrackerPresenter()
+		let interactor = CreateEditTrackerInteractor(
+			presenter: presenter,
+			dep: dep,
+			trackerAction: trackerAction
+		)
+		let view = CreateEditTrackerViewController(interactor: interactor)
+		presenter.viewController = view
+
+		return view
 	}
 }

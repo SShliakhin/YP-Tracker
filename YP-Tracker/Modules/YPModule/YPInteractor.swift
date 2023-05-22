@@ -22,7 +22,7 @@ final class YPInteractor: IYPInteractor {
 
 	init(
 		presenter: IYPPresenter,
-		dep: ITrackersModuleDependency,
+		dep: IEmptyDependency,
 		trackerAction: Tracker.Action
 	) {
 		self.presenter = presenter

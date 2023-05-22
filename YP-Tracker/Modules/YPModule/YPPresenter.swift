@@ -1,5 +1,3 @@
-//
-//  YPPresenter.swift
 import Foundation
 
 protocol IYPPresenter {
@@ -20,20 +18,10 @@ final class YPPresenter: IYPPresenter {
 			var next = 1
 
 			let viewModel: [YPModels.YPCellModel] = allFilters.map { filter in
-
-				let hasDivider = all > next
-
-				var outCorner: [CellCorner] = []
-				if next == 1 {
-					outCorner = [.top]
-				} else if !hasDivider {
-					outCorner = [.bottom]
-				}
-
+				let (hasDivider, outCorner) = getDecor(all: all, next: next)
 				let isSelected = filter == selectedFilter
 
 				next += 1
-
 				return YPModels.YPCellModel(
 					type: .checkmarkType,
 					title: filter.description,
@@ -48,5 +36,20 @@ final class YPPresenter: IYPPresenter {
 		}
 
 		viewController?.render(viewModel: viewData)
+	}
+}
+
+private extension YPPresenter {
+	func getDecor(all: Int, next: Int) -> (hasDivider: Bool, outCorner: [CellCorner]) {
+		guard all > 1 else { return (false, [.all]) }
+
+		let hasDivider = all > next
+		var outCorner: [CellCorner] = []
+		if next == 1 {
+			outCorner = [.top]
+		} else if !hasDivider {
+			outCorner = [.bottom]
+		}
+		return (hasDivider, outCorner)
 	}
 }
