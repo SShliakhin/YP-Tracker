@@ -32,19 +32,42 @@ protocol ITrackersModuleDependency {
 	var categoriesProvider: ICategoriesProvider { get }
 }
 
+protocol IYPModuleDependency {
+	var categoriesProvider: ICategoriesProvider { get }
+}
+
 protocol IEmptyDependency {}
 
 typealias AllDependencies = (
 	IEmptyDependency &
 	IAboutModuleDependency &
-	ITrackersModuleDependency
+	ITrackersModuleDependency &
+	IYPModuleDependency
 )
 
 // MARK: - ModuleFactory
 
 extension Di: IModuleFactory {
 	func makeStartModule() -> UIViewController {
-		let view = makeCreateEditTrackerModule(trackerAction: .selectFilter(.today))
+		// модуль выбора категории, нуже сервис, кнопка - Добавить категорию
+		let categoryID = dependencies.categoriesProvider.getCategories()[1].id
+		var view = makeYPModule(trackerAction: .selectCategory(categoryID))
+		view.title = "Категория"
+		return UINavigationController(rootViewController: view)
+
+		// модуль выбора расписания, кнопка Готово
+		let schedule = [
+			1: false,
+			2: true,
+			3: true,
+			4: true,
+			5: true,
+			6: true,
+			7: false
+		]
+
+		view = makeYPModule(trackerAction: .selectSchedule(schedule))
+		view.title = "Расписание"
 		return UINavigationController(rootViewController: view)
 	}
 	func makeAboutModule() -> UIViewController {

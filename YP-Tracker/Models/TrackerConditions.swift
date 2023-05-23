@@ -6,7 +6,7 @@ struct TrackerConditions: Equatable {
 	var filter: TrackerFilter
 	var hasAnyTrackers: Bool
 
-	static func ==(lhs: TrackerConditions, rhs: TrackerConditions) -> Bool {
+	static func == (lhs: TrackerConditions, rhs: TrackerConditions) -> Bool {
 		return Calendar.current.isDate(
 			lhs.date,
 			inSameDayAs: lhs.date

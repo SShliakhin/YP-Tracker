@@ -70,9 +70,11 @@ private extension TrackersCoordinator {
 			case let .didSelectFilter(filter):
 				self?.conditions.filter = filter
 				self?.router.dismissModule()
+			case .didSelectSchedule, .didSelectCategory:
+				break
 			}
 		}
-		moduleVC?.title = "Фильтры"
+		moduleVC?.title = Appearance.titleFiltersVC
 		router.present(UINavigationController(rootViewController: module))
 	}
 
@@ -111,5 +113,11 @@ private extension TrackersCoordinator {
 		schedule[currentWeekday] = true
 
 		self.schedule = schedule
+	}
+}
+
+private extension TrackersCoordinator {
+	enum Appearance {
+		static let titleFiltersVC = "Фильтры"
 	}
 }

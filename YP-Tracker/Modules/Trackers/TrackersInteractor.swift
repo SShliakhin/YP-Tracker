@@ -2,11 +2,10 @@ import Foundation
 
 protocol ITrackersInteractor {
 	func viewIsReady()
-	func updateConditions(newConditions: TrackerConditions)
-	func didTypeNewSearchText(text: String)
-	func didSelectNewDate(date: Date)
-	func didCompleteUncompleteTracker(section: Int, row: Int)
+	func didUserDo(request: TrackersModels.Request)
 	func getConditions() -> TrackerConditions
+
+	func updateConditions(newConditions: TrackerConditions)
 }
 
 final class TrackersInteractor: ITrackersInteractor {
@@ -32,46 +31,44 @@ final class TrackersInteractor: ITrackersInteractor {
 		)
 	}
 
-	func updateConditions(newConditions: TrackerConditions) {
-		if conditions != newConditions {
-			conditions = newConditions
-			updateTrackers()
+	func viewIsReady() {
+		updateTrackers()
+	}
+
+	func didUserDo(request: TrackersModels.Request) {
+		switch request {
+		case let .newSearchText(text):
+			conditions.searchText = text
+		case let .newDate(date):
+			conditions.date = date
+			// странный фильтр .today, если можем менять дату, то значит меняем и фильтр
+			if conditions.filter == .today {
+				conditions.filter = .all
+			}
+		case let .completeUncompleteTracker(section, row):
+			guard categoriesProvider.completeUncompleteTrackerByPlace(
+				section: section,
+				row: row,
+				date: conditions.date
+			) else { return }
 		}
+		updateTrackers()
 	}
 
 	func getConditions() -> TrackerConditions {
 		conditions
 	}
 
-	func didCompleteUncompleteTracker(section: Int, row: Int) {
-		if categoriesProvider.completeUncompleteTrackerByPlace(
-			section: section,
-			row: row,
-			date: conditions.date
-		) {
+	func updateConditions(newConditions: TrackerConditions) {
+		if conditions != newConditions {
+			conditions = newConditions
 			updateTrackers()
 		}
 	}
+}
 
-	func didTypeNewSearchText(text: String) {
-		conditions.searchText = text
-		updateTrackers()
-	}
-
-	func didSelectNewDate(date: Date) {
-		conditions.date = date
-		// странный фильтр .today, если можем менять дату, то значит меняем и фильтр
-		if conditions.filter == .today {
-			conditions.filter = .all
-		}
-		updateTrackers()
-	}
-
-	func viewIsReady() {
-		updateTrackers()
-	}
-
-	private func updateTrackers() {
+private extension TrackersInteractor {
+	func updateTrackers() {
 		let categories: [TrackerCategory]
 
 		conditions.hasAnyTrackers = categoriesProvider.hasAnyTrakers

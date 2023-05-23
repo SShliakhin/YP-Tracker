@@ -1,3 +1,4 @@
+import Foundation
 enum YPModels {
 	struct YPCellModel {
 		let type: YPCell.InnerViewType
@@ -9,15 +10,20 @@ enum YPModels {
 		let event: (() -> Void)?
 	}
 
-	enum Request {
-		case selectFilter(Int, ((YPViewController.Event) -> Void)?)
-	}
-
 	enum Response {
 		case selectFilter(TrackerFilter, [TrackerFilter])
+		case selectSchedule([Int: Bool], [String])
+		case selectCategory(UUID?, [TrackerCategory])
 	}
 
 	enum ViewModel {
-		case showFilters([YPCellModel])
+		case showFilters(ViewData)
+		case showSchedule(ViewData)
+		case showCategories(ViewData)
+
+		struct ViewData {
+			let dataSource: [YPCellModel]
+			let titleButtonAction: String
+		}
 	}
 }

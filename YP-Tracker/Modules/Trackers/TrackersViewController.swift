@@ -3,6 +3,7 @@ import UIKit
 protocol ITrackersViewController: AnyObject {
 	/// Рендрит вьюмодель
 	func render(viewModel: TrackersModels.ViewModel)
+	/// Получаем новые условия от координатора и передаем интерактору
 	func updateConditions(conditions: TrackerConditions)
 }
 
@@ -16,7 +17,7 @@ final class TrackersViewController: UIViewController {
 		didSet {
 			if searchText != oldValue {
 				searchController.searchBar.searchTextField.text = searchText
-				interactor.didTypeNewSearchText(text: searchText)
+				interactor.didUserDo(request: .newSearchText(searchText))
 			}
 		}
 	}
@@ -73,7 +74,7 @@ private extension TrackersViewController {
 		didSendEventClosure?(.selectFilter(interactor.getConditions()))
 	}
 	@objc func didDateSelect(_ sender: Any) {
-		interactor.didSelectNewDate(date: datePicker.date)
+		interactor.didUserDo(request: .newDate(datePicker.date))
 	}
 }
 
@@ -126,9 +127,11 @@ extension TrackersViewController: UICollectionViewDataSource {
 			isCompleted: tracker.isCompleted,
 			isButtonEnabled: tracker.isActionEnabled,
 			event: { [weak self] in
-				self?.interactor.didCompleteUncompleteTracker(
-					section: indexPath.section,
-					row: indexPath.row
+				self?.interactor.didUserDo(
+					request: .completeUncompleteTracker(
+						indexPath.section,
+						indexPath.row
+					)
 				)
 			}
 		)

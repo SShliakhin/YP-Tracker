@@ -11,6 +11,7 @@ final class YPViewController: UIViewController {
 	var didSendEventClosure: ((YPViewController.Event) -> Void)?
 
 	private lazy var tableView = makeTableView()
+	private lazy var actionButton: UIButton = makeActionButton()
 
 	// MARK: - Inits
 
@@ -35,7 +36,7 @@ final class YPViewController: UIViewController {
 		applyStyle()
 		setConstraints()
 
-		interactor.viewIsReady()
+		interactor.viewIsReady(actions: didSendEventClosure)
 	}
 }
 
@@ -44,8 +45,14 @@ final class YPViewController: UIViewController {
 extension YPViewController: IYPViewController {
 	func render(viewModel: YPModels.ViewModel) {
 		switch viewModel {
-		case let .showFilters(viewData):
-			dataSource = viewData
+		case
+			let .showFilters(viewData),
+			let .showSchedule(viewData),
+			let .showCategories(viewData):
+
+			actionButton.setTitle(viewData.titleButtonAction, for: .normal)
+			actionButton.isHidden = viewData.titleButtonAction.isEmpty
+			dataSource = viewData.dataSource
 			tableView.reloadData()
 		}
 	}
@@ -55,6 +62,8 @@ extension YPViewController: IYPViewController {
 extension YPViewController {
 	enum Event {
 		case didSelectFilter(TrackerFilter)
+		case didSelectSchedule([Int: Bool])
+		case didSelectCategory(UUID)
 	}
 }
 
@@ -85,7 +94,7 @@ extension YPViewController: UITableViewDataSource {
 extension YPViewController: UITableViewDelegate {
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		tableView.deselectRow(at: indexPath, animated: true)
-		interactor.didSelect(action: .selectFilter(indexPath.row, didSendEventClosure))
+		interactor.didSelectRow(indexPath.row)
 	}
 }
 
@@ -104,15 +113,37 @@ private extension YPViewController {
 	}
 
 	func setConstraints() {
+		let stack = UIStackView()
+		stack.axis = .vertical
+		stack.spacing = Theme.spacing(usage: .standard3)
+		stack.alignment = .center
 		[
-			tableView
-		].forEach { view.addSubview($0) }
-		tableView.makeEqualToSuperviewToSafeArea(
+			tableView,
+			actionButton
+		].forEach { stack.addArrangedSubview($0) }
+
+		tableView.makeConstraints { make in
+			[
+				make.leadingAnchor.constraint(equalTo: stack.leadingAnchor),
+				make.trailingAnchor.constraint(equalTo: stack.trailingAnchor)
+			]
+		}
+
+		actionButton.makeConstraints { make in
+			[
+				make.leadingAnchor.constraint(equalTo: stack.leadingAnchor, constant: Theme.spacing(usage: .standardHalf)),
+				make.trailingAnchor.constraint(equalTo: stack.trailingAnchor, constant: -Theme.spacing(usage: .standardHalf)),
+				make.heightAnchor.constraint(equalToConstant: Theme.size(kind: .buttonHeight))
+			]
+		}
+
+		view.addSubview(stack)
+		stack.makeEqualToSuperviewToSafeArea(
 			insets: .init(
-				top: 24,
-				left: 16,
-				bottom: 0,
-				right: 16
+				top: Theme.spacing(usage: .standard3),
+				left: Theme.spacing(usage: .standard2),
+				bottom: Theme.spacing(usage: .standard3),
+				right: Theme.spacing(usage: .standard2)
 			)
 		)
 	}
@@ -135,7 +166,24 @@ private extension YPViewController {
 
 		tableView.rowHeight = Theme.size(kind: .textFieldHeight)
 
+		// скругление сверху и снизу - в ячейке значит не пригодилось (
+		tableView.layer.cornerRadius = Theme.size(kind: .cornerRadius)
+		tableView.clipsToBounds = true
+
 		return tableView
+	}
+	func makeActionButton() -> UIButton {
+		let button = UIButton()
+
+		button.setTitle(Appearance.buttonTitle, for: .normal)
+		button.setTitleColor(Theme.color(usage: .white), for: .normal)
+		button.titleLabel?.font = Theme.font(style: .callout)
+		button.backgroundColor = Theme.color(usage: .black)
+		button.layer.cornerRadius = Theme.size(kind: .cornerRadius)
+
+		// button.event = didSendEventClosure?(event)
+
+		return button
 	}
 }
 
@@ -143,5 +191,6 @@ private extension YPViewController {
 private extension YPViewController {
 	enum Appearance {
 		static let title = "Универсальный VC"
+		static let buttonTitle = "Действие"
 	}
 }

@@ -11,6 +11,9 @@
 		5A45EA602A0CE96D003269D3 /* TrackersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A45EA5F2A0CE96D003269D3 /* TrackersViewController.swift */; };
 		5A45EA672A0D22CE003269D3 /* EmptyInputData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A45EA632A0D22CE003269D3 /* EmptyInputData.swift */; };
 		5A45EA682A0D22CE003269D3 /* EmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A45EA642A0D22CE003269D3 /* EmptyView.swift */; };
+		5A46689F2A1AA55300FEBD9B /* CreateEditTrackerModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A46689E2A1AA55300FEBD9B /* CreateEditTrackerModels.swift */; };
+		5A4668A12A1AA5D300FEBD9B /* CreateEditTrackerInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4668A02A1AA5D300FEBD9B /* CreateEditTrackerInteractor.swift */; };
+		5A4668A32A1AA65F00FEBD9B /* CreateEditTrackerPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4668A22A1AA65F00FEBD9B /* CreateEditTrackerPresenter.swift */; };
 		5A48061D29DBA73B0096B7D8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A48061C29DBA73B0096B7D8 /* AppDelegate.swift */; };
 		5A48061F29DBA73B0096B7D8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A48061E29DBA73B0096B7D8 /* SceneDelegate.swift */; };
 		5A48062129DBA73B0096B7D8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A48062029DBA73B0096B7D8 /* ViewController.swift */; };
@@ -114,6 +117,9 @@
 		5A45EA5F2A0CE96D003269D3 /* TrackersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersViewController.swift; sourceTree = "<group>"; };
 		5A45EA632A0D22CE003269D3 /* EmptyInputData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptyInputData.swift; sourceTree = "<group>"; };
 		5A45EA642A0D22CE003269D3 /* EmptyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptyView.swift; sourceTree = "<group>"; };
+		5A46689E2A1AA55300FEBD9B /* CreateEditTrackerModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEditTrackerModels.swift; sourceTree = "<group>"; };
+		5A4668A02A1AA5D300FEBD9B /* CreateEditTrackerInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEditTrackerInteractor.swift; sourceTree = "<group>"; };
+		5A4668A22A1AA65F00FEBD9B /* CreateEditTrackerPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEditTrackerPresenter.swift; sourceTree = "<group>"; };
 		5A48061929DBA73B0096B7D8 /* YP-Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "YP-Tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A48061C29DBA73B0096B7D8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5A48061E29DBA73B0096B7D8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -372,6 +378,9 @@
 			isa = PBXGroup;
 			children = (
 				5AA5FA362A142F290056633B /* Cells */,
+				5A46689E2A1AA55300FEBD9B /* CreateEditTrackerModels.swift */,
+				5A4668A02A1AA5D300FEBD9B /* CreateEditTrackerInteractor.swift */,
+				5A4668A22A1AA65F00FEBD9B /* CreateEditTrackerPresenter.swift */,
 				5A84742C2A0E9A7500C2F93E /* CreateEditTrackerViewController.swift */,
 			);
 			path = CreateEditTracker;
@@ -757,6 +766,7 @@
 				5AA5FA352A1409690056633B /* UIView+Animations.swift in Sources */,
 				5AE1F0132A09484300103F08 /* Di+AppFactory.swift in Sources */,
 				5AE1F0152A0948A000103F08 /* Di+CoordinatorFactory.swift in Sources */,
+				5A4668A12A1AA5D300FEBD9B /* CreateEditTrackerInteractor.swift in Sources */,
 				5A48063A29DBC5690096B7D8 /* Theme+Fonts.swift in Sources */,
 				5AA7AD0C2A1647550022C334 /* TrackersInteractor.swift in Sources */,
 				5AE12A302A0BBD860054D782 /* TabbarCoordinator.swift in Sources */,
@@ -765,6 +775,7 @@
 				5AE12A3B2A0BE8CF0054D782 /* TabbarViewController.swift in Sources */,
 				5AF5CAF92A12D0A4004AB8D2 /* TrackerFilter.swift in Sources */,
 				5AE1F0192A0948B100103F08 /* Di+ModuleFactory.swift in Sources */,
+				5A4668A32A1AA65F00FEBD9B /* CreateEditTrackerPresenter.swift in Sources */,
 				5AE1F00E2A0944D400103F08 /* Router.swift in Sources */,
 				5AE12A2D2A0B93B70054D782 /* Theme+Constants.swift in Sources */,
 				5A91DED829E0DF58001A23C3 /* UIView+Constraints.swift in Sources */,
@@ -791,6 +802,7 @@
 				5AE12A322A0BC70F0054D782 /* TrackersCoordinator.swift in Sources */,
 				5A84742B2A0E91BC00C2F93E /* CreateEditTrackerCoordinator.swift in Sources */,
 				5AE1F00C2A0944D400103F08 /* IRouter.swift in Sources */,
+				5A46689F2A1AA55300FEBD9B /* CreateEditTrackerModels.swift in Sources */,
 				5AE6BDF32A1989D30068CB53 /* YPPresenter.swift in Sources */,
 				5A8474302A0F764A00C2F93E /* UIButton+Event.swift in Sources */,
 				5A61DD3D29E13FF9001E8665 /* UIView+Preview.swift in Sources */,

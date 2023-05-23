@@ -35,12 +35,14 @@ final class TrackersPresenter: ITrackersPresenter {
 				)
 				sections.append(section)
 			}
-			viewData = TrackersModels.ViewModel.update(sections, conditions)
+			viewData = .update(sections, conditions)
 			viewController?.render(viewModel: viewData)
 		}
 	}
+}
 
-	private func checkIsActionEnabled(date: Date) -> Bool {
+private extension TrackersPresenter {
+	func checkIsActionEnabled(date: Date) -> Bool {
 		Calendar.current.startOfDay(for: Date()) >= Calendar.current.startOfDay(for: date)
 	}
 }

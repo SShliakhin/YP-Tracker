@@ -1,9 +1,15 @@
 import UIKit
 
+protocol ICreateEditTrackerViewController: AnyObject {
+	/// Рендрит вьюмодель
+	func render(viewModel: CreateEditTrackerModels.ViewModel)
+}
+
 final class CreateEditTrackerViewController: UIViewController {
+	private let interactor: ICreateEditTrackerInteractor
+	private var dataSource: [CreateEditTrackerModels.YPCellModel] = []
 	var didSendEventClosure: ((Tracker.Action) -> (() -> Void))?
 
-	private let trackerAction: Tracker.Action
 	private var trackerCategory: UUID?
 	private var trackerSchedule: [Int: Bool] = [:]
 
@@ -18,8 +24,8 @@ final class CreateEditTrackerViewController: UIViewController {
 
 	// MARK: - Inits
 
-	init(trackerAction: Tracker.Action) {
-		self.trackerAction = trackerAction
+	init(interactor: ICreateEditTrackerInteractor) {
+		self.interactor = interactor
 		super.init(nibName: nil, bundle: nil)
 	}
 
@@ -38,6 +44,17 @@ final class CreateEditTrackerViewController: UIViewController {
 		setup()
 		applyStyle()
 		setConstraints()
+	}
+}
+
+// MARK: - IYPViewController
+
+extension CreateEditTrackerViewController: ICreateEditTrackerViewController {
+	func render(viewModel: CreateEditTrackerModels.ViewModel) {
+		switch viewModel {
+		case let .showFilters(viewData):
+			dataSource = viewData
+		}
 	}
 }
 

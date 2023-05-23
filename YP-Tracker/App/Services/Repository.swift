@@ -81,7 +81,7 @@ final class TrackerCategoriesStub: ICategoriesRepository {
 			)
 		]
 	}
-
+	// swiftlint:disable:next function_body_length
 	func getCategories() -> [TrackerCategory] {
 		[
 			TrackerCategory(
@@ -125,6 +125,16 @@ final class TrackerCategoriesStub: ICategoriesRepository {
 			TrackerCategory(
 				id: UUID(),
 				title: "Спорт",
+				trackers: []
+			),
+			TrackerCategory(
+				id: UUID(),
+				title: "Спорт 2",
+				trackers: []
+			),
+			TrackerCategory(
+				id: UUID(),
+				title: "Спорт 3",
 				trackers: []
 			)
 		]

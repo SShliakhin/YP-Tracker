@@ -95,8 +95,6 @@ private extension YPCell {
 		backgroundColor = Theme.color(usage: .background)
 		layer.cornerRadius = Theme.size(kind: .mediumRadius)
 		layer.masksToBounds = true
-
-		// layoutMargins = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16) // проверить
 	}
 
 	func setConstraints() {
@@ -173,6 +171,8 @@ private extension YPCell {
 	func makeSwitch() -> UISwitch {
 		let view = UISwitch()
 		view.onTintColor = Theme.color(usage: .accent)
+		// включение через выделение ячейки
+		view.isUserInteractionEnabled = false
 
 		return view
 	}

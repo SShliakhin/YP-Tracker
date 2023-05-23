@@ -3,7 +3,6 @@ import Foundation
 protocol ICategoriesProvider {
 	var hasAnyTrakers: Bool { get }
 
-	func getCategoriesNames() -> [String]
 	func getCategories() -> [TrackerCategory]
 	func getCategories(date: Date, text: String?, completed: Bool?) -> [TrackerCategory]
 	// swiftlint:disable:next large_tuple
@@ -31,12 +30,8 @@ final class CategoriesProvider: ICategoriesProvider {
 		self.categoriesManager = categoriesManager
 	}
 
-	func getCategoriesNames() -> [String] {
-		categoriesManager.getCategories().map { $0.title }
-	}
-
 	func getCategories() -> [TrackerCategory] {
-		categories
+		categoriesManager.getCategories()
 	}
 
 	func getCategories(date: Date, text: String?, completed: Bool?) -> [TrackerCategory] {

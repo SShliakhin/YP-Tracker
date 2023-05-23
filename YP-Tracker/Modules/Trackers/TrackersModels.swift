@@ -1,18 +1,10 @@
 import Foundation
 
 enum TrackersModels {
-
-//	struct Conditions {
-//		var date: Date
-//		var searchText: String
-//		var filter: TrackerFilter
-//		var hasAnyTrackers: Bool
-//	}
-
 	enum Request {
-		case update(TrackerConditions)
-		case changeFilter
-		case completeUncompleTracker(Int, Int)
+		case newSearchText(String)
+		case newDate(Date)
+		case completeUncompleteTracker(Int, Int)
 	}
 
 	enum Response {
