@@ -73,15 +73,15 @@ private extension SelectTypeTrackerViewController {
 
 		habitButton.makeConstraints { make in
 			[
-				make.leadingAnchor.constraint(equalTo: stack.leadingAnchor),
-				make.trailingAnchor.constraint(equalTo: stack.trailingAnchor),
+				make.leadingAnchor.constraint(equalTo: stack.leadingAnchor, constant: Theme.spacing(usage: .standardHalf)),
+				make.trailingAnchor.constraint(equalTo: stack.trailingAnchor, constant: -Theme.spacing(usage: .standardHalf)),
 				make.heightAnchor.constraint(equalToConstant: Theme.size(kind: .buttonHeight))
 			]
 		}
 		eventButton.makeConstraints { make in
 			[
-				make.leadingAnchor.constraint(equalTo: stack.leadingAnchor),
-				make.trailingAnchor.constraint(equalTo: stack.trailingAnchor),
+				make.leadingAnchor.constraint(equalTo: stack.leadingAnchor, constant: Theme.spacing(usage: .standardHalf)),
+				make.trailingAnchor.constraint(equalTo: stack.trailingAnchor, constant: -Theme.spacing(usage: .standardHalf)),
 				make.heightAnchor.constraint(equalToConstant: Theme.size(kind: .buttonHeight))
 			]
 		}
@@ -90,8 +90,8 @@ private extension SelectTypeTrackerViewController {
 		stack.makeConstraints { make in
 			[
 				make.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-				make.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Appearance.stackInsets.left),
-				make.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Appearance.stackInsets.right)
+				make.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Theme.spacing(usage: .standard2)),
+				make.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Theme.spacing(usage: .standard2))
 			]
 		}
 	}
@@ -120,12 +120,5 @@ private extension SelectTypeTrackerViewController {
 		static let title = "Создание трекера"
 		static let habitTitle = "Привычка"
 		static let eventTitle = "Нерегулярное событие"
-
-		static let stackInsets: UIEdgeInsets = .init(
-			top: 0,
-			left: 20,
-			bottom: 0,
-			right: 20
-		)
 	}
 }
