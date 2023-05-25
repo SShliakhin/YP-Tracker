@@ -1,6 +1,6 @@
 enum CreateEditTrackerModels {
 	struct YPCellModel {
-		let type: YPCell.InnerViewType
+		let type: InnerViewType
 		let title: String
 		let description: String
 		let hasDivider: Bool

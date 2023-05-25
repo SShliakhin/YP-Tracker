@@ -2,7 +2,7 @@ import Foundation
 
 protocol IYPInteractor {
 	func viewIsReady(actions: ((YPViewController.Event) -> Void)?)
-	func didSelectRow(_ index: Int)
+	func didSelectItem(_ index: Int)
 	func didTapActionButton()
 }
 
@@ -45,7 +45,7 @@ final class YPInteractor: IYPInteractor {
 		}
 	}
 
-	func didSelectRow(_ index: Int) {
+	func didSelectItem(_ index: Int) {
 		switch trackerAction {
 		case .edit, .new, .save, .cancel:
 			break

@@ -30,6 +30,7 @@
 		5A84742B2A0E91BC00C2F93E /* CreateEditTrackerCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A84742A2A0E91BC00C2F93E /* CreateEditTrackerCoordinator.swift */; };
 		5A84742D2A0E9A7500C2F93E /* CreateEditTrackerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A84742C2A0E9A7500C2F93E /* CreateEditTrackerViewController.swift */; };
 		5A8474302A0F764A00C2F93E /* UIButton+Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A84742F2A0F764A00C2F93E /* UIButton+Event.swift */; };
+		5A8CD5202A20057B00A100BD /* InnerViewType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8CD51F2A20057B00A100BD /* InnerViewType.swift */; };
 		5A8D1DAD2A0D6ED000A2924F /* SelectTypeTrackerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8D1DAC2A0D6ED000A2924F /* SelectTypeTrackerViewController.swift */; };
 		5A8D1DB42A0DAFAB00A2924F /* Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8D1DAF2A0DAFAB00A2924F /* Tracker.swift */; };
 		5A8D1DB52A0DAFAB00A2924F /* TrackerCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8D1DB02A0DAFAB00A2924F /* TrackerCategory.swift */; };
@@ -140,6 +141,7 @@
 		5A84742A2A0E91BC00C2F93E /* CreateEditTrackerCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEditTrackerCoordinator.swift; sourceTree = "<group>"; };
 		5A84742C2A0E9A7500C2F93E /* CreateEditTrackerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEditTrackerViewController.swift; sourceTree = "<group>"; };
 		5A84742F2A0F764A00C2F93E /* UIButton+Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Event.swift"; sourceTree = "<group>"; };
+		5A8CD51F2A20057B00A100BD /* InnerViewType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InnerViewType.swift; sourceTree = "<group>"; };
 		5A8D1DAC2A0D6ED000A2924F /* SelectTypeTrackerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTypeTrackerViewController.swift; sourceTree = "<group>"; };
 		5A8D1DAF2A0DAFAB00A2924F /* Tracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tracker.swift; sourceTree = "<group>"; };
 		5A8D1DB02A0DAFAB00A2924F /* TrackerCategory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackerCategory.swift; sourceTree = "<group>"; };
@@ -568,6 +570,7 @@
 			isa = PBXGroup;
 			children = (
 				5AE6BDE82A18D38F0068CB53 /* YPCell.swift */,
+				5A8CD51F2A20057B00A100BD /* InnerViewType.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -746,6 +749,7 @@
 				5AE1F0112A0945A500103F08 /* Di.swift in Sources */,
 				5A8D1DAD2A0D6ED000A2924F /* SelectTypeTrackerViewController.swift in Sources */,
 				5A84742D2A0E9A7500C2F93E /* CreateEditTrackerViewController.swift in Sources */,
+				5A8CD5202A20057B00A100BD /* InnerViewType.swift in Sources */,
 				5AE6BDE92A18D38F0068CB53 /* YPCell.swift in Sources */,
 				5A48062129DBA73B0096B7D8 /* ViewController.swift in Sources */,
 				5A45EA602A0CE96D003269D3 /* TrackersViewController.swift in Sources */,

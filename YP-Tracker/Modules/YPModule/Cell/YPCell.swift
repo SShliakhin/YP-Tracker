@@ -1,6 +1,6 @@
 import UIKit
 
-final class YPCell: UITableViewCell {
+final class YPCell: UICollectionViewCell {
 	// MARK: - UI Elements
 
 	private lazy var titleLabel = makeTitleLabel()
@@ -12,8 +12,8 @@ final class YPCell: UITableViewCell {
 
 	// MARK: - Inits
 
-	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-		super.init(style: style, reuseIdentifier: reuseIdentifier)
+	override init(frame: CGRect) {
+		super.init(frame: frame)
 
 		applyStyle()
 		setConstraints()
@@ -37,12 +37,6 @@ final class YPCell: UITableViewCell {
 	}
 
 	// MARK: - Data model for cell
-
-	enum InnerViewType {
-		case switchType
-		case chevronType
-		case checkmarkType
-	}
 
 	struct YPCellModel {
 		let type: InnerViewType
@@ -135,7 +129,7 @@ private extension YPCell {
 
 		dividerView.makeConstraints { make in
 			[
-				make.heightAnchor.constraint(equalToConstant: 1),
+				make.heightAnchor.constraint(equalToConstant: 0.5),
 				make.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Theme.spacing(usage: .standard2)),
 				make.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Theme.spacing(usage: .standard2)),
 				make.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)

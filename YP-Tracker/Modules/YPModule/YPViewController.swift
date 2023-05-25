@@ -10,7 +10,7 @@ final class YPViewController: UIViewController {
 	private var dataSource: [YPModels.YPCellModel] = []
 	var didSendEventClosure: ((YPViewController.Event) -> Void)?
 
-	private lazy var tableView = makeTableView()
+	private lazy var collectionView: UICollectionView = makeCollectionView()
 	private lazy var actionButton: UIButton = makeActionButton()
 
 	// MARK: - Inits
@@ -53,7 +53,7 @@ extension YPViewController: IYPViewController {
 			actionButton.setTitle(viewData.titleButtonAction, for: .normal)
 			actionButton.isHidden = viewData.titleButtonAction.isEmpty
 			dataSource = viewData.dataSource
-			tableView.reloadData()
+			collectionView.reloadData()
 		}
 	}
 }
@@ -67,14 +67,21 @@ extension YPViewController {
 	}
 }
 
-// MARK: - UITableViewDataSource
+// MARK: - UICollectionViewDataSource
 
-extension YPViewController: UITableViewDataSource {
-	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+extension YPViewController: UICollectionViewDataSource {
+	func collectionView(
+		_ collectionView: UICollectionView,
+		numberOfItemsInSection section: Int
+	) -> Int {
 		dataSource.count
 	}
 
-	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+	func collectionView(
+		_ collectionView: UICollectionView,
+		cellForItemAt indexPath: IndexPath
+	) -> UICollectionViewCell {
+
 		let item = dataSource[indexPath.row]
 		let model = YPCell.YPCellModel(
 			type: item.type,
@@ -85,16 +92,19 @@ extension YPViewController: UITableViewDataSource {
 			isSelected: item.isSelected,
 			event: item.event
 		)
-		return tableView.dequeueReusableCell(withModel: model, for: indexPath)
+		return collectionView.dequeueReusableCell(withModel: model, for: indexPath)
 	}
 }
 
-// MARK: - UITableViewDataSource
+// MARK: - UICollectionViewDelegate
 
-extension YPViewController: UITableViewDelegate {
-	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		tableView.deselectRow(at: indexPath, animated: true)
-		interactor.didSelectRow(indexPath.row)
+extension YPViewController: UICollectionViewDelegate {
+	func collectionView(
+		_ collectionView: UICollectionView,
+		didSelectItemAt indexPath: IndexPath
+	) {
+		collectionView.deselectItem(at: indexPath, animated: true)
+		interactor.didSelectItem(indexPath.row)
 	}
 }
 
@@ -115,14 +125,14 @@ private extension YPViewController {
 	func setConstraints() {
 		let stack = UIStackView()
 		stack.axis = .vertical
-		stack.spacing = Theme.spacing(usage: .standard3)
+		stack.spacing = Theme.spacing(usage: .standard)
 		stack.alignment = .center
 		[
-			tableView,
+			collectionView,
 			actionButton
 		].forEach { stack.addArrangedSubview($0) }
 
-		tableView.makeConstraints { make in
+		collectionView.makeConstraints { make in
 			[
 				make.leadingAnchor.constraint(equalTo: stack.leadingAnchor),
 				make.trailingAnchor.constraint(equalTo: stack.trailingAnchor)
@@ -151,26 +161,29 @@ private extension YPViewController {
 
 // MARK: - UI make
 private extension YPViewController {
-	func makeTableView() -> UITableView {
-		let tableView = UITableView()
+	func makeCollectionView() -> UICollectionView {
+		let layout = createLayout()
 
-		tableView.register(models: [YPCell.YPCellModel.self])
-		tableView.tableFooterView = UIView()
+		let collectionView = UICollectionView(
+			frame: .zero,
+			collectionViewLayout: layout
+		)
 
-		tableView.dataSource = self
-		tableView.delegate = self
+		collectionView.register(models: [
+			YPCell.YPCellModel.self
+		])
 
-		tableView.backgroundColor = .clear
-		tableView.separatorStyle = .none
-		tableView.bounces = false // чтобы не скролилось никуда
+		collectionView.dataSource = self
+		collectionView.delegate = self
 
-		tableView.rowHeight = Theme.size(kind: .textFieldHeight)
+		collectionView.backgroundColor = .clear
+		collectionView.bounces = false // чтобы не скролилось никуда
 
 		// скругление сверху и снизу - в ячейке значит не пригодилось (
-		tableView.layer.cornerRadius = Theme.size(kind: .cornerRadius)
-		tableView.clipsToBounds = true
+		collectionView.layer.cornerRadius = Theme.size(kind: .cornerRadius)
+		collectionView.clipsToBounds = true
 
-		return tableView
+		return collectionView
 	}
 	func makeActionButton() -> UIButton {
 		let button = UIButton()
@@ -187,6 +200,56 @@ private extension YPViewController {
 	}
 }
 
+// MARK: - CompositionalLayout
+private extension YPViewController {
+	func createLayout() -> UICollectionViewCompositionalLayout {
+		UICollectionViewCompositionalLayout { [weak self] _, _ in
+			guard let self = self else { return nil }
+			return self.createItemLayout()
+		}
+	}
+
+	func createLayoutSection(
+		group: NSCollectionLayoutGroup,
+		behavior: UICollectionLayoutSectionOrthogonalScrollingBehavior,
+		interGroupSpacing: CGFloat,
+		supplementaryItem: [NSCollectionLayoutBoundarySupplementaryItem]
+	) -> NSCollectionLayoutSection {
+		let section = NSCollectionLayoutSection(group: group)
+		section.orthogonalScrollingBehavior = behavior
+		section.interGroupSpacing = interGroupSpacing
+		section.boundarySupplementaryItems = supplementaryItem
+
+		return section
+	}
+
+	func createItemLayout() -> NSCollectionLayoutSection {
+		let itemSize = NSCollectionLayoutSize(
+			widthDimension: .fractionalWidth(1.0),
+			heightDimension: .fractionalHeight(1.0)
+		)
+		let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+		let groupSize = NSCollectionLayoutSize(
+			widthDimension: .fractionalWidth(1.0),
+			heightDimension: .absolute(Theme.size(kind: .textFieldHeight)) // высота
+		)
+		let group = NSCollectionLayoutGroup.horizontal(
+			layoutSize: groupSize,
+			subitem: item,
+			count: 1 // кол-во элементов в группе
+		)
+
+		let section = createLayoutSection(
+			group: group, // минимально let section = NSCollectionLayoutSection(group: group)
+			behavior: .none, // важно для скроллинга
+			interGroupSpacing: .zero, // по вертикали между группами
+			supplementaryItem: [] // нет доп вьюх
+		)
+
+		return section
+	}
+}
 // MARK: - Appearance
 private extension YPViewController {
 	enum Appearance {
