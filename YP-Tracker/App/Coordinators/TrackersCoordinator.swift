@@ -2,6 +2,7 @@ import UIKit
 
 final class TrackersCoordinator: BaseCoordinator {
 	private let factory: IModuleFactory
+	private let coordinatorFactory: ICoordinatorFactory
 	private let router: IRouter
 
 	private var onUpdateConditions: ((TrackerConditions) -> Void)?
@@ -16,9 +17,10 @@ final class TrackersCoordinator: BaseCoordinator {
 
 	var finishFlow: (() -> Void)?
 
-	init(router: IRouter, factory: IModuleFactory) {
+	init(router: IRouter, factory: IModuleFactory, coordinatorFactory: ICoordinatorFactory) {
 		self.router = router
 		self.factory = factory
+		self.coordinatorFactory = coordinatorFactory
 
 		self.conditions = TrackerConditions(
 			date: Date(),
@@ -34,6 +36,23 @@ final class TrackersCoordinator: BaseCoordinator {
 
 	deinit {
 		print("TrackersCoordinator deinit")
+	}
+}
+
+// MARK: - run Flows
+private extension TrackersCoordinator {
+	func runCreateNewTrackerFlow() {
+		let coordinator = coordinatorFactory.makeCreateEditTrackerCoordinator(
+			router: router,
+			trackerAction: .new(schedule)
+		)
+		coordinator.finishFlow = { [weak self, weak coordinator] in
+			self?.router.dismissModule()
+			self?.removeDependency(coordinator)
+			self?.conditions.hasAnyTrackers.toggle() // мы должны запустить обновление
+		}
+		addDependency(coordinator)
+		coordinator.start()
 	}
 }
 

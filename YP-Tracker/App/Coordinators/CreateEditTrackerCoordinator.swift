@@ -1,3 +1,5 @@
+import UIKit
+
 final class CreateEditTrackerCoordinator: BaseCoordinator {
 	private let factory: IModuleFactory
 	private let router: IRouter
@@ -21,4 +23,27 @@ final class CreateEditTrackerCoordinator: BaseCoordinator {
 }
 
 // MARK: - show Modules
-private extension CreateEditTrackerCoordinator {}
+private extension CreateEditTrackerCoordinator {
+	func showSelectFilterModule() {
+		let module = factory.makeCreateEditTrackerModule(trackerAction: trackerAction)
+		let moduleVC = module as? CreateEditTrackerViewController
+//		moduleVC?.didSendEventClosure = { [weak self] event in
+//			switch event {
+//			case let .didSelectFilter(filter):
+//				self?.conditions.filter = filter
+//				self?.router.dismissModule()
+//			case .didSelectSchedule, .didSelectCategory:
+//				break
+//			}
+//		}
+		moduleVC?.title = Appearance.titleHabitVC
+		router.present(UINavigationController(rootViewController: module))
+	}
+}
+
+private extension CreateEditTrackerCoordinator {
+	enum Appearance {
+		static let titleHabitVC = "Новая привычка"
+		static let titleEventVC = "Новое нерегулярное событие"
+	}
+}

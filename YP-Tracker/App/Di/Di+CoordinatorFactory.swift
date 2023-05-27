@@ -29,7 +29,11 @@ extension Di: ICoordinatorFactory {
 		TabbarCoordinator(router: router, factory: self, coordinatorFactory: self)
 	}
 	func makeTrackersCoordinator(navController: UINavigationController) -> TrackersCoordinator {
-		TrackersCoordinator(router: Router(rootController: navController), factory: self)
+		TrackersCoordinator(
+			router: Router(rootController: navController),
+			factory: self,
+			coordinatorFactory: self
+		)
 	}
 	func makeCreateEditTrackerCoordinator(router: IRouter, trackerAction: Tracker.Action) -> CreateEditTrackerCoordinator {
 		CreateEditTrackerCoordinator(router: router, factory: self, trackerAction: trackerAction)

@@ -49,9 +49,16 @@ typealias AllDependencies = (
 
 extension Di: IModuleFactory {
 	func makeStartModule() -> UIViewController {
-		// модуль выбора категории, нуже сервис, кнопка - Добавить категорию
+		// Вспомогательный метод, для отдельного запуска сцен
+		// при let isOnlyScene = true в SceneDelegate
+		
+		// модуль создания трекера
+		var view = makeCreateEditTrackerModule(trackerAction: .new([:]))
+		return UINavigationController(rootViewController: view)
+
+		// модуль выбора категории, нужен сервис, кнопка - Добавить категорию
 		let categoryID = dependencies.categoriesProvider.getCategories()[1].id
-		var view = makeYPModule(trackerAction: .selectCategory(categoryID))
+		view = makeYPModule(trackerAction: .selectCategory(categoryID))
 		view.title = "Категория"
 		return UINavigationController(rootViewController: view)
 

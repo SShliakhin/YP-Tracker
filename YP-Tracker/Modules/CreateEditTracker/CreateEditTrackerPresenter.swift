@@ -14,30 +14,30 @@ final class CreateEditTrackerPresenter: ICreateEditTrackerPresenter {
 
 		let viewData: CreateEditTrackerModels.ViewModel
 
-		switch data {
-		case let .selectFilter(selectedFilter, allFilters):
-			let all = allFilters.count
-			var next = 1
-
-			let viewModel: [CreateEditTrackerModels.YPCellModel] = allFilters.map { filter in
-				let (hasDivider, outCorner) = getDecor(all: all, next: next)
-				let isSelected = filter == selectedFilter
-
-				next += 1
-				return CreateEditTrackerModels.YPCellModel(
-					type: .checkmarkType,
-					title: filter.description,
-					description: "",
-					hasDivider: hasDivider,
-					outCorner: outCorner,
-					isSelected: isSelected,
-					event: nil
-				)
-			}
-			viewData = .showFilters(viewModel)
-		}
-
-		viewController?.render(viewModel: viewData)
+//		switch data {
+//		case let .selectFilter(selectedFilter, allFilters):
+//			let all = allFilters.count
+//			var next = 1
+//
+//			let viewModel: [CreateEditTrackerModels.YPCellModel] = allFilters.map { filter in
+//				let (hasDivider, outCorner) = getDecor(all: all, next: next)
+//				let isSelected = filter == selectedFilter
+//
+//				next += 1
+//				return CreateEditTrackerModels.YPCellModel(
+//					type: .checkmarkType,
+//					title: filter.description,
+//					description: "",
+//					hasDivider: hasDivider,
+//					outCorner: outCorner,
+//					isSelected: isSelected,
+//					event: nil
+//				)
+//			}
+//			viewData = .showFilters(viewModel)
+//		}
+//
+//		viewController?.render(viewModel: viewData)
 	}
 }
 
