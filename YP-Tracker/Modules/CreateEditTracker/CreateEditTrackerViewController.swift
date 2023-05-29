@@ -7,13 +7,14 @@ protocol ICreateEditTrackerViewController: AnyObject {
 
 final class CreateEditTrackerViewController: UIViewController {
 	private let interactor: ICreateEditTrackerInteractor
-	private var dataSource: [CreateEditTrackerModels.YPCellModel] = []
+	private var dataSource: [CreateEditTrackerModels.ViewModel.Section] = []
 
 	var didSendEventClosure: ((Tracker.Action) -> Void)?
+	var hasSchedule = false
 
 	private lazy var titleTextField: UITextField = makeTitleTextField()
 	private lazy var titleCharactersLimitLabel: UILabel = makeTitleCharactersLimitLabel()
-	private lazy var collectionView = UICollectionView()
+	private lazy var collectionView: UICollectionView = makeCollectionView()
 
 	private lazy var createButton: UIButton = makeButtonByEvent(.save)
 	private lazy var cancelButton: UIButton = makeButtonByEvent(.cancel)
@@ -40,6 +41,8 @@ final class CreateEditTrackerViewController: UIViewController {
 		setup()
 		applyStyle()
 		setConstraints()
+
+		interactor.viewIsReady()
 	}
 }
 
@@ -48,8 +51,18 @@ final class CreateEditTrackerViewController: UIViewController {
 extension CreateEditTrackerViewController: ICreateEditTrackerViewController {
 	func render(viewModel: CreateEditTrackerModels.ViewModel) {
 		switch viewModel {
-		case let .showFilters(viewData):
-			dataSource = viewData
+		case let .showAllComponents(hasSchedule, title, components, isSaveEnabled):
+			self.hasSchedule = hasSchedule
+			titleTextField.text = title
+			dataSource = components
+			createButton.isEnabled = isSaveEnabled
+			collectionView.reloadData()
+		case let .showNewSection(section, items, isSaveEnabled):
+			dataSource[section] = items
+			createButton.isEnabled = isSaveEnabled
+			collectionView.reloadSections([section])
+		case let .showSaveEnabled(isSaveEnabled):
+			createButton.isEnabled = isSaveEnabled
 		}
 	}
 }
@@ -79,6 +92,104 @@ extension CreateEditTrackerViewController: UITextFieldDelegate {
 	}
 }
 
+// MARK: - UICollectionViewDataSource
+
+extension CreateEditTrackerViewController: UICollectionViewDataSource {
+	func numberOfSections(in collectionView: UICollectionView) -> Int {
+		dataSource.count
+	}
+
+	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+		let data = dataSource[section]
+		switch data {
+		case .category:
+			return 1
+		case .schedule:
+			return hasSchedule ? 1 : .zero
+		case let .emoji(items):
+			return items.count
+		case let .color(items):
+			return items.count
+		}
+	}
+
+	func collectionView(
+		_ collectionView: UICollectionView,
+		cellForItemAt indexPath: IndexPath
+	) -> UICollectionViewCell {
+		let section = dataSource[indexPath.section]
+		switch section {
+		case let .category(category):
+			let model = makeCellModel(item: category)
+			return collectionView.dequeueReusableCell(withModel: model, for: indexPath)
+		case let .schedule(schedule):
+			let model = makeCellModel(item: schedule)
+			return collectionView.dequeueReusableCell(withModel: model, for: indexPath)
+		case let .emoji(emojis):
+			let emoji = emojis[indexPath.row]
+			let model = TrackerEmojiCell.TrackerEmojiCellModel(
+				emoji: emoji.title,
+				isSelected: emoji.isSelected
+			)
+			return collectionView.dequeueReusableCell(withModel: model, for: indexPath)
+		case let .color(colors):
+			let color = colors[indexPath.row]
+			let model = TrackerColorCell.TrackerColorCellModel(
+				colorString: color.title,
+				isSelected: color.isSelected
+			)
+			return collectionView.dequeueReusableCell(withModel: model, for: indexPath)
+		}
+	}
+
+	func collectionView(
+		_ collectionView: UICollectionView,
+		viewForSupplementaryElementOfKind kind: String,
+		at indexPath: IndexPath
+	) -> UICollectionReusableView {
+		let section = dataSource[indexPath.section]
+		let model = HeaderSupplementaryView.HeaderSupplementaryViewModel(
+			title: section.description
+		)
+		return collectionView.dequeueReusableSupplementaryView(
+			kind: kind,
+			withModel: model,
+			for: indexPath
+		)
+	}
+
+	private func makeCellModel(item: CreateEditTrackerModels.YPCellModel) -> YPCell.YPCellModel {
+		return YPCell.YPCellModel(
+			type: item.type,
+			title: item.title,
+			description: item.description,
+			hasDivider: item.hasDivider,
+			outCorner: item.outCorner,
+			isSelected: item.isSelected,
+			event: item.event
+		)
+	}
+}
+
+// MARK: - UICollectionViewDelegate
+
+extension CreateEditTrackerViewController: UICollectionViewDelegate {
+	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+		collectionView.deselectItem(at: indexPath, animated: true)
+		let section = dataSource[indexPath.section]
+		switch section {
+		case .category:
+			interactor.didUserDo(request: .selectCategory)
+		case .schedule:
+			interactor.didUserDo(request: .selectSchedule)
+		case .emoji:
+			interactor.didUserDo(request: .newEmoji(indexPath.section, indexPath.row))
+		case .color:
+			interactor.didUserDo(request: .newColor(indexPath.section, indexPath.row))
+		}
+	}
+}
+
 // MARK: - UI
 private extension CreateEditTrackerViewController {
 	func setup() {
@@ -102,34 +213,41 @@ private extension CreateEditTrackerViewController {
 		stackView.spacing = Theme.spacing(usage: .standard4)
 		[
 			vStackView,
-			//	collectionView,
+			collectionView,
 			hStackView
 		].forEach { stackView.addArrangedSubview($0) }
+		collectionView.makeConstraints { make in
+			[
+				make.heightAnchor.constraint(equalToConstant: 618)
+			]
+		}
 
 		let scrollView = UIScrollView()
 		[
 			stackView
 		].forEach { scrollView.addSubview($0) }
+		stackView.makeEqualToSuperview(insets: .init(
+			top: Theme.spacing(usage: .standard3),
+			left: Theme.spacing(usage: .standard2),
+			bottom: .zero,
+			right: Theme.spacing(usage: .standard2)
+		))
 		stackView.makeConstraints { make in
 			[
-				make.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
+				make.widthAnchor.constraint(
+					equalTo: scrollView.widthAnchor,
+					constant: -Theme.spacing(usage: .standard4)
+				)
 			]
 		}
 
 		view.addSubview(scrollView)
-		scrollView.makeEqualToSuperviewToSafeArea(
-			insets: .init(
-				top: Theme.spacing(usage: .standard3),
-				left: Theme.spacing(usage: .standard2),
-				bottom: .zero,
-				right: Theme.spacing(usage: .standard2)
-			)
-		)
+		scrollView.makeEqualToSuperviewToSafeArea()
 	}
 
 	func arrangeTextFieldBlockStackView() -> UIStackView {
 		let textFieldView = UIView()
-		textFieldView.backgroundColor = Appearance.backgroundColor
+		textFieldView.backgroundColor = Theme.color(usage: .background)
 		textFieldView.layer.cornerRadius = Theme.size(kind: .cornerRadius)
 
 		textFieldView.addSubview(titleTextField)
@@ -217,6 +335,142 @@ private extension CreateEditTrackerViewController {
 
 		return button
 	}
+
+	func makeCollectionView() -> UICollectionView {
+		let layout = createLayout()
+
+		let collectionView = UICollectionView(
+			frame: .zero,
+			collectionViewLayout: layout
+		)
+
+		collectionView.register(models: [
+			YPCell.YPCellModel.self,
+			TrackerEmojiCell.TrackerEmojiCellModel.self,
+			TrackerColorCell.TrackerColorCellModel.self
+		])
+		collectionView.registerSupplementaryView(models: [
+			(HeaderSupplementaryView.HeaderSupplementaryViewModel.self, UICollectionView.elementKindSectionHeader)
+		])
+
+		collectionView.dataSource = self
+		collectionView.delegate = self
+
+		collectionView.backgroundColor = .clear
+		collectionView.bounces = false // чтобы не скролилось никуда
+
+		return collectionView
+	}
+}
+
+// MARK: - CompositionalLayout
+private extension CreateEditTrackerViewController {
+	func createLayout() -> UICollectionViewCompositionalLayout {
+		UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ in
+			guard let self = self else { return nil }
+			let section = self.dataSource[sectionIndex]
+			switch section {
+			case .category:
+				return self.createYPCellLayout()
+			case .schedule:
+				return self.createYPCellLayout()
+			case .emoji:
+				return self.createSimpleCellLayout()
+			case .color:
+				return self.createSimpleCellLayout()
+			}
+		}
+	}
+
+	func createLayoutSection(
+		group: NSCollectionLayoutGroup,
+		behavior: UICollectionLayoutSectionOrthogonalScrollingBehavior,
+		interGroupSpacing: CGFloat,
+		supplementaryItem: [NSCollectionLayoutBoundarySupplementaryItem]
+	) -> NSCollectionLayoutSection {
+		let section = NSCollectionLayoutSection(group: group)
+		section.orthogonalScrollingBehavior = behavior
+		section.interGroupSpacing = interGroupSpacing
+		section.boundarySupplementaryItems = supplementaryItem
+
+		return section
+	}
+
+	func createYPCellLayout() -> NSCollectionLayoutSection {
+		let itemSize = NSCollectionLayoutSize(
+			widthDimension: .fractionalWidth(1.0),
+			heightDimension: .fractionalHeight(1.0)
+		)
+		let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+		let groupSize = NSCollectionLayoutSize(
+			widthDimension: .fractionalWidth(1.0),
+			heightDimension: .absolute(Theme.size(kind: .textFieldHeight))
+		)
+		let group = NSCollectionLayoutGroup.horizontal(
+			layoutSize: groupSize,
+			subitem: item,
+			count: 1 // кол-во элементов в группе
+		)
+
+		let section = createLayoutSection(
+			group: group, // минимально let section = NSCollectionLayoutSection(group: group)
+			behavior: .none, // важно для скроллинга
+			interGroupSpacing: .zero, // по вертикали между группами
+			supplementaryItem: []
+		)
+
+		return section
+	}
+
+	func createSimpleCellLayout() -> NSCollectionLayoutSection {
+		let itemSize = NSCollectionLayoutSize(
+			widthDimension: .fractionalWidth(1.0),
+			heightDimension: .fractionalHeight(1.0)
+		)
+		let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+		let groupSize = NSCollectionLayoutSize(
+			widthDimension: .fractionalWidth(1.0),
+			heightDimension: .absolute(Appearance.itemHeight)
+		)
+		let group = NSCollectionLayoutGroup.horizontal(
+			layoutSize: groupSize,
+			subitem: item,
+			count: Appearance.itemCount // кол-во элементов в группе
+		)
+		group.interItemSpacing = .fixed(Theme.spacing(usage: .standard)) // расстояние между элементами по горизонтали
+
+		let section = createLayoutSection(
+			group: group, // минимально let section = NSCollectionLayoutSection(group: group)
+			behavior: .none, // важно для скроллинга
+			interGroupSpacing: .zero, // по вертикали между группами
+			supplementaryItem: [supplementaryHeaderItem()]
+		)
+
+		return section
+	}
+
+	func supplementaryHeaderItem() -> NSCollectionLayoutBoundarySupplementaryItem {
+		let itemSize = NSCollectionLayoutSize(
+			widthDimension: .fractionalWidth(1.0),
+			heightDimension: .absolute(Theme.size(kind: .textFieldHeight))
+		)
+		let item = NSCollectionLayoutBoundarySupplementaryItem(
+			layoutSize: itemSize,
+			elementKind: UICollectionView.elementKindSectionHeader,
+			alignment: .topLeading
+		)
+
+		item.contentInsets = .init(
+			top: .zero,
+			leading: 12,
+			bottom: .zero,
+			trailing: 12
+		)
+
+		return item
+	}
 }
 
 private extension CreateEditTrackerViewController {
@@ -260,6 +514,9 @@ private extension CreateEditTrackerViewController {
 		static let titleLimitMessage = "Ограничение 38 символов"
 		static let titleCreateButton = "Создать"
 		static let titleCancelButton = "Отменить"
-		static let backgroundColor = Theme.color(usage: .background).withAlphaComponent(0.30)
+		static let scrollViewHeightWithSchedule = 618
+		static let scrollViewHeight = 543
+		static let itemHeight = 52.0
+		static let itemCount = 6
 	}
 }

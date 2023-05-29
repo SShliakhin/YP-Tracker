@@ -37,6 +37,7 @@ final class TrackerEmojiCell: UICollectionViewCell {
 
 	struct TrackerEmojiCellModel {
 		let emoji: String
+		let isSelected: Bool
 	}
 }
 
@@ -45,6 +46,11 @@ final class TrackerEmojiCell: UICollectionViewCell {
 extension TrackerEmojiCell.TrackerEmojiCellModel: ICellViewModel {
 	func setup(cell: TrackerEmojiCell) {
 		cell.emojiLabel.text = emoji
+		if isSelected {
+			cell.background.fadeIn()
+		} else {
+			cell.background.fadeOut()
+		}
 	}
 }
 
@@ -97,9 +103,8 @@ struct TrackerEmojiCell_Previews: PreviewProvider {
 	static var previews: some View {
 
 		let view1 = TrackerEmojiCell()
-		let model = TrackerEmojiCell.TrackerEmojiCellModel(emoji: "❤️")
+		let model = TrackerEmojiCell.TrackerEmojiCellModel(emoji: "❤️", isSelected: false)
 		model.setup(cell: view1)
-		view1.update()
 
 		let view2 = TrackerEmojiCell()
 		model.setup(cell: view2)

@@ -23,7 +23,7 @@ extension Tracker {
 	}
 	enum Action {
 		case edit(UUID) // редактировать существующий трекер -> TrackerTempData/save/cancel
-		case new([Int: Bool]) // создать новый трекер, передаем расписание -> TrackerTempData/save/cancel
+		case new(TrackerType) // создать новый трекер, передаем тип -> TrackerTempData/save/cancel
 		case selectCategory(UUID?) // передаем существующие UUID категории -> UUID
 		case selectSchedule([Int: Bool]) // передаем существующее расписание -> Set<WeekDay>
 		case save // преобразуем TrackerTempData в трекер с новым/старым UUID

@@ -5,12 +5,20 @@ import Foundation
 protocol ICreateEditTrackerInteractor {
 	func viewIsReady()
 	func didUserDo(request: CreateEditTrackerModels.Request)
-	// func didSelect(action: YPModels.Request)
 }
 
 final class CreateEditTrackerInteractor: ICreateEditTrackerInteractor {
 	private let trackerAction: Tracker.Action
 	private let presenter: ICreateEditTrackerPresenter
+
+	private var newTracker = Tracker(
+		id: UUID(),
+		title: "",
+		emoji: "",
+		color: "",
+		schedule: Dictionary(uniqueKeysWithValues: (1...7).map { ($0, false) })
+	)
+	private var newCategory = ""
 
 	init(
 		presenter: ICreateEditTrackerPresenter,
@@ -25,8 +33,20 @@ final class CreateEditTrackerInteractor: ICreateEditTrackerInteractor {
 		switch trackerAction {
 		case .edit:
 			break
-		case .new:
-			break
+		case let .new(trackerType):
+			presenter.present(
+				data: .update(
+					hasSchedule: trackerType == .habit,
+					title: newTracker.title,
+					components: [
+						.category(newCategory),
+						.schedule(newTracker.scheduleString),
+						.emoji(Theme.Constansts.emojis, newTracker.emoji),
+						.color(Theme.Constansts.trackerColors, newTracker.color)
+					],
+					isSaveEnabled: false
+				)
+			)
 		case .selectCategory:
 			break
 		case .selectSchedule:
@@ -35,9 +55,8 @@ final class CreateEditTrackerInteractor: ICreateEditTrackerInteractor {
 			break
 		case .cancel:
 			break
-		case let .selectFilter(filter):
+		case .selectFilter:
 			break
-//			presenter.present(data: CreateEditTrackerModels.Response.selectFilter(filter, TrackerFilter.allValues))
 		}
 	}
 
@@ -50,9 +69,43 @@ final class CreateEditTrackerInteractor: ICreateEditTrackerInteractor {
 		case .selectSchedule:
 			print("Выбор расписания")
 		case let .newEmoji(section, item):
-			print("Выбор эмоджи в секции:", section, "и элемент под номером:", item)
+			newTracker = Tracker(
+				id: newTracker.id,
+				title: newTracker.title,
+				emoji: Theme.Constansts.emojis[item],
+				color: newTracker.color,
+				schedule: newTracker.schedule
+			)
+
+			presenter.present(
+				data: .updateSection(
+					section: section,
+					items: .emoji(
+						Theme.Constansts.emojis,
+						Theme.Constansts.emojis[item]
+					),
+					isSaveEnabled: false
+				)
+			)
 		case let .newColor(section, item):
-			print("Выбор цвета в секции:", section, "и элемент под номером:", item)
+			newTracker = Tracker(
+				id: newTracker.id,
+				title: newTracker.title,
+				emoji: newTracker.emoji,
+				color: Theme.Constansts.trackerColors[item],
+				schedule: newTracker.schedule
+			)
+
+			presenter.present(
+				data: .updateSection(
+					section: section,
+					items: .color(
+						Theme.Constansts.trackerColors,
+						Theme.Constansts.trackerColors[item]
+					),
+					isSaveEnabled: false
+				)
+			)
 		case .cancel:
 			print("Отмена")
 		case .save:

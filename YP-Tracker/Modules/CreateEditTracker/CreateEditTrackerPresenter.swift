@@ -10,46 +10,108 @@ protocol ICreateEditTrackerPresenter {
 final class CreateEditTrackerPresenter: ICreateEditTrackerPresenter {
 	weak var viewController: ICreateEditTrackerViewController?
 
+	typealias Section = CreateEditTrackerModels.ViewModel.Section
+
 	func present(data: CreateEditTrackerModels.Response) {
 
-		let viewData: CreateEditTrackerModels.ViewModel
+		switch data {
+		case let .update(hasSchedule, title, components, isSaveEnabled):
 
-//		switch data {
-//		case let .selectFilter(selectedFilter, allFilters):
-//			let all = allFilters.count
-//			var next = 1
-//
-//			let viewModel: [CreateEditTrackerModels.YPCellModel] = allFilters.map { filter in
-//				let (hasDivider, outCorner) = getDecor(all: all, next: next)
-//				let isSelected = filter == selectedFilter
-//
-//				next += 1
-//				return CreateEditTrackerModels.YPCellModel(
-//					type: .checkmarkType,
-//					title: filter.description,
-//					description: "",
-//					hasDivider: hasDivider,
-//					outCorner: outCorner,
-//					isSelected: isSelected,
-//					event: nil
-//				)
-//			}
-//			viewData = .showFilters(viewModel)
-//		}
-//
-//		viewController?.render(viewModel: viewData)
+			let newComponents = getNewComponents(
+				hasSchedule: hasSchedule,
+				components: components
+			)
+
+			viewController?.render(
+				viewModel: .showAllComponents(
+					hasSchedule: hasSchedule,
+					title: title,
+					components: newComponents,
+					isSaveEnabled: isSaveEnabled
+				)
+			)
+		case let .updateSection(section, items, isSaveEnabled):
+			let newItems: Section
+
+			switch items {
+			case .category:
+				return
+			case .schedule:
+				return
+			case let .emoji(array, item):
+				newItems = .emoji(array.map { .init(title: $0, isSelected: $0 == item) })
+			case let .color(array, item):
+				newItems = .color(array.map { .init(title: $0, isSelected: $0 == item) })
+			}
+
+			viewController?.render(
+				viewModel: .showNewSection(
+					section: section,
+					items: newItems,
+					isSaveEnabled: isSaveEnabled
+				)
+			)
+		case let .updateSaveEnabled(isSaveEnabled):
+			viewController?.render(
+				viewModel: .showSaveEnabled(
+					isSaveEnabled: isSaveEnabled
+				)
+			)
+		}
 	}
 }
 
 private extension CreateEditTrackerPresenter {
-	func getDecor(all: Int, next: Int) -> (hasDivider: Bool, outCorner: [CellCorner]) {
-		let hasDivider = all > next
-		var outCorner: [CellCorner] = []
-		if next == 1 {
-			outCorner = [.top]
-		} else if !hasDivider {
-			outCorner = [.bottom]
+	func getNewComponents(
+		hasSchedule: Bool,
+		components: [CreateEditTrackerModels.Response.Section]
+	) -> [Section] {
+		var newComponents: [Section] = []
+
+		for item in components {
+			switch item {
+			case let .category(category):
+				newComponents.append(
+					.category(
+						.init(
+							type: .chevronType,
+							title: item.description,
+							description: category,
+							hasDivider: hasSchedule,
+							outCorner: hasSchedule ? [.top] : [.all],
+							isSelected: false,
+							event: nil
+						)
+					)
+				)
+			case let .schedule(schedule):
+				newComponents.append(
+					.schedule(
+						.init(
+							type: .chevronType,
+							title: item.description,
+							description: schedule,
+							hasDivider: false,
+							outCorner: [.bottom],
+							isSelected: false,
+							event: nil
+						)
+					)
+				)
+			case let .emoji(emojis, item):
+				newComponents.append(
+					.emoji(
+						emojis.map { .init(title: $0, isSelected: $0 == item) }
+					)
+				)
+			case let .color(colors, item):
+				newComponents.append(
+					.color(
+						colors.map { .init( title: $0, isSelected: $0 == item) }
+					)
+				)
+			}
 		}
-		return (hasDivider, outCorner)
+		return newComponents
 	}
 }

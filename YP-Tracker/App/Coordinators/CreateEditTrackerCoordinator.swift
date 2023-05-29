@@ -15,7 +15,9 @@ final class CreateEditTrackerCoordinator: BaseCoordinator {
 		self.trackerAction = trackerAction
 	}
 
-	override func start() {}
+	override func start() {
+		showCreateEditTrackerModule()
+	}
 
 	deinit {
 		print("CreateEditTrackerCoordinator deinit")
@@ -24,7 +26,7 @@ final class CreateEditTrackerCoordinator: BaseCoordinator {
 
 // MARK: - show Modules
 private extension CreateEditTrackerCoordinator {
-	func showSelectFilterModule() {
+	func showCreateEditTrackerModule() {
 		let module = factory.makeCreateEditTrackerModule(trackerAction: trackerAction)
 		let moduleVC = module as? CreateEditTrackerViewController
 //		moduleVC?.didSendEventClosure = { [weak self] event in

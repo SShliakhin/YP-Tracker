@@ -179,7 +179,6 @@ private extension YPViewController {
 		collectionView.backgroundColor = .clear
 		collectionView.bounces = false // чтобы не скролилось никуда
 
-		// скругление сверху и снизу - в ячейке значит не пригодилось (
 		collectionView.layer.cornerRadius = Theme.size(kind: .cornerRadius)
 		collectionView.clipsToBounds = true
 

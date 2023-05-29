@@ -41,10 +41,10 @@ final class TrackersCoordinator: BaseCoordinator {
 
 // MARK: - run Flows
 private extension TrackersCoordinator {
-	func runCreateNewTrackerFlow() {
+	func runCreateNewTrackerFlow(trackerType: Tracker.TrackerType) {
 		let coordinator = coordinatorFactory.makeCreateEditTrackerCoordinator(
 			router: router,
-			trackerAction: .new(schedule)
+			trackerAction: .new(trackerType)
 		)
 		coordinator.finishFlow = { [weak self, weak coordinator] in
 			self?.router.dismissModule()
@@ -106,14 +106,14 @@ private extension TrackersCoordinator {
 			case .habit:
 				action = {
 					print("Запуск создания нового трекера привычки")
-					self?.createNewSchedule()
 					self?.router.dismissModule()
+					self?.runCreateNewTrackerFlow(trackerType: .habit)
 				}
 			case .event:
 				action = {
 					print("Запуск создания нового трекера события")
-					self?.schedule = [:]
 					self?.router.dismissModule()
+					self?.runCreateNewTrackerFlow(trackerType: .event)
 				}
 			}
 			return action

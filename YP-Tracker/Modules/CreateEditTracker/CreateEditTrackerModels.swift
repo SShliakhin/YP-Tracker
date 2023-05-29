@@ -9,6 +9,11 @@ enum CreateEditTrackerModels {
 		let event: (() -> Void)?
 	}
 
+	struct SimpleCellModel {
+		let title: String
+		let isSelected: Bool
+	}
+
 	enum Request {
 		case newTitle(String) // введено новое название - валидировать возможность сохранения
 		case selectCategory // переход на экран выбора категории - необходимо запомните состояние трекера
@@ -20,18 +25,62 @@ enum CreateEditTrackerModels {
 	}
 
 	enum Response {
-		struct TrackerComponent {
-			let title: String
-			let isSelected: Bool
+		enum Section: CustomStringConvertible {
+			case category(String)
+			case schedule(String)
+			case emoji([String], String)
+			case color([String], String)
+
+			var description: String {
+				switch self {
+				case .category:
+					return Appearance.categoryTitle
+				case .schedule:
+					return Appearance.scheduleTitle
+				case .emoji:
+					return Appearance.emojiTitle
+				case .color:
+					return Appearance.colorTitle
+				}
+			}
 		}
-		struct TrackerSections {
-			let sectionName: String
-			let items: [TrackerComponent]
-		}
-		case update(String, [TrackerSections])
+		case update(hasSchedule: Bool, title: String, components: [Section], isSaveEnabled: Bool)
+		case updateSection(section: Int, items: Section, isSaveEnabled: Bool)
+		case updateSaveEnabled(isSaveEnabled: Bool)
 	}
 
 	enum ViewModel {
-		case showFilters([YPCellModel])
+		enum Section: CustomStringConvertible {
+			case category(YPCellModel)
+			case schedule(YPCellModel)
+			case emoji([SimpleCellModel])
+			case color([SimpleCellModel])
+
+			var description: String {
+				switch self {
+				case .category:
+					return Appearance.categoryTitle
+				case .schedule:
+					return Appearance.scheduleTitle
+				case .emoji:
+					return Appearance.emojiTitle
+				case .color:
+					return Appearance.colorTitle
+				}
+			}
+		}
+
+		case showAllComponents(hasSchedule: Bool, title: String, components: [Section], isSaveEnabled: Bool)
+		case showNewSection(section: Int, items: Section, isSaveEnabled: Bool)
+		case showSaveEnabled(isSaveEnabled: Bool)
+	}
+}
+
+private extension CreateEditTrackerModels {
+	enum Appearance {
+		static let categoryTitle = "Категория"
+		static let scheduleTitle = "Расписание"
+		static let emojiTitle = "Emoji"
+		static let colorTitle = "Цвет"
 	}
 }

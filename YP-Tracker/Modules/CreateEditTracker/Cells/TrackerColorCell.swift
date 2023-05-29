@@ -37,6 +37,7 @@ final class TrackerColorCell: UICollectionViewCell {
 
 	struct TrackerColorCellModel {
 		let colorString: String
+		let isSelected: Bool
 	}
 }
 
@@ -47,6 +48,11 @@ extension TrackerColorCell.TrackerColorCellModel: ICellViewModel {
 		let color = UIColor(hex: colorString)
 		cell.colorView.backgroundColor = color
 		cell.background.layer.borderColor = color.withAlphaComponent(0.3).cgColor
+		if isSelected {
+			cell.background.fadeIn()
+		} else {
+			cell.background.fadeOut()
+		}
 	}
 }
 
@@ -101,9 +107,8 @@ struct TrackerColorCell_Previews: PreviewProvider {
 	static var previews: some View {
 
 		let view1 = TrackerColorCell()
-		let model = TrackerColorCell.TrackerColorCellModel(colorString: TrackerColor.green.rawValue)
+		let model = TrackerColorCell.TrackerColorCellModel(colorString: TrackerColor.green.rawValue, isSelected: false)
 		model.setup(cell: view1)
-		view1.update()
 
 		let view2 = TrackerColorCell()
 		model.setup(cell: view2)
