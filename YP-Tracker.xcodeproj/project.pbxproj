@@ -353,6 +353,7 @@
 		5A65415529DE1A1F0042503D /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				5AE1F01D2A09628300103F08 /* Onboarding */,
 				5AE12A352A0BE8CF0054D782 /* Main */,
 				5A45EA612A0CEA7E003269D3 /* Trackers */,
 				5AE6BDEA2A1919BF0068CB53 /* YPModule */,
@@ -368,12 +369,22 @@
 			children = (
 				5AA5FA292A13CDCC0056633B /* Protocols */,
 				5AE1F0082A0944D400103F08 /* Coordinator+Router */,
+				5A77EF622A26E0BD000CF24C /* Coordinator_Examples */,
 				5AE1F01A2A0961F400103F08 /* VC_Examples */,
 				5A45EA622A0D22CE003269D3 /* OptionalViews */,
 				5ADD1F0B29E38ECA0072EE78 /* Extensions */,
 				5A91DED629E0DF0A001A23C3 /* Utils */,
 			);
 			path = Library;
+			sourceTree = "<group>";
+		};
+		5A77EF622A26E0BD000CF24C /* Coordinator_Examples */ = {
+			isa = PBXGroup;
+			children = (
+				5AE12A1D2A0A6B360054D782 /* MainSimpleCoordinator.swift */,
+				5AE12A1E2A0A6B360054D782 /* AboutCoordinator.swift */,
+			);
+			path = Coordinator_Examples;
 			sourceTree = "<group>";
 		};
 		5A84742E2A0F56AE00C2F93E /* CreateEditTracker */ = {
@@ -460,8 +471,6 @@
 			children = (
 				5AE12A1B2A0A6B360054D782 /* AppCoordinator.swift */,
 				5AE12A1A2A0A6B360054D782 /* OnboardingCoordinator.swift */,
-				5AE12A1D2A0A6B360054D782 /* MainSimpleCoordinator.swift */,
-				5AE12A1E2A0A6B360054D782 /* AboutCoordinator.swift */,
 				5AE12A2F2A0BBD860054D782 /* TabbarCoordinator.swift */,
 				5AE12A312A0BC70F0054D782 /* TrackersCoordinator.swift */,
 				5AE12A332A0BE7AA0054D782 /* StatisticsCoordinator.swift */,
@@ -520,7 +529,6 @@
 			children = (
 				5AE1F01F2A09628400103F08 /* About */,
 				5AE1F0242A09628400103F08 /* MainSimple */,
-				5AE1F01D2A09628300103F08 /* Onboarding */,
 			);
 			path = VC_Examples;
 			sourceTree = "<group>";
