@@ -1,5 +1,3 @@
-//
-//  ICreateEditTrackerPresenter.swift
 import Foundation
 
 protocol ICreateEditTrackerPresenter {

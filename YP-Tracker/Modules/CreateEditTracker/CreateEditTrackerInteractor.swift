@@ -1,5 +1,3 @@
-//
-//  ICreateEditTrackerInteractor.swift
 import Foundation
 
 protocol ICreateEditTrackerInteractor {

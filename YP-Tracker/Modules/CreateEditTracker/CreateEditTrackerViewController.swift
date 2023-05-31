@@ -11,6 +11,7 @@ final class CreateEditTrackerViewController: UIViewController {
 
 	var didSendEventClosure: ((Tracker.Action) -> Void)?
 	var hasSchedule = false
+	private var wasSwept = true
 
 	private lazy var titleTextField: UITextField = makeTitleTextField()
 	private lazy var titleCharactersLimitLabel: UILabel = makeTitleCharactersLimitLabel()
@@ -43,6 +44,26 @@ final class CreateEditTrackerViewController: UIViewController {
 		setConstraints()
 
 		interactor.viewIsReady()
+	}
+
+	// инетересно! Есть лучший способ управлять высотой?
+	override func viewDidLayoutSubviews() {
+		super.viewDidLayoutSubviews()
+		let colllectionViewHeight = hasSchedule
+		? Appearance.colllectionViewHeightWithSchedule
+		: Appearance.colllectionViewHeight
+		collectionView.makeConstraints { make in
+			[
+				make.heightAnchor.constraint(equalToConstant: colllectionViewHeight)
+			]
+		}
+	}
+
+	override func viewDidDisappear(_ animated: Bool) {
+		super.viewDidDisappear(animated)
+		if wasSwept {
+			didSendEventClosure?(.cancel)
+		}
 	}
 }
 
@@ -103,7 +124,7 @@ extension CreateEditTrackerViewController: UICollectionViewDataSource {
 		let data = dataSource[section]
 		switch data {
 		case .category:
-			return 1
+			return 1 // swiftlint:disable:this numbers_smell
 		case .schedule:
 			return hasSchedule ? 1 : .zero
 		case let .emoji(items):
@@ -200,7 +221,7 @@ private extension CreateEditTrackerViewController {
 		]
 	}
 	func applyStyle() {
-		title = Appearance.titleNew
+		// title = Appearance.titleNew
 		view.backgroundColor = Theme.color(usage: .white)
 	}
 
@@ -216,11 +237,6 @@ private extension CreateEditTrackerViewController {
 			collectionView,
 			hStackView
 		].forEach { stackView.addArrangedSubview($0) }
-		collectionView.makeConstraints { make in
-			[
-				make.heightAnchor.constraint(equalToConstant: 618)
-			]
-		}
 
 		let scrollView = UIScrollView()
 		[
@@ -328,9 +344,13 @@ private extension CreateEditTrackerViewController {
 		event.buttonLayerValue(button)
 		switch event {
 		case .save:
-			button.event = { self.interactor.didUserDo(request: .save) }
+			button.event = { [weak self] in
+				self?.interactor.didUserDo(request: .save)
+			}
 		case .cancel:
-			button.event = { self.interactor.didUserDo(request: .cancel) }
+			button.event = { [weak self] in
+				self?.interactor.didUserDo(request: .cancel)
+			}
 		}
 
 		return button
@@ -473,6 +493,7 @@ private extension CreateEditTrackerViewController {
 	}
 }
 
+// MARK: - ButtonEvent
 private extension CreateEditTrackerViewController {
 	enum ButtonEvent {
 		case save
@@ -514,8 +535,8 @@ private extension CreateEditTrackerViewController {
 		static let titleLimitMessage = "Ограничение 38 символов"
 		static let titleCreateButton = "Создать"
 		static let titleCancelButton = "Отменить"
-		static let scrollViewHeightWithSchedule = 618
-		static let scrollViewHeight = 543
+		static let colllectionViewHeightWithSchedule: CGFloat = 618.0
+		static let colllectionViewHeight: CGFloat = 543.0
 		static let itemHeight = 52.0
 		static let itemCount = 6
 	}
