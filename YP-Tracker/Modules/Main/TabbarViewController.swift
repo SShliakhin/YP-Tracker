@@ -95,6 +95,12 @@ private extension TabbarViewController {
 
 		tabBar.isTranslucent = false
 		tabBar.clipsToBounds = true
+
+		let navBarAppearance = UINavigationBarAppearance()
+		navBarAppearance.configureWithTransparentBackground()
+		navBarAppearance.backgroundColor = Theme.color(usage: .white)
+		UINavigationBar.appearance().standardAppearance = navBarAppearance
+		UINavigationBar.appearance().scrollEdgeAppearance = navBarAppearance
 	}
 }
 
