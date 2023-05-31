@@ -3,15 +3,11 @@ import UIKit
 protocol ITrackersViewController: AnyObject {
 	/// Рендрит вьюмодель
 	func render(viewModel: TrackersModels.ViewModel)
-	/// Получаем новые условия от координатора и передаем интерактору
-	func updateConditions(conditions: TrackerConditions)
 }
 
 final class TrackersViewController: UIViewController {
-	private let interactor: ITrackersInteractor
+	let interactor: ITrackersInteractor
 	private var dataSource: [TrackersModels.ViewModel.Section] = []
-
-	var didSendEventClosure: ((TrackersViewController.Event) -> Void)?
 
 	private var searchText = "" {
 		didSet {
@@ -68,10 +64,7 @@ extension TrackersViewController {
 // MARK: - Actions
 private extension TrackersViewController {
 	@objc func didTapAddTrackerButton(_ sender: Any) {
-		didSendEventClosure?(.addTracker(interactor.getConditions()))
-	}
-	@objc func didTapSelectFilterButton(_ sender: Any) {
-		didSendEventClosure?(.selectFilter(interactor.getConditions()))
+		interactor.didUserDo(request: .addTracker)
 	}
 	@objc func didDateSelect(_ sender: Any) {
 		interactor.didUserDo(request: .newDate(datePicker.date))
@@ -96,9 +89,6 @@ extension TrackersViewController: ITrackersViewController {
 
 			collectionView.reloadData()
 		}
-	}
-	func updateConditions(conditions: TrackerConditions) {
-		interactor.updateConditions(newConditions: conditions)
 	}
 }
 
@@ -264,12 +254,14 @@ private extension TrackersViewController {
 		let button = UIButton()
 
 		button.setTitle(Appearance.filtersButtonTitle, for: .normal)
-		button.setTitleColor(Theme.color(usage: .white), for: .normal)
+		button.setTitleColor(Theme.color(usage: .allDayWhite), for: .normal)
 		button.titleLabel?.font = Theme.font(style: .body)
 		button.backgroundColor = Theme.color(usage: .accent)
 		button.layer.cornerRadius = Theme.size(kind: .cornerRadius)
 
-		button.addTarget(self, action: #selector(didTapSelectFilterButton), for: .primaryActionTriggered)
+		button.event = { [weak self] in
+			self?.interactor.didUserDo(request: .selectFilter)
+		}
 
 		return button
 	}
@@ -291,6 +283,8 @@ private extension TrackersViewController {
 
 		collectionView.dataSource = self
 		collectionView.delegate = self
+
+		collectionView.backgroundColor = .clear
 
 		return collectionView
 	}

@@ -5,6 +5,9 @@ enum TrackersModels {
 		case newSearchText(String)
 		case newDate(Date)
 		case completeUncompleteTracker(Int, Int)
+		case newFilter(TrackerFilter)
+		case addTracker
+		case selectFilter
 	}
 
 	enum Response {

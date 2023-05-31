@@ -92,7 +92,7 @@ extension Di: IModuleFactory {
 	func makeStatisticsModule() -> UIViewController {
 		makeStatisticsModule(dep: dependencies)
 	}
-	func makeTrackersModule() -> UIViewController {
+	func makeTrackersModule() -> (UIViewController, ITrackersInteractor) {
 		makeTrackersModule(dep: dependencies)
 	}
 	func makeYPModule(trackerAction: Tracker.Action) -> UIViewController {

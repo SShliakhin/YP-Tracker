@@ -5,15 +5,8 @@ final class TrackersCoordinator: BaseCoordinator {
 	private let coordinatorFactory: ICoordinatorFactory
 	private let router: IRouter
 
-	private var onUpdateConditions: ((TrackerConditions) -> Void)?
-	private var conditions: TrackerConditions {
-		didSet(newValue) {
-			if conditions != newValue {
-				onUpdateConditions?(conditions)
-			}
-		}
-	}
-	private var schedule: [Int: Bool] = [:] // в отдельный метод
+	private var onUpdateFilter: ((TrackerFilter) -> Void)?
+	private var onUpdateTrackers: (() -> Void)?
 
 	var finishFlow: (() -> Void)?
 
@@ -21,13 +14,6 @@ final class TrackersCoordinator: BaseCoordinator {
 		self.router = router
 		self.factory = factory
 		self.coordinatorFactory = coordinatorFactory
-
-		self.conditions = TrackerConditions(
-			date: Date(),
-			searchText: "",
-			filter: .today,
-			hasAnyTrackers: false
-		)
 	}
 
 	override func start() {
@@ -47,9 +33,8 @@ private extension TrackersCoordinator {
 			trackerAction: .new(trackerType)
 		)
 		coordinator.finishFlow = { [weak self, weak coordinator] in
-			self?.router.dismissModule()
 			self?.removeDependency(coordinator)
-			self?.conditions.hasAnyTrackers.toggle() // мы должны запустить обновление
+			self?.onUpdateTrackers?()
 		}
 		addDependency(coordinator)
 		coordinator.start()
@@ -59,38 +44,35 @@ private extension TrackersCoordinator {
 // MARK: - show Modules
 private extension TrackersCoordinator {
 	func showTrackersModule() {
-		let module = factory.makeTrackersModule()
-		let moduleVC = module as? TrackersViewController
+		let (module, moduleInteractor) = factory.makeTrackersModule()
 
-		onUpdateConditions = { [weak moduleVC] conditions in
-			moduleVC?.updateConditions(conditions: conditions)
+		onUpdateFilter = { [weak moduleInteractor] filter in
+			moduleInteractor?.didUserDo(request: .newFilter(filter))
 		}
-		moduleVC?.didSendEventClosure = { [weak self] event in
+		onUpdateTrackers = { [weak moduleInteractor] in
+			moduleInteractor?.viewIsReady()
+		}
+		moduleInteractor.didSendEventClosure = { [weak self] event in
 			switch event {
-			case let .addTracker(conditions):
-				self?.conditions = conditions
+			case .addTracker:
 				self?.showSelectTypeTrackerModule()
-			case let .selectFilter(conditions):
-				self?.conditions = conditions
-				self?.showSelectFilterModule()
+			case let .selectFilter(filter):
+				self?.showSelectFilterModule(currentFilter: filter)
 			}
 		}
 
 		router.setRootModule(module)
 	}
 
-	func showSelectFilterModule() {
+	func showSelectFilterModule(currentFilter: TrackerFilter) {
 		let module = factory.makeYPModule(
-			trackerAction: .selectFilter(conditions.filter)
+			trackerAction: .selectFilter(currentFilter)
 		)
 		let moduleVC = module as? YPViewController
 		moduleVC?.didSendEventClosure = { [weak self] event in
-			switch event {
-			case let .didSelectFilter(filter):
-				self?.conditions.filter = filter
+			if case let .didSelectFilter(filter) = event {
 				self?.router.dismissModule()
-			case .didSelectSchedule, .didSelectCategory:
-				break
+				self?.onUpdateFilter?(filter)
 			}
 		}
 		moduleVC?.title = Appearance.titleFiltersVC
@@ -119,19 +101,6 @@ private extension TrackersCoordinator {
 			return action
 		}
 		router.present(UINavigationController(rootViewController: module))
-	}
-}
-
-private extension TrackersCoordinator {
-	func createNewSchedule() {
-		let currentWeekday = Calendar.current.component(
-			.weekday,
-			from: conditions.date
-		)
-		var schedule = Dictionary(uniqueKeysWithValues: (1...7).map { ($0, false) })
-		schedule[currentWeekday] = true
-
-		self.schedule = schedule
 	}
 }
 

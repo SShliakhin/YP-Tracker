@@ -1,11 +1,15 @@
 import Foundation
 
-protocol ITrackersInteractor {
+enum EventTrackersInteractor {
+	case addTracker
+	case selectFilter(TrackerFilter)
+}
+
+protocol ITrackersInteractor: AnyObject {
 	func viewIsReady()
 	func didUserDo(request: TrackersModels.Request)
-	func getConditions() -> TrackerConditions
 
-	func updateConditions(newConditions: TrackerConditions)
+	var didSendEventClosure: ((EventTrackersInteractor) -> Void)? { get set }
 }
 
 final class TrackersInteractor: ITrackersInteractor {
@@ -13,6 +17,7 @@ final class TrackersInteractor: ITrackersInteractor {
 	private let presenter: ITrackersPresenter
 
 	private var conditions: TrackerConditions
+	var didSendEventClosure: ((EventTrackersInteractor) -> Void)?
 
 	typealias SectionWithTrackers = TrackersModels.Response.SectionWithTrackers
 
@@ -51,19 +56,16 @@ final class TrackersInteractor: ITrackersInteractor {
 				row: row,
 				date: conditions.date
 			) else { return }
+		case let .newFilter(filter):
+			conditions.filter = filter
+		case .addTracker:
+			didSendEventClosure?(.addTracker)
+			return
+		case .selectFilter:
+			didSendEventClosure?(.selectFilter(conditions.filter))
+			return
 		}
 		updateTrackers()
-	}
-
-	func getConditions() -> TrackerConditions {
-		conditions
-	}
-
-	func updateConditions(newConditions: TrackerConditions) {
-		if conditions != newConditions {
-			conditions = newConditions
-			updateTrackers()
-		}
 	}
 }
 
