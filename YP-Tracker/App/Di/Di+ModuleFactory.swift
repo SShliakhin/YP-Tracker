@@ -11,7 +11,7 @@ protocol IModuleFactory: AnyObject {
 	func makeStatisticsModule() -> UIViewController
 	func makeTrackersModule() -> (UIViewController, ITrackersInteractor)
 	func makeSelectTypeTrackerModule() -> (UIViewController, ISelectTypeTrackerInteractor)
-	func makeYPModule(trackerAction: Tracker.Action) -> UIViewController
+	func makeYPModule(trackerAction: Tracker.Action) -> (UIViewController, IYPInteractor)
 	func makeCreateEditTrackerModule(trackerAction: Tracker.Action) -> UIViewController
 }
 
@@ -64,7 +64,7 @@ extension Di {
 		return (view, interactor)
 	}
 
-	func makeYPModule(dep: AllDependencies, trackerAction: Tracker.Action) -> UIViewController {
+	func makeYPModule(dep: AllDependencies, trackerAction: Tracker.Action) -> (UIViewController, IYPInteractor) {
 		let presenter = YPPresenter()
 		let interactor = YPInteractor(
 			presenter: presenter,
@@ -74,7 +74,7 @@ extension Di {
 		let view = YPViewController(interactor: interactor)
 		presenter.viewController = view
 
-		return view
+		return (view, interactor)
 	}
 
 	func makeCreateEditTrackerModule(dep: AllDependencies, trackerAction: Tracker.Action) -> UIViewController {

@@ -36,7 +36,7 @@ final class YPViewController: UIViewController {
 		applyStyle()
 		setConstraints()
 
-		interactor.viewIsReady(actions: didSendEventClosure)
+		interactor.viewIsReady()
 	}
 }
 
@@ -104,7 +104,7 @@ extension YPViewController: UICollectionViewDelegate {
 		didSelectItemAt indexPath: IndexPath
 	) {
 		collectionView.deselectItem(at: indexPath, animated: true)
-		interactor.didSelectItem(indexPath.row)
+		interactor.didUserDo(request: .selectItemAtIndex(indexPath.row))
 	}
 }
 

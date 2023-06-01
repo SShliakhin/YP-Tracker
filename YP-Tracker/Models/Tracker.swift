@@ -14,6 +14,15 @@ struct Tracker: Identifiable, Hashable {
 			.map { Calendar.current.shortWeekdaySymbols[$0.key] }
 			.joined(separator: ",")
 	}
+
+	static func makeWeekDays() -> [String] {
+		let calendar = Calendar.current
+		let numDays: Int = calendar.weekdaySymbols.count
+		let first: Int = calendar.firstWeekday - 1
+		let end: Int = first + numDays - 1
+
+		return (first...end).map { calendar.weekdaySymbols[$0 % numDays].localizedCapitalized }
+	}
 }
 
 extension Tracker {

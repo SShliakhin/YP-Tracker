@@ -65,17 +65,16 @@ private extension TrackersCoordinator {
 	}
 
 	func showSelectFilterModule(currentFilter: TrackerFilter) {
-		let module = factory.makeYPModule(
+		let (module, moduleInteractor) = factory.makeYPModule(
 			trackerAction: .selectFilter(currentFilter)
 		)
-		let moduleVC = module as? YPViewController
-		moduleVC?.didSendEventClosure = { [weak self] event in
-			if case let .didSelectFilter(filter) = event {
+		moduleInteractor.didSendEventClosure = { [weak self] event in
+			if case let .selectFilter(filter) = event {
 				self?.router.dismissModule()
 				self?.onUpdateFilter?(filter)
 			}
 		}
-		moduleVC?.title = Appearance.titleFiltersVC
+		module.title = Appearance.titleFiltersVC
 		router.present(UINavigationController(rootViewController: module))
 	}
 

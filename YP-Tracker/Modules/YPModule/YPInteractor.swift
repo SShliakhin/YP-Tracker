@@ -1,9 +1,16 @@
 import Foundation
 
-protocol IYPInteractor {
-	func viewIsReady(actions: ((YPViewController.Event) -> Void)?)
-	func didSelectItem(_ index: Int)
-	func didTapActionButton()
+enum EventYP {
+	case selectFilter(TrackerFilter)
+	case selectSchedule([Int: Bool])
+	case selectCategory(UUID)
+}
+
+protocol IYPInteractor: AnyObject {
+	func viewIsReady()
+	func didUserDo(request: YPModels.Request)
+
+	var didSendEventClosure: ((EventYP) -> Void)? { get set }
 }
 
 final class YPInteractor: IYPInteractor {
@@ -11,7 +18,7 @@ final class YPInteractor: IYPInteractor {
 	private let presenter: IYPPresenter
 	private let categoriesProvider: ICategoriesProvider
 
-	private var actions: ((YPViewController.Event) -> Void)?
+	var didSendEventClosure: ((EventYP) -> Void)?
 
 	private var schedule: [Int: Bool] = [:]
 	private var weekDays: [String] = []
@@ -27,61 +34,42 @@ final class YPInteractor: IYPInteractor {
 		self.categoriesProvider = dep.categoriesProvider
 	}
 
-	func viewIsReady(actions: ((YPViewController.Event) -> Void)?) {
-		self.actions = actions
-
-		switch trackerAction {
-		case .edit, .new, .save, .cancel:
-			break
-		case let .selectSchedule(schedule):
+	func viewIsReady() {
+		if case let .selectSchedule(schedule) = trackerAction {
 			self.schedule = schedule
-			self.weekDays = makeWeekDays()
+			self.weekDays = Tracker.makeWeekDays()
 			presenter.present(data: .selectSchedule(schedule, weekDays))
-		case let .selectCategory(categoryID):
+		}
+		if case let .selectFilter(filter) = trackerAction {
+			presenter.present(data: .selectFilter(filter, TrackerFilter.allValues))
+		}
+		if case let .selectCategory(categoryID) = trackerAction {
 			categories = categoriesProvider.getCategories()
 			presenter.present(data: .selectCategory(categoryID, categories))
-		case let .selectFilter(filter):
-			presenter.present(data: .selectFilter(filter, TrackerFilter.allValues))
 		}
 	}
 
-	func didSelectItem(_ index: Int) {
-		switch trackerAction {
-		case .edit, .new, .save, .cancel:
-			break
-		case .selectSchedule:
-			schedule[index + 1] = !(schedule[index + 1] ?? false)
-			presenter.present(data: .selectSchedule(schedule, weekDays))
-		case .selectFilter:
-			let filter = TrackerFilter.allValues[index]
-			presenter.present(data: .selectFilter(filter, TrackerFilter.allValues))
-			actions?(.didSelectFilter(filter))
-		case .selectCategory:
-			let category = categories[index]
-			presenter.present(data: .selectCategory(category.id, categories))
-			actions?(.didSelectCategory(category.id))
+	func didUserDo(request: YPModels.Request) {
+		switch request {
+		case let .selectItemAtIndex(index):
+			if case .selectSchedule = trackerAction {
+				schedule[index + 1] = !(schedule[index + 1] ?? false)
+				presenter.present(data: .selectSchedule(schedule, weekDays))
+			}
+			if case .selectFilter = trackerAction {
+				let filter = TrackerFilter.allValues[index]
+				presenter.present(data: .selectFilter(filter, TrackerFilter.allValues))
+				didSendEventClosure?(.selectFilter(filter))
+			}
+			if case .selectCategory = trackerAction {
+				let category = categories[index]
+				presenter.present(data: .selectCategory(category.id, categories))
+				didSendEventClosure?(.selectCategory(category.id))
+			}
+		case .tapActionButton:
+			if case .selectSchedule = trackerAction {
+				didSendEventClosure?(.selectSchedule(schedule))
+			}
 		}
-	}
-
-	func didTapActionButton() {
-		switch trackerAction {
-		case .edit, .new, .selectCategory, .save, .cancel:
-			break
-		case .selectSchedule:
-			actions?(.didSelectSchedule(schedule))
-		case .selectFilter:
-			break
-		}
-	}
-}
-
-private extension YPInteractor {
-	func makeWeekDays() -> [String] {
-		let calendar = Calendar.current
-		let numDays: Int = calendar.weekdaySymbols.count
-		let first: Int = calendar.firstWeekday - 1
-		let end: Int = first + numDays - 1
-
-		return (first...end).map { calendar.weekdaySymbols[$0 % numDays].localizedCapitalized }
 	}
 }

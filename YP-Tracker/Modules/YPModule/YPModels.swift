@@ -10,6 +10,11 @@ enum YPModels {
 		let event: (() -> Void)?
 	}
 
+	enum Request {
+		case selectItemAtIndex(_ index: Int)
+		case tapActionButton
+	}
+
 	enum Response {
 		case selectFilter(TrackerFilter, [TrackerFilter])
 		case selectSchedule([Int: Bool], [String])

@@ -58,7 +58,7 @@ extension Di: IModuleFactory {
 
 		// модуль выбора категории, нужен сервис, кнопка - Добавить категорию
 		let categoryID = dependencies.categoriesProvider.getCategories()[1].id
-		view = makeYPModule(trackerAction: .selectCategory(categoryID))
+		(view, _) = makeYPModule(trackerAction: .selectCategory(categoryID))
 		view.title = "Категория"
 		return UINavigationController(rootViewController: view)
 
@@ -73,7 +73,7 @@ extension Di: IModuleFactory {
 			7: false
 		]
 
-		view = makeYPModule(trackerAction: .selectSchedule(schedule))
+		(view, _) = makeYPModule(trackerAction: .selectSchedule(schedule))
 		view.title = "Расписание"
 		return UINavigationController(rootViewController: view)
 	}
@@ -95,7 +95,7 @@ extension Di: IModuleFactory {
 	func makeTrackersModule() -> (UIViewController, ITrackersInteractor) {
 		makeTrackersModule(dep: dependencies)
 	}
-	func makeYPModule(trackerAction: Tracker.Action) -> UIViewController {
+	func makeYPModule(trackerAction: Tracker.Action) -> (UIViewController, IYPInteractor) {
 		makeYPModule(dep: dependencies, trackerAction: trackerAction)
 	}
 	func makeSelectTypeTrackerModule() -> (UIViewController, ISelectTypeTrackerInteractor) {
