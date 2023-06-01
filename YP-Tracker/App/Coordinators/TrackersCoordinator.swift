@@ -80,26 +80,15 @@ private extension TrackersCoordinator {
 	}
 
 	func showSelectTypeTrackerModule() {
-		let module = factory.makeSelectTypeTrackerModule()
-		let moduleVC = module as? SelectTypeTrackerViewController
-		moduleVC?.didSendEventClosure = { [weak self] event in
-			let action: (() -> Void)
+		let (module, moduleInteractor) = factory.makeSelectTypeTrackerModule()
+		moduleInteractor.didSendEventClosure = { [weak self] event in
 			switch event {
-			case .habit:
-				action = {
-					print("Запуск создания нового трекера привычки")
-					self?.router.dismissModule()
-					self?.runCreateNewTrackerFlow(trackerType: .habit)
-				}
-			case .event:
-				action = {
-					print("Запуск создания нового трекера события")
-					self?.router.dismissModule()
-					self?.runCreateNewTrackerFlow(trackerType: .event)
-				}
+			case let .selectType(type):
+				self?.router.dismissModule()
+				self?.runCreateNewTrackerFlow(trackerType: type)
 			}
-			return action
 		}
+		module.title = Appearance.titleSelectTrackerTypeVC
 		router.present(UINavigationController(rootViewController: module))
 	}
 }
@@ -107,5 +96,6 @@ private extension TrackersCoordinator {
 private extension TrackersCoordinator {
 	enum Appearance {
 		static let titleFiltersVC = "Фильтры"
+		static let titleSelectTrackerTypeVC = "Создание трекера"
 	}
 }

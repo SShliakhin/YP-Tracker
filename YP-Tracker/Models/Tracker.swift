@@ -17,9 +17,18 @@ struct Tracker: Identifiable, Hashable {
 }
 
 extension Tracker {
-	enum TrackerType {
+	enum TrackerType: CustomStringConvertible {
 		case habit
 		case event
+
+		var description: String {
+			switch self {
+			case .habit:
+				return Appearance.habit
+			case .event:
+				return Appearance.event
+			}
+		}
 	}
 	enum Action {
 		case edit(UUID) // редактировать существующий трекер -> TrackerTempData/save/cancel
@@ -31,5 +40,13 @@ extension Tracker {
 		// продолжить редактирование нового/существующего(UUID) -> TrackerTempData/save/cancel
 		// case reedit(TrackerTempData, UUID?)
 		case selectFilter(TrackerFilter)
+	}
+}
+
+// MARK: - Appearance
+private extension Tracker {
+	enum Appearance {
+		static let habit = "Привычка"
+		static let event = "Нерегулярное событие"
 	}
 }

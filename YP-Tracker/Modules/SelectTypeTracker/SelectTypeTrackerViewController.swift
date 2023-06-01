@@ -1,14 +1,15 @@
 import UIKit
 
 final class SelectTypeTrackerViewController: UIViewController {
-	var didSendEventClosure: ((SelectTypeTrackerViewController.Event) -> (() -> Void))?
+	let interactor: ISelectTypeTrackerInteractor
 
-	private lazy var habitButton: UIButton = makeButtonByEvent(.habit)
-	private lazy var eventButton: UIButton = makeButtonByEvent(.event)
+	private lazy var habitButton: UIButton = makeButtonByTrackerType(.habit)
+	private lazy var eventButton: UIButton = makeButtonByTrackerType(.event)
 
 	// MARK: - Inits
 
-	init() {
+	init(interactor: ISelectTypeTrackerInteractor) {
+		self.interactor = interactor
 		super.init(nibName: nil, bundle: nil)
 	}
 
@@ -30,23 +31,6 @@ final class SelectTypeTrackerViewController: UIViewController {
 	}
 }
 
-// MARK: - Event
-extension SelectTypeTrackerViewController {
-	enum Event {
-		case habit
-		case event
-
-		func titleValue() -> String {
-			switch self {
-			case .habit:
-				return Appearance.habitTitle
-			case .event:
-				return Appearance.eventTitle
-			}
-		}
-	}
-}
-
 // MARK: - UI
 private extension SelectTypeTrackerViewController {
 	func setup() {
@@ -57,7 +41,6 @@ private extension SelectTypeTrackerViewController {
 		]
 	}
 	func applyStyle() {
-		title = Appearance.title
 		view.backgroundColor = Theme.color(usage: .white)
 	}
 	func setConstraints() {
@@ -99,26 +82,19 @@ private extension SelectTypeTrackerViewController {
 
 // MARK: - UI make
 private extension SelectTypeTrackerViewController {
-	func makeButtonByEvent(_ event: Event) -> UIButton {
+	func makeButtonByTrackerType(_ type: Tracker.TrackerType) -> UIButton {
 		let button = UIButton()
 
-		button.setTitle(event.titleValue(), for: .normal)
+		button.setTitle(type.description, for: .normal)
 		button.setTitleColor(Theme.color(usage: .white), for: .normal)
 		button.titleLabel?.font = Theme.font(style: .callout)
 		button.backgroundColor = Theme.color(usage: .black)
 		button.layer.cornerRadius = Theme.size(kind: .cornerRadius)
 
-		button.event = didSendEventClosure?(event)
+		button.event = { [weak self] in
+			self?.interactor.didUserDo(request: .selectType(type))
+		}
 
 		return button
-	}
-}
-
-// MARK: - Appearance
-private extension SelectTypeTrackerViewController {
-	enum Appearance {
-		static let title = "Создание трекера"
-		static let habitTitle = "Привычка"
-		static let eventTitle = "Нерегулярное событие"
 	}
 }

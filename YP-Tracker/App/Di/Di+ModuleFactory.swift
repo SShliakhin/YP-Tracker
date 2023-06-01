@@ -10,7 +10,7 @@ protocol IModuleFactory: AnyObject {
 	func makeTabbarModule() -> UIViewController
 	func makeStatisticsModule() -> UIViewController
 	func makeTrackersModule() -> (UIViewController, ITrackersInteractor)
-	func makeSelectTypeTrackerModule() -> UIViewController
+	func makeSelectTypeTrackerModule() -> (UIViewController, ISelectTypeTrackerInteractor)
 	func makeYPModule(trackerAction: Tracker.Action) -> UIViewController
 	func makeCreateEditTrackerModule(trackerAction: Tracker.Action) -> UIViewController
 }
@@ -58,8 +58,10 @@ extension Di {
 		return (view, interactor)
 	}
 
-	func makeSelectTypeTrackerModule(dep: AllDependencies) -> UIViewController {
-		return SelectTypeTrackerViewController()
+	func makeSelectTypeTrackerModule(dep: AllDependencies) -> (UIViewController, ISelectTypeTrackerInteractor) {
+		let interactor = SelectTypeTrackerInteractor()
+		let view = SelectTypeTrackerViewController(interactor: interactor)
+		return (view, interactor)
 	}
 
 	func makeYPModule(dep: AllDependencies, trackerAction: Tracker.Action) -> UIViewController {

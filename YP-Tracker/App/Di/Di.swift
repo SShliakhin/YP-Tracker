@@ -98,7 +98,7 @@ extension Di: IModuleFactory {
 	func makeYPModule(trackerAction: Tracker.Action) -> UIViewController {
 		makeYPModule(dep: dependencies, trackerAction: trackerAction)
 	}
-	func makeSelectTypeTrackerModule() -> UIViewController {
+	func makeSelectTypeTrackerModule() -> (UIViewController, ISelectTypeTrackerInteractor) {
 		makeSelectTypeTrackerModule(dep: dependencies)
 	}
 	func makeCreateEditTrackerModule(trackerAction: Tracker.Action) -> UIViewController {

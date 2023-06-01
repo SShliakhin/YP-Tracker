@@ -27,6 +27,8 @@
 		5A48064F29DBCBFB0096B7D8 /* Swift_BaseUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A48064E29DBCBFB0096B7D8 /* Swift_BaseUITests.swift */; };
 		5A48065129DBCBFB0096B7D8 /* Swift_BaseUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A48065029DBCBFB0096B7D8 /* Swift_BaseUITestsLaunchTests.swift */; };
 		5A61DD3D29E13FF9001E8665 /* UIView+Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A61DD3C29E13FF9001E8665 /* UIView+Preview.swift */; };
+		5A77EF642A2891DE000CF24C /* SelectTypeTrackerModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A77EF632A2891DE000CF24C /* SelectTypeTrackerModels.swift */; };
+		5A77EF662A289304000CF24C /* SelectTypeTrackerInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A77EF652A289304000CF24C /* SelectTypeTrackerInteractor.swift */; };
 		5A84742B2A0E91BC00C2F93E /* CreateEditTrackerCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A84742A2A0E91BC00C2F93E /* CreateEditTrackerCoordinator.swift */; };
 		5A84742D2A0E9A7500C2F93E /* CreateEditTrackerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A84742C2A0E9A7500C2F93E /* CreateEditTrackerViewController.swift */; };
 		5A8474302A0F764A00C2F93E /* UIButton+Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A84742F2A0F764A00C2F93E /* UIButton+Event.swift */; };
@@ -138,6 +140,8 @@
 		5A48064E29DBCBFB0096B7D8 /* Swift_BaseUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Swift_BaseUITests.swift; sourceTree = "<group>"; };
 		5A48065029DBCBFB0096B7D8 /* Swift_BaseUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Swift_BaseUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		5A61DD3C29E13FF9001E8665 /* UIView+Preview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Preview.swift"; sourceTree = "<group>"; };
+		5A77EF632A2891DE000CF24C /* SelectTypeTrackerModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTypeTrackerModels.swift; sourceTree = "<group>"; };
+		5A77EF652A289304000CF24C /* SelectTypeTrackerInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTypeTrackerInteractor.swift; sourceTree = "<group>"; };
 		5A84742A2A0E91BC00C2F93E /* CreateEditTrackerCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEditTrackerCoordinator.swift; sourceTree = "<group>"; };
 		5A84742C2A0E9A7500C2F93E /* CreateEditTrackerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEditTrackerViewController.swift; sourceTree = "<group>"; };
 		5A84742F2A0F764A00C2F93E /* UIButton+Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Event.swift"; sourceTree = "<group>"; };
@@ -402,6 +406,8 @@
 		5A8D1DAE2A0D6EE100A2924F /* SelectTypeTracker */ = {
 			isa = PBXGroup;
 			children = (
+				5A77EF632A2891DE000CF24C /* SelectTypeTrackerModels.swift */,
+				5A77EF652A289304000CF24C /* SelectTypeTrackerInteractor.swift */,
 				5A8D1DAC2A0D6ED000A2924F /* SelectTypeTrackerViewController.swift */,
 			);
 			path = SelectTypeTracker;
@@ -753,6 +759,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5A77EF662A289304000CF24C /* SelectTypeTrackerInteractor.swift in Sources */,
 				5AE6BDF52A19D8770068CB53 /* TrackerConditions.swift in Sources */,
 				5AE1F0112A0945A500103F08 /* Di.swift in Sources */,
 				5A8D1DAD2A0D6ED000A2924F /* SelectTypeTrackerViewController.swift in Sources */,
@@ -815,6 +822,7 @@
 				5A84742B2A0E91BC00C2F93E /* CreateEditTrackerCoordinator.swift in Sources */,
 				5AE1F00C2A0944D400103F08 /* IRouter.swift in Sources */,
 				5A46689F2A1AA55300FEBD9B /* CreateEditTrackerModels.swift in Sources */,
+				5A77EF642A2891DE000CF24C /* SelectTypeTrackerModels.swift in Sources */,
 				5AE6BDF32A1989D30068CB53 /* YPPresenter.swift in Sources */,
 				5A8474302A0F764A00C2F93E /* UIButton+Event.swift in Sources */,
 				5A61DD3D29E13FF9001E8665 /* UIView+Preview.swift in Sources */,
