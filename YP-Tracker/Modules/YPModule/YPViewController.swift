@@ -8,7 +8,6 @@ protocol IYPViewController: AnyObject {
 final class YPViewController: UIViewController {
 	private let interactor: IYPInteractor
 	private var dataSource: [YPModels.YPCellModel] = []
-	var didSendEventClosure: ((YPViewController.Event) -> Void)?
 
 	private lazy var collectionView: UICollectionView = makeCollectionView()
 	private lazy var actionButton: UIButton = makeActionButton()
@@ -193,7 +192,9 @@ private extension YPViewController {
 		button.backgroundColor = Theme.color(usage: .black)
 		button.layer.cornerRadius = Theme.size(kind: .cornerRadius)
 
-		// button.event = didSendEventClosure?(event)
+		button.event = { [weak self] in
+			self?.interactor.didUserDo(request: .tapActionButton)
+		}
 
 		return button
 	}

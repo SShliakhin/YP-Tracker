@@ -3,7 +3,7 @@ import Foundation
 enum EventYP {
 	case selectFilter(TrackerFilter)
 	case selectSchedule([Int: Bool])
-	case selectCategory(UUID)
+	case selectCategory(UUID, String)
 }
 
 protocol IYPInteractor: AnyObject {
@@ -64,7 +64,7 @@ final class YPInteractor: IYPInteractor {
 			if case .selectCategory = trackerAction {
 				let category = categories[index]
 				presenter.present(data: .selectCategory(category.id, categories))
-				didSendEventClosure?(.selectCategory(category.id))
+				didSendEventClosure?(.selectCategory(category.id, category.title))
 			}
 		case .tapActionButton:
 			if case .selectSchedule = trackerAction {
