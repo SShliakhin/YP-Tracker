@@ -35,6 +35,9 @@ final class Router: NSObject, IRouter {
 	}
 
 	func dismissModule(animated: Bool, completion: (() -> Void)?) {
+		if let controller = rootController?.presentedViewController {
+			completions.removeValue(forKey: controller)
+		}
 		rootController?.dismiss(animated: animated, completion: completion)
 	}
 

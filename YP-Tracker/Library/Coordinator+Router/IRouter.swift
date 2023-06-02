@@ -12,6 +12,7 @@ protocol IRouter: Presentable {
 
 	func present(_ module: Presentable?)
 	func present(_ module: Presentable?, animated: Bool)
+	func present(_ module: Presentable?, animated: Bool, onDismiss: (() -> Void)?)
 
 	func push(_ module: Presentable?)
 	func push(_ module: Presentable?, hideBottomBar: Bool)
