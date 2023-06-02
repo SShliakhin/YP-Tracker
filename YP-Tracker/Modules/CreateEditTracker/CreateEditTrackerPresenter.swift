@@ -40,7 +40,7 @@ final class CreateEditTrackerPresenter: ICreateEditTrackerPresenter {
 					title: items.description
 				)
 			case let .schedule(schedule):
-				newItems = getNewCategorySection(
+				newItems = getNewScheduleSection(
 					schedule,
 					title: items.description
 				)

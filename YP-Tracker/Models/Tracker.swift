@@ -8,11 +8,16 @@ struct Tracker: Identifiable, Hashable {
 	let schedule: [Int: Bool]
 
 	var scheduleString: String {
-		schedule
-			.filter { $0.value }
-			.sorted { $0.key < $1.key }
-			.map { Calendar.current.shortWeekdaySymbols[$0.key] }
-			.joined(separator: ", ")
+		let allSelectedDays = schedule.filter { $0.value }
+		if allSelectedDays.count == 7 {
+			return "Каждый день"
+		} else {
+			return allSelectedDays
+				.sorted { $0.key < $1.key }
+			// в приложении дни недели 1..7 в календаре 0..6
+				.map { Calendar.current.shortWeekdaySymbols[$0.key - 1] }
+				.joined(separator: ", ")
+		}
 	}
 
 	static func makeWeekDays() -> [String] {
