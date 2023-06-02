@@ -1,6 +1,6 @@
 import UIKit
 
-final class Router: IRouter {
+final class Router: NSObject, IRouter {
 	private weak var rootController: UINavigationController?
 	private var completions: [UIViewController : () -> Void]
 
@@ -18,7 +18,15 @@ final class Router: IRouter {
 	}
 
 	func present(_ module: Presentable?, animated: Bool) {
+		present(module, animated: animated, onDismiss: nil)
+	}
+
+	func present(_ module: Presentable?, animated: Bool, onDismiss: (() -> Void)?) {
 		guard let controller = module?.toPresent() else { return }
+		if let onDismiss = onDismiss {
+			completions[controller] = onDismiss
+			controller.presentationController?.delegate = self
+		}
 		rootController?.present(controller, animated: animated, completion: nil)
 	}
 
@@ -91,5 +99,13 @@ final class Router: IRouter {
 		guard let completion = completions[controller] else { return }
 		completion()
 		completions.removeValue(forKey: controller)
+	}
+}
+
+// MARK: - UIAdaptivePresentationControllerDelegate
+
+extension Router: UIAdaptivePresentationControllerDelegate {
+	func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+		runCompletion(for: presentationController.presentedViewController)
 	}
 }

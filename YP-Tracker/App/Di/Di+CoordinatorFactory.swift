@@ -3,29 +3,29 @@
 import UIKit
 
 protocol ICoordinatorFactory {
-	func makeApplicationCoordinator(router: IRouter) -> AppCoordinator
-	func makeOnboardingCoordinator(router: IRouter) -> OnboardingCoordinator
-	func makeMainSimpleCoordinator(router: IRouter) -> MainSimpleCoordinator
-	func makeAboutCoordinator(router: IRouter) -> AboutCoordinator
-	func makeTabbarCoordinator(router: IRouter) -> TabbarCoordinator
+	func makeApplicationCoordinator(router: Router) -> AppCoordinator
+	func makeOnboardingCoordinator(router: Router) -> OnboardingCoordinator
+	func makeMainSimpleCoordinator(router: Router) -> MainSimpleCoordinator
+	func makeAboutCoordinator(router: Router) -> AboutCoordinator
+	func makeTabbarCoordinator(router: Router) -> TabbarCoordinator
 	func makeTrackersCoordinator(navController: UINavigationController) -> TrackersCoordinator
-	func makeCreateEditTrackerCoordinator(router: IRouter, trackerAction: Tracker.Action) -> CreateEditTrackerCoordinator
+	func makeCreateEditTrackerCoordinator(router: Router, trackerAction: Tracker.Action) -> CreateEditTrackerCoordinator
 }
 
 extension Di: ICoordinatorFactory {
-	func makeApplicationCoordinator(router: IRouter) -> AppCoordinator {
+	func makeApplicationCoordinator(router: Router) -> AppCoordinator {
 		AppCoordinator(router: router, factory: self)
 	}
-	func makeOnboardingCoordinator(router: IRouter) -> OnboardingCoordinator {
+	func makeOnboardingCoordinator(router: Router) -> OnboardingCoordinator {
 		OnboardingCoordinator(router: router, factory: self)
 	}
-	func makeMainSimpleCoordinator(router: IRouter) -> MainSimpleCoordinator {
+	func makeMainSimpleCoordinator(router: Router) -> MainSimpleCoordinator {
 		MainSimpleCoordinator(router: router, factory: self, coordinatorFactory: self)
 	}
-	func makeAboutCoordinator(router: IRouter) -> AboutCoordinator {
+	func makeAboutCoordinator(router: Router) -> AboutCoordinator {
 		AboutCoordinator(router: router, factory: self)
 	}
-	func makeTabbarCoordinator(router: IRouter) -> TabbarCoordinator {
+	func makeTabbarCoordinator(router: Router) -> TabbarCoordinator {
 		TabbarCoordinator(router: router, factory: self, coordinatorFactory: self)
 	}
 	func makeTrackersCoordinator(navController: UINavigationController) -> TrackersCoordinator {
@@ -35,7 +35,7 @@ extension Di: ICoordinatorFactory {
 			coordinatorFactory: self
 		)
 	}
-	func makeCreateEditTrackerCoordinator(router: IRouter, trackerAction: Tracker.Action) -> CreateEditTrackerCoordinator {
+	func makeCreateEditTrackerCoordinator(router: Router, trackerAction: Tracker.Action) -> CreateEditTrackerCoordinator {
 		CreateEditTrackerCoordinator(router: router, factory: self, trackerAction: trackerAction)
 	}
 }

@@ -3,14 +3,14 @@ import UIKit
 final class TrackersCoordinator: BaseCoordinator {
 	private let factory: IModuleFactory
 	private let coordinatorFactory: ICoordinatorFactory
-	private let router: IRouter
+	private let router: Router
 
 	private var onUpdateFilter: ((TrackerFilter) -> Void)?
 	private var onUpdateTrackers: (() -> Void)?
 
 	var finishFlow: (() -> Void)?
 
-	init(router: IRouter, factory: IModuleFactory, coordinatorFactory: ICoordinatorFactory) {
+	init(router: Router, factory: IModuleFactory, coordinatorFactory: ICoordinatorFactory) {
 		self.router = router
 		self.factory = factory
 		self.coordinatorFactory = coordinatorFactory
