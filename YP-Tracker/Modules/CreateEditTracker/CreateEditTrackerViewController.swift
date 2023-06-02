@@ -56,10 +56,6 @@ final class CreateEditTrackerViewController: UIViewController {
 			]
 		}
 	}
-
-	override func viewDidDisappear(_ animated: Bool) {
-		super.viewDidDisappear(animated)
-	}
 }
 
 // MARK: - ICreateEditTrackerViewController
