@@ -12,7 +12,7 @@ struct Tracker: Identifiable, Hashable {
 			.filter { $0.value }
 			.sorted { $0.key < $1.key }
 			.map { Calendar.current.shortWeekdaySymbols[$0.key] }
-			.joined(separator: ",")
+			.joined(separator: ", ")
 	}
 
 	static func makeWeekDays() -> [String] {
