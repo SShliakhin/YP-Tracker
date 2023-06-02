@@ -53,7 +53,7 @@ extension Di: IModuleFactory {
 		// при let isOnlyScene = true в SceneDelegate
 
 		// модуль создания трекера
-		var view = makeCreateEditTrackerModule(trackerAction: .new(.habit))
+		var (view, _) = makeCreateEditTrackerModule(trackerAction: .new(.habit))
 		return UINavigationController(rootViewController: view)
 
 		// модуль выбора категории, нужен сервис, кнопка - Добавить категорию
@@ -101,7 +101,7 @@ extension Di: IModuleFactory {
 	func makeSelectTypeTrackerModule() -> (UIViewController, ISelectTypeTrackerInteractor) {
 		makeSelectTypeTrackerModule(dep: dependencies)
 	}
-	func makeCreateEditTrackerModule(trackerAction: Tracker.Action) -> UIViewController {
+	func makeCreateEditTrackerModule(trackerAction: Tracker.Action) -> (UIViewController, ICreateEditTrackerInteractor) {
 		makeCreateEditTrackerModule(dep: dependencies, trackerAction: trackerAction)
 	}
 }

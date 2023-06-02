@@ -1,3 +1,5 @@
+import Foundation
+
 enum CreateEditTrackerModels {
 	struct YPCellModel {
 		let type: InnerViewType
@@ -17,7 +19,9 @@ enum CreateEditTrackerModels {
 	enum Request {
 		case newTitle(String) // введено новое название - валидировать возможность сохранения
 		case selectCategory // переход на экран выбора категории - необходимо запомните состояние трекера
+		case newCategory(UUID, String) // прийдет извне
 		case selectSchedule // переход на экран выбора расписания - необходимо запомните состояние трекера
+		case newSchedule([Int: Bool]) // прийдет извне
 		case newEmoji(Int, Int) // выделена новое эмоджи - обновить секцию эмоджи + валидность сохранения
 		case newColor(Int, Int) // выделен новый цвет - обновить секцию эмоджи + валидность сохранения
 		case cancel // отмена - выход

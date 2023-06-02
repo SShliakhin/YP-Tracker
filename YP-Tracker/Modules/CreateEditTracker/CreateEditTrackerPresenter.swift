@@ -7,6 +7,7 @@ protocol ICreateEditTrackerPresenter {
 
 final class CreateEditTrackerPresenter: ICreateEditTrackerPresenter {
 	weak var viewController: ICreateEditTrackerViewController?
+	private var hasSchedule = false
 
 	typealias Section = CreateEditTrackerModels.ViewModel.Section
 
@@ -15,6 +16,7 @@ final class CreateEditTrackerPresenter: ICreateEditTrackerPresenter {
 		switch data {
 		case let .update(hasSchedule, title, components, isSaveEnabled):
 
+			self.hasSchedule = hasSchedule
 			let newComponents = getNewComponents(
 				hasSchedule: hasSchedule,
 				components: components
@@ -32,14 +34,28 @@ final class CreateEditTrackerPresenter: ICreateEditTrackerPresenter {
 			let newItems: Section
 
 			switch items {
-			case .category:
-				return
-			case .schedule:
-				return
+			case let .category(category):
+				newItems = getNewCategorySection(
+					category,
+					title: items.description
+				)
+			case let .schedule(schedule):
+				newItems = getNewCategorySection(
+					schedule,
+					title: items.description
+				)
 			case let .emoji(array, item):
-				newItems = .emoji(array.map { .init(title: $0, isSelected: $0 == item) })
+				newItems = .emoji(
+					array.map {
+						.init(title: $0, isSelected: $0 == item)
+					}
+				)
 			case let .color(array, item):
-				newItems = .color(array.map { .init(title: $0, isSelected: $0 == item) })
+				newItems = .color(
+					array.map {
+						.init(title: $0, isSelected: $0 == item)
+					}
+				)
 			}
 
 			viewController?.render(
@@ -70,46 +86,64 @@ private extension CreateEditTrackerPresenter {
 			switch item {
 			case let .category(category):
 				newComponents.append(
-					.category(
-						.init(
-							type: .chevronType,
-							title: item.description,
-							description: category,
-							hasDivider: hasSchedule,
-							outCorner: hasSchedule ? [.top] : [.all],
-							isSelected: false,
-							event: nil
-						)
+					getNewCategorySection(
+						category,
+						title: item.description
 					)
 				)
 			case let .schedule(schedule):
 				newComponents.append(
-					.schedule(
-						.init(
-							type: .chevronType,
-							title: item.description,
-							description: schedule,
-							hasDivider: false,
-							outCorner: [.bottom],
-							isSelected: false,
-							event: nil
-						)
+					getNewScheduleSection(
+						schedule,
+						title: item.description
 					)
 				)
 			case let .emoji(emojis, item):
 				newComponents.append(
 					.emoji(
-						emojis.map { .init(title: $0, isSelected: $0 == item) }
+						emojis.map {
+							.init(title: $0, isSelected: $0 == item)
+						}
 					)
 				)
 			case let .color(colors, item):
 				newComponents.append(
 					.color(
-						colors.map { .init( title: $0, isSelected: $0 == item) }
+						colors.map {
+							.init(title: $0, isSelected: $0 == item)
+						}
 					)
 				)
 			}
 		}
 		return newComponents
+	}
+
+	func getNewCategorySection(_ category: String, title: String) -> Section {
+		.category(
+			.init(
+				type: .chevronType,
+				title: title,
+				description: category,
+				hasDivider: hasSchedule,
+				outCorner: hasSchedule ? [.top] : [.all],
+				isSelected: false,
+				event: nil
+			)
+		)
+	}
+
+	func getNewScheduleSection(_ schedule: String, title: String) -> Section {
+		.schedule(
+			.init(
+				type: .chevronType,
+				title: title,
+				description: schedule,
+				hasDivider: false,
+				outCorner: [.bottom],
+				isSelected: false,
+				event: nil
+			)
+		)
 	}
 }

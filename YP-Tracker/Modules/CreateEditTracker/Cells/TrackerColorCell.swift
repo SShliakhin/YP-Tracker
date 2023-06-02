@@ -56,18 +56,6 @@ extension TrackerColorCell.TrackerColorCellModel: ICellViewModel {
 	}
 }
 
-// MARK: - Public methods
-
-extension TrackerColorCell {
-	func update(isSelected: Bool = false) {
-		if isSelected {
-			background.fadeIn()
-		} else {
-			background.fadeOut()
-		}
-	}
-}
-
 // MARK: - UI
 private extension TrackerColorCell {
 	func setConstraints() {
@@ -82,7 +70,6 @@ private extension TrackerColorCell {
 private extension TrackerColorCell {
 	func makeBagroundView() -> UIView {
 		let view = UIView()
-
 		view.layer.borderWidth = Theme.size(kind: .largeBorder)
 		view.layer.cornerRadius = Theme.size(kind: .largeRadius)
 		view.clipsToBounds = true
@@ -91,7 +78,6 @@ private extension TrackerColorCell {
 	}
 	func makeColorView() -> UIView {
 		let view = UIView()
-
 		view.layer.cornerRadius = Theme.size(kind: .smallRadius)
 		view.clipsToBounds = true
 
@@ -111,8 +97,8 @@ struct TrackerColorCell_Previews: PreviewProvider {
 		model.setup(cell: view1)
 
 		let view2 = TrackerColorCell()
-		model.setup(cell: view2)
-		view2.update(isSelected: true)
+		let model2 = TrackerColorCell.TrackerColorCellModel(colorString: TrackerColor.green.rawValue, isSelected: true)
+		model2.setup(cell: view2)
 
 		let view3 = TrackerColorCell()
 		model.setup(cell: view3)

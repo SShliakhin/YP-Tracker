@@ -54,18 +54,6 @@ extension TrackerEmojiCell.TrackerEmojiCellModel: ICellViewModel {
 	}
 }
 
-// MARK: - Public methods
-
-extension TrackerEmojiCell {
-	func update(isSelected: Bool = false) {
-		if isSelected {
-			background.fadeIn()
-		} else {
-			background.fadeOut()
-		}
-	}
-}
-
 // MARK: - UI
 private extension TrackerEmojiCell {
 	func setConstraints() {
@@ -103,15 +91,15 @@ struct TrackerEmojiCell_Previews: PreviewProvider {
 	static var previews: some View {
 
 		let view1 = TrackerEmojiCell()
-		let model = TrackerEmojiCell.TrackerEmojiCellModel(emoji: "❤️", isSelected: false)
-		model.setup(cell: view1)
+		let model1 = TrackerEmojiCell.TrackerEmojiCellModel(emoji: "❤️", isSelected: false)
+		model1.setup(cell: view1)
 
 		let view2 = TrackerEmojiCell()
-		model.setup(cell: view2)
-		view2.update(isSelected: true)
+		let model2 = TrackerEmojiCell.TrackerEmojiCellModel(emoji: "❤️", isSelected: true)
+		model2.setup(cell: view2)
 
 		let view3 = TrackerEmojiCell()
-		model.setup(cell: view3)
+		model1.setup(cell: view3)
 
 		return VStack {
 			view1.preview()

@@ -12,7 +12,7 @@ protocol IModuleFactory: AnyObject {
 	func makeTrackersModule() -> (UIViewController, ITrackersInteractor)
 	func makeSelectTypeTrackerModule() -> (UIViewController, ISelectTypeTrackerInteractor)
 	func makeYPModule(trackerAction: Tracker.Action) -> (UIViewController, IYPInteractor)
-	func makeCreateEditTrackerModule(trackerAction: Tracker.Action) -> UIViewController
+	func makeCreateEditTrackerModule(trackerAction: Tracker.Action) -> (UIViewController, ICreateEditTrackerInteractor)
 }
 
 extension Di {
@@ -77,7 +77,10 @@ extension Di {
 		return (view, interactor)
 	}
 
-	func makeCreateEditTrackerModule(dep: AllDependencies, trackerAction: Tracker.Action) -> UIViewController {
+	func makeCreateEditTrackerModule(
+		dep: AllDependencies,
+		trackerAction: Tracker.Action
+	) -> (UIViewController, ICreateEditTrackerInteractor) {
 		let presenter = CreateEditTrackerPresenter()
 		let interactor = CreateEditTrackerInteractor(
 			presenter: presenter,
@@ -87,6 +90,6 @@ extension Di {
 		let view = CreateEditTrackerViewController(interactor: interactor)
 		presenter.viewController = view
 
-		return view
+		return (view, interactor)
 	}
 }

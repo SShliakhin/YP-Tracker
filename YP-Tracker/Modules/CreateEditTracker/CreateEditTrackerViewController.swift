@@ -9,9 +9,7 @@ final class CreateEditTrackerViewController: UIViewController {
 	private let interactor: ICreateEditTrackerInteractor
 	private var dataSource: [CreateEditTrackerModels.ViewModel.Section] = []
 
-	var didSendEventClosure: ((Tracker.Action) -> Void)?
-	var hasSchedule = false
-	private var wasSwept = true
+	private var hasSchedule = false
 
 	private lazy var titleTextField: UITextField = makeTitleTextField()
 	private lazy var titleCharactersLimitLabel: UILabel = makeTitleCharactersLimitLabel()
@@ -61,9 +59,6 @@ final class CreateEditTrackerViewController: UIViewController {
 
 	override func viewDidDisappear(_ animated: Bool) {
 		super.viewDidDisappear(animated)
-		if wasSwept {
-			didSendEventClosure?(.cancel)
-		}
 	}
 }
 
