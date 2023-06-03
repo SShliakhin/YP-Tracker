@@ -10,6 +10,12 @@ final class CreateEditTrackerViewController: UIViewController {
 	private var dataSource: [CreateEditTrackerModels.ViewModel.Section] = []
 
 	private var hasSchedule = false
+	private var isSaveEnabled = false {
+		didSet {
+			createButton.isEnabled = isSaveEnabled
+			ButtonEvent.save.buttonLayerValue(createButton)
+		}
+	}
 
 	private lazy var titleTextField: UITextField = makeTitleTextField()
 	private lazy var titleCharactersLimitLabel: UILabel = makeTitleCharactersLimitLabel()
@@ -65,16 +71,16 @@ extension CreateEditTrackerViewController: ICreateEditTrackerViewController {
 		switch viewModel {
 		case let .showAllComponents(hasSchedule, title, components, isSaveEnabled):
 			self.hasSchedule = hasSchedule
+			self.isSaveEnabled = isSaveEnabled
 			titleTextField.text = title
 			dataSource = components
-			createButton.isEnabled = isSaveEnabled
 			collectionView.reloadData()
 		case let .showNewSection(section, items, isSaveEnabled):
+			self.isSaveEnabled = isSaveEnabled
 			dataSource[section] = items
-			createButton.isEnabled = isSaveEnabled
 			collectionView.reloadSections([section])
 		case let .showSaveEnabled(isSaveEnabled):
-			createButton.isEnabled = isSaveEnabled
+			self.isSaveEnabled = isSaveEnabled
 		}
 	}
 }
@@ -83,6 +89,9 @@ extension CreateEditTrackerViewController: ICreateEditTrackerViewController {
 
 extension CreateEditTrackerViewController: UITextFieldDelegate {
 	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+		if let title = textField.text {
+			interactor.didUserDo(request: .newTitle(title))
+		}
 		textField.resignFirstResponder()
 		return true
 	}
@@ -506,7 +515,10 @@ private extension CreateEditTrackerViewController {
 			button.layer.cornerRadius = Theme.size(kind: .cornerRadius)
 			switch self {
 			case .save:
-				button.backgroundColor = Theme.color(usage: .black)
+				button.backgroundColor =
+				button.isEnabled
+				? Theme.color(usage: .black)
+				: Theme.color(usage: .gray)
 			case .cancel:
 				button.backgroundColor = Theme.color(usage: .white)
 				button.layer.borderWidth = Theme.size(kind: .smallBorder)

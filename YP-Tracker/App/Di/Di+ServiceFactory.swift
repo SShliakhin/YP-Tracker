@@ -4,22 +4,24 @@ import Foundation
 
 protocol IServiceFactory {
 	func makeLocalFilesProvider() -> FileManager
-	func makeCategoriesProvider() -> ICategoriesProvider
+	func makeCategoriesManager(repository: ICategoriesRepository) -> ICategoriesManager
+	func makeCategoriesProvider(manager: ICategoriesManager) -> ICategoriesProvider
 }
 
 extension Di: IServiceFactory {
 	func makeLocalFilesProvider() -> FileManager {
 		FileManager.default
 	}
-	func makeCategoriesProvider() -> ICategoriesProvider {
-		let repository = TrackerCategoriesStub()
 
-		let categoriesManager = CategoriesManager(
+	func makeCategoriesManager(repository: ICategoriesRepository) -> ICategoriesManager {
+		return CategoriesManager(
 			trackers: repository.getTrackers(),
 			categories: repository.getCategories(),
 			completedTrackers: repository.getCompletedTrackers()
 		)
+	}
 
-		return CategoriesProvider(categoriesManager: categoriesManager)
+	func makeCategoriesProvider(manager: ICategoriesManager) -> ICategoriesProvider {
+		return CategoriesProvider(categoriesManager: manager)
 	}
 }

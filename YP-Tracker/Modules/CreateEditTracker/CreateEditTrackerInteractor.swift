@@ -15,6 +15,7 @@ protocol ICreateEditTrackerInteractor: AnyObject {
 }
 
 final class CreateEditTrackerInteractor: ICreateEditTrackerInteractor {
+	private let categoriesManager: ICategoriesManager
 	private let trackerAction: Tracker.Action
 	private let presenter: ICreateEditTrackerPresenter
 
@@ -25,27 +26,42 @@ final class CreateEditTrackerInteractor: ICreateEditTrackerInteractor {
 		title: "",
 		emoji: "",
 		color: "",
-		schedule: Dictionary(uniqueKeysWithValues: (1...7).map { ($0, false) })
+		schedule: [:]
 	)
 	private var newCategory: (id: UUID?, title: String) = (nil, "")
+	private var isCorrectSchedule: Bool {
+		var hasSchedule = false
+		if case let .new(trackerType) = trackerAction {
+			hasSchedule = trackerType == .habit
+		}
+		return (hasSchedule && !newTracker.scheduleString.isEmpty) || !hasSchedule
+	}
 
 	init(
 		presenter: ICreateEditTrackerPresenter,
-		dep: IEmptyDependency,
+		dep: ICreateEditTrackerModuleDependency,
 		trackerAction: Tracker.Action
 	) {
 		self.presenter = presenter
+		self.categoriesManager = dep.categoriesManager
 		self.trackerAction = trackerAction
 	}
 
 	func viewIsReady() {
-		switch trackerAction {
-		case .edit:
-			break
-		case let .new(trackerType):
+		if case let .new(trackerType) = trackerAction {
+			let hasSchedule = trackerType == .habit
+			if hasSchedule {
+				newTracker = Tracker(
+					id: newTracker.id,
+					title: newTracker.title,
+					emoji: newTracker.emoji,
+					color: newTracker.color,
+					schedule: Dictionary(uniqueKeysWithValues: (1...7).map { ($0, false) })
+				)
+			}
 			presenter.present(
 				data: .update(
-					hasSchedule: trackerType == .habit,
+					hasSchedule: hasSchedule,
 					title: newTracker.title,
 					components: [
 						.category(newCategory.title),
@@ -53,26 +69,16 @@ final class CreateEditTrackerInteractor: ICreateEditTrackerInteractor {
 						.emoji(Theme.Constansts.emojis, newTracker.emoji),
 						.color(Theme.Constansts.trackerColors, newTracker.color)
 					],
-					isSaveEnabled: false
+					isSaveEnabled: checkSavePossibility()
 				)
 			)
-		case .selectCategory:
-			break
-		case .selectSchedule:
-			break
-		case .save:
-			break
-		case .cancel:
-			break
-		case .selectFilter:
-			break
 		}
 	}
 
 	func didUserDo(request: CreateEditTrackerModels.Request) {
 		switch request {
 		case let .newTitle(title):
-			print(title)
+			presentSelectNewTitle(title: title)
 		case .selectCategory:
 			didSendEventClosure?(.selectCategory(newCategory.id))
 		case .selectSchedule:
@@ -84,36 +90,61 @@ final class CreateEditTrackerInteractor: ICreateEditTrackerInteractor {
 		case .cancel:
 			didSendEventClosure?(.cancel)
 		case .save:
+			guard let categoryID = newCategory.id else { return }
+			categoriesManager.addTracker(
+				tracker: newTracker,
+				categoryID: categoryID
+			)
 			didSendEventClosure?(.save)
 		case let .newCategory(id, title):
 			newCategory = (id, title)
-			presenter.present(
-				data: .updateSection(
-					section: 0,
-					items: .category(newCategory.title),
-					isSaveEnabled: false
-				)
-			)
+			presentSelectNewCategory()
 		case let .newSchedule(schedule):
-			newTracker = Tracker(
-				id: newTracker.id,
-				title: newTracker.title,
-				emoji: newTracker.emoji,
-				color: newTracker.color,
-				schedule: schedule
-			)
-			presenter.present(
-				data: .updateSection(
-					section: 1,
-					items: .schedule(newTracker.scheduleString),
-					isSaveEnabled: false
-				)
-			)
+			presentSelectNewSchedule(schedule: schedule)
 		}
 	}
 }
 
 private extension CreateEditTrackerInteractor {
+	func presentSelectNewTitle(title: String) {
+		newTracker = Tracker(
+			id: newTracker.id,
+			title: title,
+			emoji: newTracker.emoji,
+			color: newTracker.color,
+			schedule: newTracker.schedule
+		)
+		presenter.present(
+			data: .updateSaveEnabled(
+				isSaveEnabled: checkSavePossibility()
+			)
+		)
+	}
+	func presentSelectNewCategory() {
+		presenter.present(
+			data: .updateSection(
+				section: 0,
+				items: .category(newCategory.title),
+				isSaveEnabled: checkSavePossibility()
+			)
+		)
+	}
+	func presentSelectNewSchedule(schedule: [Int: Bool]) {
+		newTracker = Tracker(
+			id: newTracker.id,
+			title: newTracker.title,
+			emoji: newTracker.emoji,
+			color: newTracker.color,
+			schedule: schedule
+		)
+		presenter.present(
+			data: .updateSection(
+				section: 1,
+				items: .schedule(newTracker.scheduleString),
+				isSaveEnabled: checkSavePossibility()
+			)
+		)
+	}
 	func presentSelectNewEmoji(section: Int, item: Int) {
 		newTracker = Tracker(
 			id: newTracker.id,
@@ -130,7 +161,7 @@ private extension CreateEditTrackerInteractor {
 					Theme.Constansts.emojis,
 					Theme.Constansts.emojis[item]
 				),
-				isSaveEnabled: false
+				isSaveEnabled: checkSavePossibility()
 			)
 		)
 	}
@@ -151,8 +182,21 @@ private extension CreateEditTrackerInteractor {
 					Theme.Constansts.trackerColors,
 					Theme.Constansts.trackerColors[item]
 				),
-				isSaveEnabled: false
+				isSaveEnabled: checkSavePossibility()
 			)
 		)
+	}
+
+	func checkSavePossibility() -> Bool {
+		guard
+			!newTracker.title.isEmpty,
+			!newTracker.emoji.isEmpty,
+			!newTracker.color.isEmpty,
+			isCorrectSchedule,
+			newCategory.id != nil
+		else {
+			return false
+		}
+		return true
 	}
 }

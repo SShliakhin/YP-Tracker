@@ -1,6 +1,7 @@
 import UIKit
 final class Di {
 	// MARK: - глобальные сервисы-зависимости
+	private let repository = TrackerCategoriesStub() // по идее извне
 
 	private var dependencies: AllDependencies! // swiftlint:disable:this implicitly_unwrapped_optional
 
@@ -8,16 +9,19 @@ final class Di {
 
 	init() {
 		// MARK: - инициализация глобальных сервисов
+		let categoriesManager = makeCategoriesManager(repository: repository)
 
 		// MARK: - подготовка локальных сервисов
 		dependencies = Dependency(
 			localFilesProvider: makeLocalFilesProvider(),
-			categoriesProvider: makeCategoriesProvider()
+			categoriesManager: categoriesManager,
+			categoriesProvider: makeCategoriesProvider(manager: categoriesManager)
 		)
 	}
 
 	struct Dependency: AllDependencies {
 		let localFilesProvider: FileManager
+		let categoriesManager: ICategoriesManager
 		let categoriesProvider: ICategoriesProvider
 	}
 }
@@ -36,12 +40,17 @@ protocol IYPModuleDependency {
 	var categoriesProvider: ICategoriesProvider { get }
 }
 
+protocol ICreateEditTrackerModuleDependency {
+	var categoriesManager: ICategoriesManager { get }
+}
+
 protocol IEmptyDependency {}
 
 typealias AllDependencies = (
 	IEmptyDependency &
 	IAboutModuleDependency &
 	ITrackersModuleDependency &
+	ICreateEditTrackerModuleDependency &
 	IYPModuleDependency
 )
 
