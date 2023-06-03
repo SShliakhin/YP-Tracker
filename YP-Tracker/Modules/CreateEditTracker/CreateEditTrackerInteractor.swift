@@ -165,7 +165,6 @@ private extension CreateEditTrackerInteractor {
 			)
 		)
 	}
-
 	func presentSelectNewColor(section: Int, item: Int) {
 		newTracker = Tracker(
 			id: newTracker.id,
@@ -186,7 +185,6 @@ private extension CreateEditTrackerInteractor {
 			)
 		)
 	}
-
 	func checkSavePossibility() -> Bool {
 		guard
 			!newTracker.title.isEmpty,
