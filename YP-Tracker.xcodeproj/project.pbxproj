@@ -16,7 +16,6 @@
 		5A4668A32A1AA65F00FEBD9B /* CreateEditTrackerPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4668A22A1AA65F00FEBD9B /* CreateEditTrackerPresenter.swift */; };
 		5A48061D29DBA73B0096B7D8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A48061C29DBA73B0096B7D8 /* AppDelegate.swift */; };
 		5A48061F29DBA73B0096B7D8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A48061E29DBA73B0096B7D8 /* SceneDelegate.swift */; };
-		5A48062129DBA73B0096B7D8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A48062029DBA73B0096B7D8 /* ViewController.swift */; };
 		5A48062629DBA73F0096B7D8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5A48062529DBA73F0096B7D8 /* Assets.xcassets */; };
 		5A48062929DBA73F0096B7D8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A48062729DBA73F0096B7D8 /* LaunchScreen.storyboard */; };
 		5A48063329DBABAA0096B7D8 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 5A48063229DBABAA0096B7D8 /* README.md */; };
@@ -56,11 +55,8 @@
 		5ADD1F0629E358F50072EE78 /* YSDisplay-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5ADD1F0329E358F50072EE78 /* YSDisplay-Medium.ttf */; };
 		5ADD1F0929E38E6E0072EE78 /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADD1F0729E38E6E0072EE78 /* UIColor+Hex.swift */; };
 		5ADD1F0A29E38E6E0072EE78 /* UIColor+Dynamic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADD1F0829E38E6E0072EE78 /* UIColor+Dynamic.swift */; };
-		5AE12A182A0A5F580054D782 /* About.md in Resources */ = {isa = PBXBuildFile; fileRef = 5AE12A172A0A5F580054D782 /* About.md */; };
 		5AE12A1F2A0A6B360054D782 /* OnboardingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE12A1A2A0A6B360054D782 /* OnboardingCoordinator.swift */; };
 		5AE12A202A0A6B360054D782 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE12A1B2A0A6B360054D782 /* AppCoordinator.swift */; };
-		5AE12A222A0A6B360054D782 /* MainSimpleCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE12A1D2A0A6B360054D782 /* MainSimpleCoordinator.swift */; };
-		5AE12A232A0A6B360054D782 /* AboutCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE12A1E2A0A6B360054D782 /* AboutCoordinator.swift */; };
 		5AE12A252A0B90390054D782 /* Theme+Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE12A242A0B90390054D782 /* Theme+Colors.swift */; };
 		5AE12A272A0B926D0054D782 /* Theme+Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE12A262A0B926D0054D782 /* Theme+Images.swift */; };
 		5AE12A292A0B931F0054D782 /* Theme+Sizes+Spacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE12A282A0B931F0054D782 /* Theme+Sizes+Spacing.swift */; };
@@ -79,12 +75,6 @@
 		5AE1F0172A0948A500103F08 /* Di+ServiceFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE1F0162A0948A500103F08 /* Di+ServiceFactory.swift */; };
 		5AE1F0192A0948B100103F08 /* Di+ModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE1F0182A0948B100103F08 /* Di+ModuleFactory.swift */; };
 		5AE1F0262A09628400103F08 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE1F01E2A09628300103F08 /* OnboardingViewController.swift */; };
-		5AE1F0272A09628400103F08 /* AboutInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE1F0202A09628400103F08 /* AboutInteractor.swift */; };
-		5AE1F0282A09628400103F08 /* AboutModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE1F0212A09628400103F08 /* AboutModels.swift */; };
-		5AE1F0292A09628400103F08 /* AboutPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE1F0222A09628400103F08 /* AboutPresenter.swift */; };
-		5AE1F02A2A09628400103F08 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE1F0232A09628400103F08 /* AboutViewController.swift */; };
-		5AE1F02B2A09628400103F08 /* MainSimpleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE1F0252A09628400103F08 /* MainSimpleViewController.swift */; };
-		5AE1F02D2A096D1B00103F08 /* AboutWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE1F02C2A096D1B00103F08 /* AboutWorker.swift */; };
 		5AE6BDE72A18187A0068CB53 /* CellCorner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE6BDE62A18187A0068CB53 /* CellCorner.swift */; };
 		5AE6BDE92A18D38F0068CB53 /* YPCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE6BDE82A18D38F0068CB53 /* YPCell.swift */; };
 		5AE6BDED2A1924580068CB53 /* YPViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE6BDEC2A1924580068CB53 /* YPViewController.swift */; };
@@ -126,7 +116,6 @@
 		5A48061929DBA73B0096B7D8 /* YP-Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "YP-Tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A48061C29DBA73B0096B7D8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5A48061E29DBA73B0096B7D8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		5A48062029DBA73B0096B7D8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		5A48062529DBA73F0096B7D8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5A48062829DBA73F0096B7D8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5A48062A29DBA73F0096B7D8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -169,11 +158,8 @@
 		5ADD1F0329E358F50072EE78 /* YSDisplay-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YSDisplay-Medium.ttf"; sourceTree = "<group>"; };
 		5ADD1F0729E38E6E0072EE78 /* UIColor+Hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
 		5ADD1F0829E38E6E0072EE78 /* UIColor+Dynamic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Dynamic.swift"; sourceTree = "<group>"; };
-		5AE12A172A0A5F580054D782 /* About.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = About.md; sourceTree = "<group>"; };
 		5AE12A1A2A0A6B360054D782 /* OnboardingCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingCoordinator.swift; sourceTree = "<group>"; };
 		5AE12A1B2A0A6B360054D782 /* AppCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
-		5AE12A1D2A0A6B360054D782 /* MainSimpleCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainSimpleCoordinator.swift; sourceTree = "<group>"; };
-		5AE12A1E2A0A6B360054D782 /* AboutCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutCoordinator.swift; sourceTree = "<group>"; };
 		5AE12A242A0B90390054D782 /* Theme+Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Theme+Colors.swift"; sourceTree = "<group>"; };
 		5AE12A262A0B926D0054D782 /* Theme+Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Theme+Images.swift"; sourceTree = "<group>"; };
 		5AE12A282A0B931F0054D782 /* Theme+Sizes+Spacing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Theme+Sizes+Spacing.swift"; sourceTree = "<group>"; };
@@ -192,12 +178,6 @@
 		5AE1F0162A0948A500103F08 /* Di+ServiceFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Di+ServiceFactory.swift"; sourceTree = "<group>"; };
 		5AE1F0182A0948B100103F08 /* Di+ModuleFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Di+ModuleFactory.swift"; sourceTree = "<group>"; };
 		5AE1F01E2A09628300103F08 /* OnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
-		5AE1F0202A09628400103F08 /* AboutInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutInteractor.swift; sourceTree = "<group>"; };
-		5AE1F0212A09628400103F08 /* AboutModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutModels.swift; sourceTree = "<group>"; };
-		5AE1F0222A09628400103F08 /* AboutPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutPresenter.swift; sourceTree = "<group>"; };
-		5AE1F0232A09628400103F08 /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
-		5AE1F0252A09628400103F08 /* MainSimpleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainSimpleViewController.swift; sourceTree = "<group>"; };
-		5AE1F02C2A096D1B00103F08 /* AboutWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutWorker.swift; sourceTree = "<group>"; };
 		5AE6BDE62A18187A0068CB53 /* CellCorner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellCorner.swift; sourceTree = "<group>"; };
 		5AE6BDE82A18D38F0068CB53 /* YPCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YPCell.swift; sourceTree = "<group>"; };
 		5AE6BDEC2A1924580068CB53 /* YPViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YPViewController.swift; sourceTree = "<group>"; };
@@ -316,7 +296,6 @@
 			isa = PBXGroup;
 			children = (
 				5AE12A2E2A0B944A0054D782 /* Theme */,
-				5A48062029DBA73B0096B7D8 /* ViewController.swift */,
 				5A48062529DBA73F0096B7D8 /* Assets.xcassets */,
 				5A48062729DBA73F0096B7D8 /* LaunchScreen.storyboard */,
 				5A48062A29DBA73F0096B7D8 /* Info.plist */,
@@ -360,10 +339,10 @@
 				5AE1F01D2A09628300103F08 /* Onboarding */,
 				5AE12A352A0BE8CF0054D782 /* Main */,
 				5A45EA612A0CEA7E003269D3 /* Trackers */,
+				5A45EA5E2A0CE7AB003269D3 /* Statistics */,
 				5AE6BDEA2A1919BF0068CB53 /* YPModule */,
 				5A8D1DAE2A0D6EE100A2924F /* SelectTypeTracker */,
 				5A84742E2A0F56AE00C2F93E /* CreateEditTracker */,
-				5A45EA5E2A0CE7AB003269D3 /* Statistics */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -373,22 +352,11 @@
 			children = (
 				5AA5FA292A13CDCC0056633B /* Protocols */,
 				5AE1F0082A0944D400103F08 /* Coordinator+Router */,
-				5A77EF622A26E0BD000CF24C /* Coordinator_Examples */,
-				5AE1F01A2A0961F400103F08 /* VC_Examples */,
 				5A45EA622A0D22CE003269D3 /* OptionalViews */,
 				5ADD1F0B29E38ECA0072EE78 /* Extensions */,
 				5A91DED629E0DF0A001A23C3 /* Utils */,
 			);
 			path = Library;
-			sourceTree = "<group>";
-		};
-		5A77EF622A26E0BD000CF24C /* Coordinator_Examples */ = {
-			isa = PBXGroup;
-			children = (
-				5AE12A1D2A0A6B360054D782 /* MainSimpleCoordinator.swift */,
-				5AE12A1E2A0A6B360054D782 /* AboutCoordinator.swift */,
-			);
-			path = Coordinator_Examples;
 			sourceTree = "<group>";
 		};
 		5A84742E2A0F56AE00C2F93E /* CreateEditTracker */ = {
@@ -463,6 +431,7 @@
 		5ADD1F0B29E38ECA0072EE78 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				5A84742F2A0F764A00C2F93E /* UIButton+Event.swift */,
 				5ADD1F0829E38E6E0072EE78 /* UIColor+Dynamic.swift */,
 				5ADD1F0729E38E6E0072EE78 /* UIColor+Hex.swift */,
 				5AA5FA342A1409680056633B /* UIView+Animations.swift */,
@@ -513,7 +482,6 @@
 				5AE1F0092A0944D400103F08 /* IRouter.swift */,
 				5AE1F00A2A0944D400103F08 /* ICoordinator.swift */,
 				5AE1F00B2A0944D400103F08 /* Router.swift */,
-				5A84742F2A0F764A00C2F93E /* UIButton+Event.swift */,
 			);
 			path = "Coordinator+Router";
 			sourceTree = "<group>";
@@ -530,42 +498,12 @@
 			path = Di;
 			sourceTree = "<group>";
 		};
-		5AE1F01A2A0961F400103F08 /* VC_Examples */ = {
-			isa = PBXGroup;
-			children = (
-				5AE1F01F2A09628400103F08 /* About */,
-				5AE1F0242A09628400103F08 /* MainSimple */,
-			);
-			path = VC_Examples;
-			sourceTree = "<group>";
-		};
 		5AE1F01D2A09628300103F08 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
 				5AE1F01E2A09628300103F08 /* OnboardingViewController.swift */,
 			);
 			path = Onboarding;
-			sourceTree = "<group>";
-		};
-		5AE1F01F2A09628400103F08 /* About */ = {
-			isa = PBXGroup;
-			children = (
-				5AE12A172A0A5F580054D782 /* About.md */,
-				5AE1F0212A09628400103F08 /* AboutModels.swift */,
-				5AE1F0202A09628400103F08 /* AboutInteractor.swift */,
-				5AE1F02C2A096D1B00103F08 /* AboutWorker.swift */,
-				5AE1F0222A09628400103F08 /* AboutPresenter.swift */,
-				5AE1F0232A09628400103F08 /* AboutViewController.swift */,
-			);
-			path = About;
-			sourceTree = "<group>";
-		};
-		5AE1F0242A09628400103F08 /* MainSimple */ = {
-			isa = PBXGroup;
-			children = (
-				5AE1F0252A09628400103F08 /* MainSimpleViewController.swift */,
-			);
-			path = MainSimple;
 			sourceTree = "<group>";
 		};
 		5AE6BDEA2A1919BF0068CB53 /* YPModule */ = {
@@ -704,7 +642,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5AE12A182A0A5F580054D782 /* About.md in Resources */,
 				5ADD1F0629E358F50072EE78 /* YSDisplay-Medium.ttf in Resources */,
 				5ADD1F0429E358F50072EE78 /* YSDisplay-Regular.ttf in Resources */,
 				5A48063729DBAC450096B7D8 /* .gitignore in Resources */,
@@ -766,18 +703,14 @@
 				5A84742D2A0E9A7500C2F93E /* CreateEditTrackerViewController.swift in Sources */,
 				5A8CD5202A20057B00A100BD /* InnerViewType.swift in Sources */,
 				5AE6BDE92A18D38F0068CB53 /* YPCell.swift in Sources */,
-				5A48062129DBA73B0096B7D8 /* ViewController.swift in Sources */,
 				5A45EA602A0CE96D003269D3 /* TrackersViewController.swift in Sources */,
 				5AE12A202A0A6B360054D782 /* AppCoordinator.swift in Sources */,
-				5AE1F02A2A09628400103F08 /* AboutViewController.swift in Sources */,
 				5AF5CAF62A125333004AB8D2 /* CategoriesManager.swift in Sources */,
 				5AE12A2B2A0B936B0054D782 /* Theme+DateFormatter.swift in Sources */,
 				5AE6BDEF2A197BCD0068CB53 /* YPModels.swift in Sources */,
 				5A45EA5D2A0CD9BC003269D3 /* StatisticsViewController.swift in Sources */,
 				5ADD1F0929E38E6E0072EE78 /* UIColor+Hex.swift in Sources */,
-				5AE1F0282A09628400103F08 /* AboutModels.swift in Sources */,
 				5A8D1DB52A0DAFAB00A2924F /* TrackerCategory.swift in Sources */,
-				5AE1F02B2A09628400103F08 /* MainSimpleViewController.swift in Sources */,
 				5AA7AD0A2A163A990022C334 /* TrackersModels.swift in Sources */,
 				5AE1F0172A0948A500103F08 /* Di+ServiceFactory.swift in Sources */,
 				5AA5FA2F2A13CE4F0056633B /* UITableView+Extensions.swift in Sources */,
@@ -815,7 +748,6 @@
 				5AA5FA2B2A13CDCC0056633B /* ICellViewModel.swift in Sources */,
 				5AE12A272A0B926D0054D782 /* Theme+Images.swift in Sources */,
 				5A45EA682A0D22CE003269D3 /* EmptyView.swift in Sources */,
-				5AE12A222A0A6B360054D782 /* MainSimpleCoordinator.swift in Sources */,
 				5A91DEDA29E12F82001A23C3 /* UIViewController+Preview.swift in Sources */,
 				5AA7AD102A16AA590022C334 /* HeaderSupplementaryView.swift in Sources */,
 				5AE12A322A0BC70F0054D782 /* TrackersCoordinator.swift in Sources */,
@@ -829,11 +761,7 @@
 				5A48061D29DBA73B0096B7D8 /* AppDelegate.swift in Sources */,
 				5AE12A1F2A0A6B360054D782 /* OnboardingCoordinator.swift in Sources */,
 				5A48061F29DBA73B0096B7D8 /* SceneDelegate.swift in Sources */,
-				5AE1F0292A09628400103F08 /* AboutPresenter.swift in Sources */,
 				5AE1F00D2A0944D400103F08 /* ICoordinator.swift in Sources */,
-				5AE1F0272A09628400103F08 /* AboutInteractor.swift in Sources */,
-				5AE12A232A0A6B360054D782 /* AboutCoordinator.swift in Sources */,
-				5AE1F02D2A096D1B00103F08 /* AboutWorker.swift in Sources */,
 				5AE12A292A0B931F0054D782 /* Theme+Sizes+Spacing.swift in Sources */,
 				5A8D1DB42A0DAFAB00A2924F /* Tracker.swift in Sources */,
 			);

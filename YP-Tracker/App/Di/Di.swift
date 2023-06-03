@@ -13,24 +13,18 @@ final class Di {
 
 		// MARK: - подготовка локальных сервисов
 		dependencies = Dependency(
-			localFilesProvider: makeLocalFilesProvider(),
 			categoriesManager: categoriesManager,
 			categoriesProvider: makeCategoriesProvider(manager: categoriesManager)
 		)
 	}
 
 	struct Dependency: AllDependencies {
-		let localFilesProvider: FileManager
 		let categoriesManager: ICategoriesManager
 		let categoriesProvider: ICategoriesProvider
 	}
 }
 
 // MARK: - Module Dependency
-
-protocol IAboutModuleDependency {
-	var localFilesProvider: FileManager { get }
-}
 
 protocol ITrackersModuleDependency {
 	var categoriesProvider: ICategoriesProvider { get }
@@ -48,7 +42,6 @@ protocol IEmptyDependency {}
 
 typealias AllDependencies = (
 	IEmptyDependency &
-	IAboutModuleDependency &
 	ITrackersModuleDependency &
 	ICreateEditTrackerModuleDependency &
 	IYPModuleDependency
@@ -85,12 +78,6 @@ extension Di: IModuleFactory {
 		(view, _) = makeYPModule(trackerAction: .selectSchedule(schedule))
 		view.title = "Расписание"
 		return UINavigationController(rootViewController: view)
-	}
-	func makeAboutModule() -> UIViewController {
-		makeAboutModule(dep: dependencies)
-	}
-	func makeMainSimpleModule() -> UIViewController {
-		makeMainSimpleModule(dep: dependencies)
 	}
 	func makeOnboardingModule() -> UIViewController {
 		makeOnboardingModule(dep: dependencies)

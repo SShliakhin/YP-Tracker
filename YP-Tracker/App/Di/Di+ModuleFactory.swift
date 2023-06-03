@@ -4,8 +4,6 @@ import UIKit
 
 protocol IModuleFactory: AnyObject {
 	func makeStartModule() -> UIViewController
-	func makeAboutModule() -> UIViewController
-	func makeMainSimpleModule() -> UIViewController
 	func makeOnboardingModule() -> UIViewController
 	func makeTabbarModule() -> UIViewController
 	func makeStatisticsModule() -> UIViewController
@@ -16,24 +14,6 @@ protocol IModuleFactory: AnyObject {
 }
 
 extension Di {
-	func makeAboutModule(dep: AllDependencies) -> UIViewController {
-		let presenter = AboutPresenter()
-		let worker = AboutWorker()
-		let interactor = AboutInteractor(
-			worker: worker,
-			presenter: presenter,
-			dep: dep
-		)
-		let view = AboutViewController(interactor: interactor)
-		presenter.viewController = view
-
-		return view
-	}
-
-	func makeMainSimpleModule(dep: AllDependencies) -> UIViewController {
-		return MainSimpleViewController()
-	}
-
 	func makeOnboardingModule(dep: AllDependencies) -> UIViewController {
 		return OnboardingViewController()
 	}
@@ -46,7 +26,9 @@ extension Di {
 		return StatisticsViewController()
 	}
 
-	func makeTrackersModule(dep: AllDependencies) -> (UIViewController, ITrackersInteractor) {
+	func makeTrackersModule(
+		dep: AllDependencies
+	) -> (UIViewController, ITrackersInteractor) {
 		let presenter = TrackersPresenter()
 		let interactor = TrackersInteractor(
 			presenter: presenter,
@@ -58,13 +40,18 @@ extension Di {
 		return (view, interactor)
 	}
 
-	func makeSelectTypeTrackerModule(dep: AllDependencies) -> (UIViewController, ISelectTypeTrackerInteractor) {
+	func makeSelectTypeTrackerModule(
+		dep: AllDependencies
+	) -> (UIViewController, ISelectTypeTrackerInteractor) {
 		let interactor = SelectTypeTrackerInteractor()
 		let view = SelectTypeTrackerViewController(interactor: interactor)
 		return (view, interactor)
 	}
 
-	func makeYPModule(dep: AllDependencies, trackerAction: Tracker.Action) -> (UIViewController, IYPInteractor) {
+	func makeYPModule(
+		dep: AllDependencies,
+		trackerAction: Tracker.Action
+	) -> (UIViewController, IYPInteractor) {
 		let presenter = YPPresenter()
 		let interactor = YPInteractor(
 			presenter: presenter,
