@@ -1,10 +1,3 @@
-//
-//  Swift_BaseTests.swift
-//  YP-TrackerTests
-//
-//  Created by SERGEY SHLYAKHIN on 04.04.2023.
-//
-
 import XCTest
 
 class Swift_BaseTests: XCTestCase {
