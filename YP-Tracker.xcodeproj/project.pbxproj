@@ -83,6 +83,8 @@
 		5AF5CAF42A124EA4004AB8D2 /* CategoriesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF5CAF32A124EA4004AB8D2 /* CategoriesProvider.swift */; };
 		5AF5CAF62A125333004AB8D2 /* CategoriesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF5CAF52A125333004AB8D2 /* CategoriesManager.swift */; };
 		5AF5CAF92A12D0A4004AB8D2 /* TrackerFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF5CAF82A12D0A4004AB8D2 /* TrackerFilter.swift */; };
+		5AFC98AA2A32FD39005E3C4D /* CoreDataTrainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AFC98A92A32FD39005E3C4D /* CoreDataTrainerViewController.swift */; };
+		5AFC98B52A366735005E3C4D /* TrackersMOC.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5AFC98B32A366735005E3C4D /* TrackersMOC.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -186,6 +188,8 @@
 		5AF5CAF32A124EA4004AB8D2 /* CategoriesProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesProvider.swift; sourceTree = "<group>"; };
 		5AF5CAF52A125333004AB8D2 /* CategoriesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesManager.swift; sourceTree = "<group>"; };
 		5AF5CAF82A12D0A4004AB8D2 /* TrackerFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerFilter.swift; sourceTree = "<group>"; };
+		5AFC98A92A32FD39005E3C4D /* CoreDataTrainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataTrainerViewController.swift; sourceTree = "<group>"; };
+		5AFC98B42A366735005E3C4D /* TrackersMOC.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TrackersMOC.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -326,6 +330,7 @@
 				5A8D1DB12A0DAFAB00A2924F /* TrackerColor.swift */,
 				5AF5CAF82A12D0A4004AB8D2 /* TrackerFilter.swift */,
 				5AE6BDF42A19D8770068CB53 /* TrackerConditions.swift */,
+				5AFC98B32A366735005E3C4D /* TrackersMOC.xcdatamodeld */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -499,6 +504,7 @@
 			isa = PBXGroup;
 			children = (
 				5AE1F01E2A09628300103F08 /* OnboardingViewController.swift */,
+				5AFC98A92A32FD39005E3C4D /* CoreDataTrainerViewController.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -720,12 +726,14 @@
 				5ADD1F0A29E38E6E0072EE78 /* UIColor+Dynamic.swift in Sources */,
 				5AE12A3B2A0BE8CF0054D782 /* TabbarViewController.swift in Sources */,
 				5AF5CAF92A12D0A4004AB8D2 /* TrackerFilter.swift in Sources */,
+				5AFC98B52A366735005E3C4D /* TrackersMOC.xcdatamodeld in Sources */,
 				5AE1F0192A0948B100103F08 /* Di+ModuleFactory.swift in Sources */,
 				5A4668A32A1AA65F00FEBD9B /* CreateEditTrackerPresenter.swift in Sources */,
 				5AE1F00E2A0944D400103F08 /* Router.swift in Sources */,
 				5AE12A2D2A0B93B70054D782 /* Theme+Constants.swift in Sources */,
 				5A91DED829E0DF58001A23C3 /* UIView+Constraints.swift in Sources */,
 				5AE6BDE72A18187A0068CB53 /* CellCorner.swift in Sources */,
+				5AFC98AA2A32FD39005E3C4D /* CoreDataTrainerViewController.swift in Sources */,
 				5AA5FA2E2A13CE4F0056633B /* UICollectionView+Extensions.swift in Sources */,
 				5AA5FA382A1439CE0056633B /* TrackerCell.swift in Sources */,
 				5AA5FA322A1409420056633B /* TrackerColorCell.swift in Sources */,
@@ -1089,6 +1097,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		5AFC98B32A366735005E3C4D /* TrackersMOC.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				5AFC98B42A366735005E3C4D /* TrackersMOC.xcdatamodel */,
+			);
+			currentVersion = 5AFC98B42A366735005E3C4D /* TrackersMOC.xcdatamodel */;
+			path = TrackersMOC.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 5A48061129DBA73B0096B7D8 /* Project object */;
 }

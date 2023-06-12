@@ -54,8 +54,11 @@ extension Di: IModuleFactory {
 		// Вспомогательный метод, для отдельного запуска сцен
 		// при let isOnlyScene = true в SceneDelegate
 
+		var view = makeCoreDataTrainerModule()
+		return view
+
 		// модуль создания трекера
-		var (view, _) = makeCreateEditTrackerModule(trackerAction: .new(.habit))
+		(view, _) = makeCreateEditTrackerModule(trackerAction: .new(.habit))
 		return UINavigationController(rootViewController: view)
 
 		// модуль выбора категории, нужен сервис, кнопка - Добавить категорию
@@ -99,5 +102,8 @@ extension Di: IModuleFactory {
 	}
 	func makeCreateEditTrackerModule(trackerAction: Tracker.Action) -> (UIViewController, ICreateEditTrackerInteractor) {
 		makeCreateEditTrackerModule(dep: dependencies, trackerAction: trackerAction)
+	}
+	func makeCoreDataTrainerModule() -> UIViewController {
+		makeCoreDataTrainerModule(dep: dependencies)
 	}
 }
