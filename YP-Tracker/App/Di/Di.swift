@@ -1,7 +1,10 @@
 import UIKit
 final class Di {
 	// MARK: - глобальные сервисы-зависимости
-	private let repository = TrackerCategoriesStub() // по идее извне
+	// по идее должны приходить извне
+	private let repository = TrackerCategoriesStub()
+	// пока не знаю что лучше передавать в инит di сам стек или только имя модели
+	private let trackersDataStore = CoreDataStack(modelName: "TrackersMOC")
 
 	private var dependencies: AllDependencies! // swiftlint:disable:this implicitly_unwrapped_optional
 
@@ -9,7 +12,10 @@ final class Di {
 
 	init() {
 		// MARK: - инициализация глобальных сервисов
-		let categoriesManager = makeCategoriesManager(repository: repository)
+		// вариант для работы в ОП
+		// let categoriesManager = makeCategoriesManager(repository: repository)
+		// вариант для работы с постоянным хранилищем
+		let categoriesManager = makeCategoriesManager(dataStore: trackersDataStore)
 
 		// MARK: - подготовка локальных сервисов
 		dependencies = Dependency(

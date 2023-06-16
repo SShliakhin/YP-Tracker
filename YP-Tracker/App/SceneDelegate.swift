@@ -12,7 +12,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 	) {
 		guard let scene = (scene as? UIWindowScene) else { return }
 
-		let isOnlyScene = true
+		let isOnlyScene = false
 		if isOnlyScene {
 			self.window = appFactory.makeKeyWindow(scene: scene)
 		} else {
