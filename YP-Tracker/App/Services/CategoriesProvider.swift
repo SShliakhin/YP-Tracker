@@ -53,14 +53,17 @@ final class CategoriesProvider: ICategoriesProvider {
 			tracker.id
 		}
 
+		// пока небольшая оптимизация - для CD этот модуль надо тоже переписать, особенно этот метод
+		let allCompletedTrackers = categoriesManager.getCompletedTrackers()
+
 		// получим список завершенных трекеров на переданную дату
-		completedTrackers = categoriesManager.getCompletedTrackers().filter { record in
+		completedTrackers = allCompletedTrackers.filter { record in
 			let isTheSameDay = calendar.isDate(record.date, inSameDayAs: date)
 			return trackersUUID.contains(record.trackerId) && isTheSameDay
 		}
 
 		// получим список сколько раз каждый трекер был выполнен
-		allTimesCompleted = categoriesManager.getCompletedTrackers()
+		allTimesCompleted = allCompletedTrackers
 			.reduce(into: [:]) { $0[$1.trackerId, default: 0] += 1 }
 
 		// дополнительно отфильтруем по фильтру трекеров
