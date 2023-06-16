@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="19574" systemVersion="20G1231" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="TrackerCD" representedClassName="TrackerCD" syncable="YES" codeGenerationType="class">
+        <attribute name="color" attributeType="String"/>
+        <attribute name="emoji" attributeType="String"/>
+        <attribute name="schedule" attributeType="String" minValueString="0" maxValueString="13" defaultValueString="&quot;&quot;"/>
+        <attribute name="title" attributeType="String"/>
+        <attribute name="trackerID" attributeType="UUID" usesScalarValueType="NO"/>
+        <relationship name="trackerRecords" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="TrackerRecordCD" inverseName="tracker" inverseEntity="TrackerRecordCD"/>
+    </entity>
+    <entity name="TrackerRecordCD" representedClassName="TrackerRecordCD" syncable="YES" codeGenerationType="class">
+        <attribute name="date" attributeType="String" minValueString="10" maxValueString="10"/>
+        <attribute name="trackerID" attributeType="UUID" usesScalarValueType="NO"/>
+        <relationship name="tracker" maxCount="1" deletionRule="Nullify" destinationEntity="TrackerCD" inverseName="trackerRecords" inverseEntity="TrackerCD"/>
+    </entity>
+    <elements>
+        <element name="TrackerCD" positionX="-73.747802734375" positionY="17.8311767578125" width="128" height="133"/>
+        <element name="TrackerRecordCD" positionX="184.4802856445312" positionY="37.55166625976562" width="128" height="88"/>
+    </elements>
+</model>
