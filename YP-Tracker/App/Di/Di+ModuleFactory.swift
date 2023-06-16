@@ -11,11 +11,16 @@ protocol IModuleFactory: AnyObject {
 	func makeSelectTypeTrackerModule() -> (UIViewController, ISelectTypeTrackerInteractor)
 	func makeYPModule(trackerAction: Tracker.Action) -> (UIViewController, IYPInteractor)
 	func makeCreateEditTrackerModule(trackerAction: Tracker.Action) -> (UIViewController, ICreateEditTrackerInteractor)
+	func makeCoreDataTrainerModule() -> UIViewController
 }
 
 extension Di {
 	func makeOnboardingModule(dep: AllDependencies) -> UIViewController {
 		return OnboardingViewController()
+	}
+
+	func makeCoreDataTrainerModule(dep: AllDependencies) -> UIViewController {
+		return CoreDataTrainerViewController()
 	}
 
 	func makeTabbarModule(dep: AllDependencies) -> UIViewController {
