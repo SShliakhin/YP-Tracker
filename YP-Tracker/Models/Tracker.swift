@@ -20,19 +20,6 @@ struct Tracker: Identifiable, Hashable {
 		}
 	}
 
-	var scheduleCD: String {
-		return schedule
-			.sorted { $0.key < $1.key }
-			.map { key, value -> String in
-				if value {
-					return "\(key)" // "1" // пока думаю использовать ключ или 1
-				} else {
-					return "0"
-				}
-			}
-			.joined(separator: ",")
-	}
-
 	static func makeWeekDays() -> [String] {
 		let calendar = Calendar.current
 		let numDays: Int = calendar.weekdaySymbols.count
