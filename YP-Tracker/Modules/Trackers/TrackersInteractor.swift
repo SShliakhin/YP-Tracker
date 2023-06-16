@@ -46,6 +46,7 @@ final class TrackersInteractor: ITrackersInteractor {
 			conditions.searchText = text
 		case let .newDate(date):
 			conditions.date = date
+			// странный фильтр .today, если можем менять дату, то значит меняем и фильтр
 			if conditions.filter == .today {
 				conditions.filter = .all
 			}
@@ -57,9 +58,6 @@ final class TrackersInteractor: ITrackersInteractor {
 			) else { return }
 		case let .newFilter(filter):
 			conditions.filter = filter
-			if filter == .today {
-				conditions.date = Date()
-			}
 		case .addTracker:
 			didSendEventClosure?(.addTracker)
 			return
@@ -78,7 +76,13 @@ private extension TrackersInteractor {
 		conditions.hasAnyTrackers = categoriesProvider.hasAnyTrakers
 
 		switch conditions.filter {
-		case .today, .all:
+		case .today:
+			categories = categoriesProvider.getCategories(
+				date: Date(),
+				text: conditions.searchText,
+				completed: nil
+			)
+		case .all:
 			categories = categoriesProvider.getCategories(
 				date: conditions.date,
 				text: conditions.searchText,

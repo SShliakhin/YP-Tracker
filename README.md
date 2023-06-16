@@ -41,12 +41,6 @@
 
 [In progress]
 
-* Clean Swift
-* Navigation: Coordinator
-* DI: на базе фабрик
-* Layout: Anchors, CompositionalLayout
-* Fonts: YSDisplay
-
 # Structure
 
 * "App": App и Scene delegates, глобальные объекты приложения: DI, навигация и др.
