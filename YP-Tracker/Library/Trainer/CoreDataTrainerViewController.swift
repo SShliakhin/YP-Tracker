@@ -236,9 +236,10 @@ private extension CoreDataTrainerViewController {
 	}
 
 	func addCompleted() {
-		let isOK = completeUncompleteTrackerByPlace(section: 0, row: 0, date: Date())
+		completeUncompleteTrackerByPlace(section: 0, row: 0, date: Date())
 	}
 
+	@discardableResult
 	func completeUncompleteTrackerByPlace(section: Int, row: Int, date: Date) -> Bool {
 		// проверка на наличие данных
 		guard fetchedResultsController.sections != nil else { return false }
