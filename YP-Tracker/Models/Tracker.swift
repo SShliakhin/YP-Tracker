@@ -23,13 +23,7 @@ struct Tracker: Identifiable, Hashable {
 	var scheduleCD: String {
 		return schedule
 			.sorted { $0.key < $1.key }
-			.map { key, value -> String in
-				if value {
-					return "\(key)" // "1" // пока думаю использовать ключ или 1
-				} else {
-					return "0"
-				}
-			}
+			.map { key, value -> String in value ? "\(key)" : "0" }
 			.joined(separator: ",")
 	}
 
