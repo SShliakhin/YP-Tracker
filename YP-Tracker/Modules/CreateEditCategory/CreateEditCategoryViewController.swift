@@ -132,11 +132,11 @@ private extension CreateEditCategoryViewController {
 				make.heightAnchor.constraint(equalToConstant: Theme.size(kind: .buttonHeight)),
 				make.leadingAnchor.constraint(
 					equalTo: view.safeAreaLayoutGuide.leadingAnchor,
-					constant: 20
+					constant: Theme.spacing(usage: .constant20)
 				),
 				make.trailingAnchor.constraint(
 					equalTo: view.safeAreaLayoutGuide.trailingAnchor,
-					constant: -20
+					constant: -Theme.spacing(usage: .constant20)
 				),
 				make.bottomAnchor.constraint(
 					equalTo: view.safeAreaLayoutGuide.bottomAnchor,
