@@ -226,7 +226,6 @@ private extension CreateEditTrackerViewController {
 		]
 	}
 	func applyStyle() {
-		// title = Appearance.titleNew
 		view.backgroundColor = Theme.color(usage: .white)
 	}
 
@@ -536,8 +535,6 @@ private extension CreateEditTrackerViewController {
 // MARK: - Appearance
 private extension CreateEditTrackerViewController {
 	enum Appearance {
-		static let titleNew = "Новая привычка"
-		static let titleEdit = "Редактирование привычки"
 		static let textFieldPlaceholder = "Введите название трекера"
 		static let textFieldLimit = 38
 		static let titleLimitMessage = "Ограничение 38 символов"
