@@ -18,6 +18,7 @@
 		5A2837602A3E457C00513B91 /* CreateEditCategoryInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A28375F2A3E457C00513B91 /* CreateEditCategoryInteractor.swift */; };
 		5A2837622A3E4BE100513B91 /* CreateEditCategoryPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2837612A3E4BE100513B91 /* CreateEditCategoryPresenter.swift */; };
 		5A2837642A3E515A00513B91 /* CreateEditCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2837632A3E515A00513B91 /* CreateEditCategoryViewController.swift */; };
+		5A2837672A3EF12B00513B91 /* UIViewController+hideKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2837662A3EF12B00513B91 /* UIViewController+hideKeyboard.swift */; };
 		5A45EA5D2A0CD9BC003269D3 /* StatisticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A45EA5C2A0CD9BC003269D3 /* StatisticsViewController.swift */; };
 		5A45EA602A0CE96D003269D3 /* TrackersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A45EA5F2A0CE96D003269D3 /* TrackersViewController.swift */; };
 		5A45EA672A0D22CE003269D3 /* EmptyInputData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A45EA632A0D22CE003269D3 /* EmptyInputData.swift */; };
@@ -128,6 +129,7 @@
 		5A28375F2A3E457C00513B91 /* CreateEditCategoryInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEditCategoryInteractor.swift; sourceTree = "<group>"; };
 		5A2837612A3E4BE100513B91 /* CreateEditCategoryPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEditCategoryPresenter.swift; sourceTree = "<group>"; };
 		5A2837632A3E515A00513B91 /* CreateEditCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEditCategoryViewController.swift; sourceTree = "<group>"; };
+		5A2837662A3EF12B00513B91 /* UIViewController+hideKeyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+hideKeyboard.swift"; sourceTree = "<group>"; };
 		5A45EA5C2A0CD9BC003269D3 /* StatisticsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsViewController.swift; sourceTree = "<group>"; };
 		5A45EA5F2A0CE96D003269D3 /* TrackersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersViewController.swift; sourceTree = "<group>"; };
 		5A45EA632A0D22CE003269D3 /* EmptyInputData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptyInputData.swift; sourceTree = "<group>"; };
@@ -498,6 +500,7 @@
 				5AA5FA342A1409680056633B /* UIView+Animations.swift */,
 				5AA5FA2C2A13CE4F0056633B /* UICollectionView+Extensions.swift */,
 				5AA5FA2D2A13CE4F0056633B /* UITableView+Extensions.swift */,
+				5A2837662A3EF12B00513B91 /* UIViewController+hideKeyboard.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -819,6 +822,7 @@
 				5A2837602A3E457C00513B91 /* CreateEditCategoryInteractor.swift in Sources */,
 				5AA5FA2B2A13CDCC0056633B /* ICellViewModel.swift in Sources */,
 				5AE12A272A0B926D0054D782 /* Theme+Images.swift in Sources */,
+				5A2837672A3EF12B00513B91 /* UIViewController+hideKeyboard.swift in Sources */,
 				5A45EA682A0D22CE003269D3 /* EmptyView.swift in Sources */,
 				5A91DEDA29E12F82001A23C3 /* UIViewController+Preview.swift in Sources */,
 				5AA7AD102A16AA590022C334 /* HeaderSupplementaryView.swift in Sources */,

@@ -88,11 +88,18 @@ extension CreateEditTrackerViewController: ICreateEditTrackerViewController {
 // MARK: - UITextFieldDelegate
 
 extension CreateEditTrackerViewController: UITextFieldDelegate {
-	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-		guard let text = textField.text else { return false }
+	func textFieldDidBeginEditing(_ textField: UITextField) {
+		isSaveEnabled = false
+	}
+
+	func textFieldDidEndEditing(_ textField: UITextField) {
+		guard let text = textField.text else { return }
 		let title = text.trimmingCharacters(in: .whitespacesAndNewlines)
 		textField.text = title
 		interactor.didUserDo(request: .newTitle(title))
+	}
+
+	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
 		textField.resignFirstResponder()
 		return true
 	}
@@ -220,6 +227,8 @@ private extension CreateEditTrackerViewController {
 			NSAttributedString.Key.foregroundColor: Theme.color(usage: .black),
 			NSAttributedString.Key.font: Theme.font(style: .callout)
 		]
+
+		hideKeyboardWhenTappedAround()
 	}
 	func applyStyle() {
 		view.backgroundColor = Theme.color(usage: .white)
