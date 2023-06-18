@@ -92,11 +92,7 @@ extension CreateEditTrackerViewController: UITextFieldDelegate {
 		guard let text = textField.text else { return false }
 		let title = text.trimmingCharacters(in: .whitespacesAndNewlines)
 		textField.text = title
-
-		if !title.isEmpty {
-			interactor.didUserDo(request: .newTitle(title))
-		}
-
+		interactor.didUserDo(request: .newTitle(title))
 		textField.resignFirstResponder()
 		return true
 	}
