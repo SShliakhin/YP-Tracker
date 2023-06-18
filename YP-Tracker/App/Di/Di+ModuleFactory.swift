@@ -11,6 +11,7 @@ protocol IModuleFactory: AnyObject {
 	func makeSelectTypeTrackerModule() -> (UIViewController, ISelectTypeTrackerInteractor)
 	func makeYPModule(trackerAction: Tracker.Action) -> (UIViewController, IYPInteractor)
 	func makeCreateEditTrackerModule(trackerAction: Tracker.Action) -> (UIViewController, ICreateEditTrackerInteractor)
+	func makeCreateEditCategoryModule(trackerAction: Tracker.Action) -> (UIViewController, ICreateEditCategoryInteractor)
 	func makeCoreDataTrainerModule() -> UIViewController
 }
 
@@ -80,6 +81,22 @@ extension Di {
 			trackerAction: trackerAction
 		)
 		let view = CreateEditTrackerViewController(interactor: interactor)
+		presenter.viewController = view
+
+		return (view, interactor)
+	}
+
+	func makeCreateEditCategoryModule(
+		dep: AllDependencies,
+		trackerAction: Tracker.Action
+	) -> (UIViewController, ICreateEditCategoryInteractor) {
+		let presenter = CreateEditCategoryPresenter()
+		let interactor = CreateEditCategoryInteractor(
+			presenter: presenter,
+			dep: dep,
+			trackerAction: trackerAction
+		)
+		let view = CreateEditCategoryViewController(interactor: interactor)
 		presenter.viewController = view
 
 		return (view, interactor)

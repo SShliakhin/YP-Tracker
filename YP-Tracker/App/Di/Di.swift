@@ -44,12 +44,17 @@ protocol ICreateEditTrackerModuleDependency {
 	var categoriesManager: ICategoriesManager { get }
 }
 
+protocol ICreateEditCategoryModuleDependency {
+	var categoriesManager: ICategoriesManager { get }
+}
+
 protocol IEmptyDependency {}
 
 typealias AllDependencies = (
 	IEmptyDependency &
 	ITrackersModuleDependency &
 	ICreateEditTrackerModuleDependency &
+	ICreateEditCategoryModuleDependency &
 	IYPModuleDependency
 )
 
@@ -111,5 +116,8 @@ extension Di: IModuleFactory {
 	}
 	func makeCoreDataTrainerModule() -> UIViewController {
 		makeCoreDataTrainerModule(dep: dependencies)
+	}
+	func makeCreateEditCategoryModule(trackerAction: Tracker.Action) -> (UIViewController, ICreateEditCategoryInteractor) {
+		makeCreateEditCategoryModule(dep: dependencies, trackerAction: trackerAction)
 	}
 }
