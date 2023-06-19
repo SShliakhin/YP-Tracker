@@ -169,7 +169,6 @@ private extension TrackersViewController {
 		navigationItem.searchController = searchController
 	}
 	func applyStyle() {
-		title = Appearance.title
 		view.backgroundColor = Theme.color(usage: .white)
 	}
 	func setConstraints() {
@@ -372,7 +371,6 @@ private extension TrackersViewController {
 // MARK: - Appearance
 private extension TrackersViewController {
 	enum Appearance {
-		static let title = "Трекеры"
 		static let filtersButtonTitle = "Фильтры"
 		static let datePickerWidth: CGFloat = 104
 		static let searchPlacholder = "Поиск"

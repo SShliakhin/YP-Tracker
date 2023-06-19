@@ -60,7 +60,7 @@ private extension TrackersCoordinator {
 				self?.showSelectFilterModule(currentFilter: filter)
 			}
 		}
-
+		module.title = Appearance.titleTrackersVC
 		router.setRootModule(module)
 	}
 
@@ -94,6 +94,7 @@ private extension TrackersCoordinator {
 
 private extension TrackersCoordinator {
 	enum Appearance {
+		static let titleTrackersVC = "Трекеры"
 		static let titleFiltersVC = "Фильтры"
 		static let titleSelectTrackerTypeVC = "Создание трекера"
 	}

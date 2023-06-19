@@ -2,7 +2,7 @@ import UIKit
 final class Di {
 	// MARK: - глобальные сервисы-зависимости
 	// по идее должны приходить извне
-	private let repository = TrackerCategoriesStub()
+	// private let repository = TrackerCategoriesStub()
 	// пока не знаю что лучше передавать в инит di сам стек или только имя модели
 	private let trackersDataStore = CoreDataStack(modelName: "TrackersMOC")
 
@@ -64,34 +64,7 @@ extension Di: IModuleFactory {
 	func makeStartModule() -> UIViewController {
 		// Вспомогательный метод, для отдельного запуска сцен
 		// при let isOnlyScene = true в SceneDelegate
-
-		var view = makeCoreDataTrainerModule()
-		return view
-
-		// модуль создания трекера
-		(view, _) = makeCreateEditTrackerModule(trackerAction: .new(.habit))
-		return UINavigationController(rootViewController: view)
-
-		// модуль выбора категории, нужен сервис, кнопка - Добавить категорию
-		let categoryID = dependencies.categoriesProvider.getCategories()[1].id
-		(view, _) = makeYPModule(trackerAction: .selectCategory(categoryID))
-		view.title = "Категория"
-		return UINavigationController(rootViewController: view)
-
-		// модуль выбора расписания, кнопка Готово
-		let schedule = [
-			1: false,
-			2: true,
-			3: true,
-			4: true,
-			5: true,
-			6: true,
-			7: false
-		]
-
-		(view, _) = makeYPModule(trackerAction: .selectSchedule(schedule))
-		view.title = "Расписание"
-		return UINavigationController(rootViewController: view)
+		makeCoreDataTrainerModule()
 	}
 	func makeOnboardingModule() -> UIViewController {
 		makeOnboardingModule(dep: dependencies)

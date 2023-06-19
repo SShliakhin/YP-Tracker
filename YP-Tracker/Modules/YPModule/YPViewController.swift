@@ -186,7 +186,6 @@ private extension YPViewController {
 	func makeActionButton() -> UIButton {
 		let button = UIButton()
 
-		button.setTitle(Appearance.buttonTitle, for: .normal)
 		button.setTitleColor(Theme.color(usage: .white), for: .normal)
 		button.titleLabel?.font = Theme.font(style: .callout)
 		button.backgroundColor = Theme.color(usage: .black)
@@ -248,12 +247,5 @@ private extension YPViewController {
 		)
 
 		return section
-	}
-}
-// MARK: - Appearance
-private extension YPViewController {
-	enum Appearance {
-		static let title = "Универсальный VC"
-		static let buttonTitle = "Действие"
 	}
 }
