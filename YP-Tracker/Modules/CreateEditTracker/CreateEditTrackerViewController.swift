@@ -88,15 +88,18 @@ extension CreateEditTrackerViewController: ICreateEditTrackerViewController {
 // MARK: - UITextFieldDelegate
 
 extension CreateEditTrackerViewController: UITextFieldDelegate {
-	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-		guard let text = textField.text else { return false }
+	func textFieldDidBeginEditing(_ textField: UITextField) {
+		isSaveEnabled = false
+	}
+
+	func textFieldDidEndEditing(_ textField: UITextField) {
+		guard let text = textField.text else { return }
 		let title = text.trimmingCharacters(in: .whitespacesAndNewlines)
 		textField.text = title
+		interactor.didUserDo(request: .newTitle(title))
+	}
 
-		if !title.isEmpty {
-			interactor.didUserDo(request: .newTitle(title))
-		}
-
+	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
 		textField.resignFirstResponder()
 		return true
 	}
@@ -224,9 +227,10 @@ private extension CreateEditTrackerViewController {
 			NSAttributedString.Key.foregroundColor: Theme.color(usage: .black),
 			NSAttributedString.Key.font: Theme.font(style: .callout)
 		]
+
+		hideKeyboardWhenTappedAround()
 	}
 	func applyStyle() {
-		// title = Appearance.titleNew
 		view.backgroundColor = Theme.color(usage: .white)
 	}
 
@@ -536,8 +540,6 @@ private extension CreateEditTrackerViewController {
 // MARK: - Appearance
 private extension CreateEditTrackerViewController {
 	enum Appearance {
-		static let titleNew = "Новая привычка"
-		static let titleEdit = "Редактирование привычки"
 		static let textFieldPlaceholder = "Введите название трекера"
 		static let textFieldLimit = 38
 		static let titleLimitMessage = "Ограничение 38 символов"

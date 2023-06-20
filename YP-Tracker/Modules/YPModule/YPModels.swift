@@ -13,6 +13,7 @@ enum YPModels {
 	enum Request {
 		case selectItemAtIndex(_ index: Int)
 		case tapActionButton
+		case updateView
 	}
 
 	enum Response {

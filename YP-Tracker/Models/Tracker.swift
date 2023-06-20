@@ -20,6 +20,13 @@ struct Tracker: Identifiable, Hashable {
 		}
 	}
 
+	var scheduleCD: String {
+		return schedule
+			.sorted { $0.key < $1.key }
+			.map { key, value -> String in value ? "\(key)" : "0" }
+			.joined(separator: ",")
+	}
+
 	static func makeWeekDays() -> [String] {
 		let calendar = Calendar.current
 		let numDays: Int = calendar.weekdaySymbols.count
@@ -45,15 +52,15 @@ extension Tracker {
 		}
 	}
 	enum Action {
-		case edit(UUID) // редактировать существующий трекер -> TrackerTempData/save/cancel
-		case new(TrackerType) // создать новый трекер, передаем тип -> TrackerTempData/save/cancel
-		case selectCategory(UUID?) // передаем существующие UUID категории -> UUID
-		case selectSchedule([Int: Bool]) // передаем существующее расписание -> Set<WeekDay>
-		case save // преобразуем TrackerTempData в трекер с новым/старым UUID
-		case cancel
-		// продолжить редактирование нового/существующего(UUID) -> TrackerTempData/save/cancel
-		// case reedit(TrackerTempData, UUID?)
+		case edit(UUID) // редактировать существующий трекер
+		case new(TrackerType) // создать новый трекер, передаем тип
+		case selectCategory(UUID?) // передаем существующие UUID категории
+		case selectSchedule([Int: Bool]) // передаем существующее расписание
 		case selectFilter(TrackerFilter)
+		case save
+		case cancel
+		case addCategory
+		case editCategory(UUID)
 	}
 }
 

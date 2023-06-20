@@ -8,6 +8,8 @@ final class CreateEditTrackerCoordinator: BaseCoordinator {
 	private var onUpdateCategory: ((UUID, String) -> Void)?
 	private var onUpdateSchedule: (([Int: Bool]) -> Void)?
 
+	private var onUpdateCategories: (() -> Void)?
+
 	var finishFlow: (() -> Void)?
 
 	init(router: Router, factory: IModuleFactory, trackerAction: Tracker.Action) {
@@ -48,11 +50,7 @@ private extension CreateEditTrackerCoordinator {
 					currentSchedule: currentSchedule,
 					router: module
 				)
-			case .save:
-				// надо подумать как сохранить, а пока
-				self?.router.dismissModule()
-				self?.finishFlow?()
-			case .cancel:
+			case .save, .cancel:
 				self?.router.dismissModule()
 				self?.finishFlow?()
 			}
@@ -71,10 +69,17 @@ private extension CreateEditTrackerCoordinator {
 		let (module, moduleInteractor) = factory.makeYPModule(
 			trackerAction: .selectCategory(currentCategory)
 		)
+
+		onUpdateCategories = { [weak moduleInteractor] in
+			moduleInteractor?.didUserDo(request: .updateView)
+		}
 		moduleInteractor.didSendEventClosure = { [weak self, weak module] event in
 			if case let .selectCategory(id, title) = event {
 				module?.dismiss(animated: true)
 				self?.onUpdateCategory?(id, title)
+			}
+			if case .addCategory = event {
+				self?.showAddCategoryModule(router: module)
 			}
 		}
 		module.title = Appearance.titleCategoryVC
@@ -94,6 +99,18 @@ private extension CreateEditTrackerCoordinator {
 		module.title = Appearance.titleScheduleVC
 		router?.present(UINavigationController(rootViewController: module), animated: true)
 	}
+
+	func showAddCategoryModule(router: UIViewController?) {
+		let (module, moduleInteractor) = factory.makeCreateEditCategoryModule(trackerAction: .addCategory)
+		moduleInteractor.didSendEventClosure = { [weak self, weak module] event in
+			if case .save = event {
+				module?.dismiss(animated: true)
+				self?.onUpdateCategories?()
+			}
+		}
+		module.title = Appearance.titleAddCategoryVC
+		router?.present(UINavigationController(rootViewController: module), animated: true)
+	}
 }
 
 private extension CreateEditTrackerCoordinator {
@@ -102,6 +119,7 @@ private extension CreateEditTrackerCoordinator {
 		static let titleEventVC = "Новое нерегулярное событие"
 		static let titleCategoryVC = "Категории"
 		static let titleScheduleVC = "Расписание"
+		static let titleAddCategoryVC = "Новая категория"
 	}
 
 	func makeTitle() -> String {

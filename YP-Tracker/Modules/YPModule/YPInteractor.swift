@@ -4,6 +4,7 @@ enum EventYP {
 	case selectFilter(TrackerFilter)
 	case selectSchedule([Int: Bool])
 	case selectCategory(UUID, String)
+	case addCategory
 }
 
 protocol IYPInteractor: AnyObject {
@@ -70,6 +71,11 @@ final class YPInteractor: IYPInteractor {
 			if case .selectSchedule = trackerAction {
 				didSendEventClosure?(.selectSchedule(schedule))
 			}
+			if case .selectCategory = trackerAction {
+				didSendEventClosure?(.addCategory)
+			}
+		case .updateView:
+			viewIsReady()
 		}
 	}
 }
