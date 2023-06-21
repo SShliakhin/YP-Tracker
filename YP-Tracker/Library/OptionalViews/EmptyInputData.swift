@@ -14,6 +14,10 @@ extension EmptyInputData {
 		image: Theme.image(kind: .trackerStartPlaceholder),
 		message: Appearance.emptyTrackersListMessage
 	)
+	static let emptyStartCategories = EmptyInputData(
+		image: Theme.image(kind: .trackerStartPlaceholder),
+		message: Appearance.emptyCategoriesListMessage
+	)
 	static let emptyStatistics = EmptyInputData(
 		image: Theme.image(kind: .statsPlaceholder),
 		message: Appearance.emptyStatisticsListMessage
@@ -22,8 +26,9 @@ extension EmptyInputData {
 
 private extension EmptyInputData {
 	enum Appearance {
-		static let emptyTrackersListMessage = "Что будем отслеживать?"
 		static let emptySearchListMessage = "Ничего не найдено"
+		static let emptyTrackersListMessage = "Что будем отслеживать?"
+		static let emptyCategoriesListMessage = "Привычки и события можно\nобъединить по смыслу"
 		static let emptyStatisticsListMessage = "Анализировать пока нечего"
 	}
 }

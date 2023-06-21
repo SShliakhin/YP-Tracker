@@ -10,6 +10,7 @@ final class YPViewController: UIViewController {
 	private var dataSource: [YPModels.YPCellModel] = []
 
 	private lazy var collectionView: UICollectionView = makeCollectionView()
+	private lazy var emptyView = makeEmptyView()
 	private lazy var actionButton: UIButton = makeActionButton()
 
 	// MARK: - Inits
@@ -53,6 +54,10 @@ extension YPViewController: IYPViewController {
 			actionButton.isHidden = viewData.titleButtonAction.isEmpty
 			dataSource = viewData.dataSource
 			collectionView.reloadData()
+		}
+
+		if case .showCategories = viewModel {
+			emptyView.isHidden = !dataSource.isEmpty
 		}
 	}
 }
@@ -146,7 +151,11 @@ private extension YPViewController {
 			]
 		}
 
-		view.addSubview(stack)
+		[
+			stack,
+			emptyView
+		].forEach { view.addSubview($0) }
+
 		stack.makeEqualToSuperviewToSafeArea(
 			insets: .init(
 				top: Theme.spacing(usage: .standard3),
@@ -155,6 +164,7 @@ private extension YPViewController {
 				right: Theme.spacing(usage: .standard2)
 			)
 		)
+		emptyView.makeEqualToSuperviewCenterToSafeArea()
 	}
 }
 
@@ -182,6 +192,13 @@ private extension YPViewController {
 		collectionView.clipsToBounds = true
 
 		return collectionView
+	}
+	func makeEmptyView() -> EmptyView {
+		let view = EmptyView()
+		view.update(with: EmptyInputData.emptyStartCategories)
+		view.isHidden = true
+
+		return view
 	}
 	func makeActionButton() -> UIButton {
 		let button = UIButton()

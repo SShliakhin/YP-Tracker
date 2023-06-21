@@ -74,6 +74,8 @@ private extension EmptyView {
 		let label = UILabel()
 		label.textColor = Theme.color(usage: .main)
 		label.font = Theme.font(style: .caption1)
+		label.textAlignment = .center
+		label.numberOfLines = 0
 		return label
 	}
 }
