@@ -117,7 +117,7 @@ private extension CreateEditTrackerCoordinator {
 	enum Appearance {
 		static let titleHabitVC = "Новая привычка"
 		static let titleEventVC = "Новое нерегулярное событие"
-		static let titleCategoryVC = "Категории"
+		static let titleCategoryVC = "Категория"
 		static let titleScheduleVC = "Расписание"
 		static let titleAddCategoryVC = "Новая категория"
 	}

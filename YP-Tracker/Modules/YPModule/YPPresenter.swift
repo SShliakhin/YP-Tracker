@@ -103,7 +103,7 @@ private extension YPPresenter {
 			)
 		}
 
-		return .showSchedule(
+		return .showCategories(
 			.init(
 				dataSource: dataSource,
 				titleButtonAction: Appearance.addCategoryButtonTitle
