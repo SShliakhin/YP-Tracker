@@ -91,6 +91,8 @@
 		5AE6BDF12A197E610068CB53 /* YPInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE6BDF02A197E610068CB53 /* YPInteractor.swift */; };
 		5AE6BDF32A1989D30068CB53 /* YPPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE6BDF22A1989D30068CB53 /* YPPresenter.swift */; };
 		5AE6BDF52A19D8770068CB53 /* TrackerConditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE6BDF42A19D8770068CB53 /* TrackerConditions.swift */; };
+		5AF35C162A44B7EE00BC1C3A /* OnboardingPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF35C152A44B7EE00BC1C3A /* OnboardingPage.swift */; };
+		5AF35C182A44BCCC00BC1C3A /* OnboardingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF35C172A44BCCC00BC1C3A /* OnboardingPageViewController.swift */; };
 		5AF5CAF22A12385F004AB8D2 /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF5CAF12A12385F004AB8D2 /* Repository.swift */; };
 		5AF5CAF42A124EA4004AB8D2 /* CategoriesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF5CAF32A124EA4004AB8D2 /* CategoriesProvider.swift */; };
 		5AF5CAF62A125333004AB8D2 /* CategoriesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF5CAF52A125333004AB8D2 /* CategoriesManager.swift */; };
@@ -209,6 +211,8 @@
 		5AE6BDF02A197E610068CB53 /* YPInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YPInteractor.swift; sourceTree = "<group>"; };
 		5AE6BDF22A1989D30068CB53 /* YPPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YPPresenter.swift; sourceTree = "<group>"; };
 		5AE6BDF42A19D8770068CB53 /* TrackerConditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerConditions.swift; sourceTree = "<group>"; };
+		5AF35C152A44B7EE00BC1C3A /* OnboardingPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPage.swift; sourceTree = "<group>"; };
+		5AF35C172A44BCCC00BC1C3A /* OnboardingPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPageViewController.swift; sourceTree = "<group>"; };
 		5AF5CAF12A12385F004AB8D2 /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
 		5AF5CAF32A124EA4004AB8D2 /* CategoriesProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesProvider.swift; sourceTree = "<group>"; };
 		5AF5CAF52A125333004AB8D2 /* CategoriesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesManager.swift; sourceTree = "<group>"; };
@@ -388,6 +392,7 @@
 				5A8D1DB12A0DAFAB00A2924F /* TrackerColor.swift */,
 				5AF5CAF82A12D0A4004AB8D2 /* TrackerFilter.swift */,
 				5AE6BDF42A19D8770068CB53 /* TrackerConditions.swift */,
+				5AF35C152A44B7EE00BC1C3A /* OnboardingPage.swift */,
 				5A1DFF072A3B860A00AD63F3 /* CoreData */,
 				5AFC98B32A366735005E3C4D /* TrackersMOC.xcdatamodeld */,
 			);
@@ -566,6 +571,7 @@
 			isa = PBXGroup;
 			children = (
 				5AE1F01E2A09628300103F08 /* OnboardingViewController.swift */,
+				5AF35C172A44BCCC00BC1C3A /* OnboardingPageViewController.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -766,6 +772,7 @@
 				5A84742D2A0E9A7500C2F93E /* CreateEditTrackerViewController.swift in Sources */,
 				5A8CD5202A20057B00A100BD /* InnerViewType.swift in Sources */,
 				5AE6BDE92A18D38F0068CB53 /* YPCell.swift in Sources */,
+				5AF35C182A44BCCC00BC1C3A /* OnboardingPageViewController.swift in Sources */,
 				5A1DFF012A3B847200AD63F3 /* TrackerCD.swift in Sources */,
 				5A45EA602A0CE96D003269D3 /* TrackersViewController.swift in Sources */,
 				5AE12A202A0A6B360054D782 /* AppCoordinator.swift in Sources */,
@@ -806,6 +813,7 @@
 				5AA5FA2E2A13CE4F0056633B /* UICollectionView+Extensions.swift in Sources */,
 				5AA5FA382A1439CE0056633B /* TrackerCell.swift in Sources */,
 				5A2837642A3E515A00513B91 /* CreateEditCategoryViewController.swift in Sources */,
+				5AF35C162A44B7EE00BC1C3A /* OnboardingPage.swift in Sources */,
 				5A1DFF032A3B847200AD63F3 /* TrackerCategoryCD.swift in Sources */,
 				5AA5FA322A1409420056633B /* TrackerColorCell.swift in Sources */,
 				5AE12A252A0B90390054D782 /* Theme+Colors.swift in Sources */,
