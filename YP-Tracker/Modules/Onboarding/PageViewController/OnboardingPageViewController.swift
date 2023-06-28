@@ -1,9 +1,13 @@
 import UIKit
 
-final class OnboardingPageViewController: UIViewController {
+protocol ViewControllerWithImageView: UIViewController {
+	var imageView: UIImageView { get set }
+}
+
+final class OnboardingPageViewController: UIViewController, ViewControllerWithImageView {
 	private let page: OnboardingPage
 
-	private lazy var imageView: UIImageView = makeImageView()
+	lazy var imageView: UIImageView = makeImageView()
 	private lazy var textLabel: UILabel = makeLabel()
 
 	// MARK: - Inits
@@ -38,8 +42,14 @@ private extension OnboardingPageViewController {
 		].forEach { view.addSubview($0) }
 
 		imageView.makeEqualToSuperview()
-		// TODO: - в фигме не совсем по центру
-		textLabel.makeEqualToSuperviewCenterToSafeArea()
+		textLabel.makeEqualToSuperviewCenter(
+			insets: .init(
+				top: Appearance.centerIndent,
+				left: .zero,
+				bottom: .zero,
+				right: .zero
+			)
+		)
 	}
 }
 
@@ -56,7 +66,14 @@ private extension OnboardingPageViewController {
 		label.textColor = Theme.color(usage: .main)
 		label.font = Theme.font(style: .title1)
 		label.textAlignment = .center
-		label.numberOfLines = 0
+		label.numberOfLines = .zero
 		return label
+	}
+}
+
+// MARK: - Appearance
+private extension OnboardingPageViewController {
+	enum Appearance {
+		static let centerIndent = UIScreen.main.bounds.height / 100 * 7.88
 	}
 }

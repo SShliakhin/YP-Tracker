@@ -4,7 +4,7 @@ import UIKit
 
 protocol IModuleFactory: AnyObject {
 	func makeStartModule() -> UIViewController
-	func makeOnboardingModule() -> UIViewController
+	func makeOnboardingModule() -> (UIViewController, IOnboardingInteractor)
 	func makeTabbarModule() -> UIViewController
 	func makeStatisticsModule() -> UIViewController
 	func makeTrackersModule() -> (UIViewController, ITrackersInteractor)
@@ -16,8 +16,15 @@ protocol IModuleFactory: AnyObject {
 }
 
 extension Di {
-	func makeOnboardingModule(dep: AllDependencies) -> UIViewController {
-		return OnboardingViewController()
+	func makeOnboardingModule(dep: AllDependencies) -> (UIViewController, IOnboardingInteractor) {
+		let interactor = OnboardingInteractor()
+		let pageViewController = makeOnboardingPageViewController()
+		let view = OnboardingViewController(
+			interactor: interactor,
+			pageViewController: pageViewController
+		)
+
+		return (view, interactor)
 	}
 
 	func makeCoreDataTrainerModule(dep: AllDependencies) -> UIViewController {
@@ -100,5 +107,16 @@ extension Di {
 		presenter.viewController = view
 
 		return (view, interactor)
+	}
+}
+
+private extension Di {
+	func makeOnboardingPageViewController() -> UIPageViewController {
+		var pages: [UIViewController] = []
+		for page in OnboardingPage.allCases {
+			pages.append(OnboardingPageViewController(page: page))
+		}
+
+		return PageViewController(viewControllers: pages)
 	}
 }

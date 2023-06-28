@@ -64,9 +64,9 @@ extension Di: IModuleFactory {
 	func makeStartModule() -> UIViewController {
 		// Вспомогательный метод, для отдельного запуска сцен
 		// при let isOnlyScene = true в SceneDelegate
-		makeCoreDataTrainerModule()
+		makeOnboardingModule().0
 	}
-	func makeOnboardingModule() -> UIViewController {
+	func makeOnboardingModule() -> (UIViewController, IOnboardingInteractor) {
 		makeOnboardingModule(dep: dependencies)
 	}
 	func makeTabbarModule() -> UIViewController {

@@ -2,7 +2,7 @@ final class AppCoordinator: BaseCoordinator {
 	private let factory: ICoordinatorFactory
 	private let router: Router
 
-	private var isOnboarding = true
+	private var hadOnboarding = false
 
 	init(router: Router, factory: ICoordinatorFactory) {
 		self.router = router
@@ -10,7 +10,7 @@ final class AppCoordinator: BaseCoordinator {
 	}
 
 	override func start() {
-		if isOnboarding {
+		if hadOnboarding {
 			runMainFlow()
 		} else {
 			runOnboardingFlow()
@@ -23,7 +23,7 @@ private extension AppCoordinator {
 	func runOnboardingFlow() {
 		let coordinator = factory.makeOnboardingCoordinator(router: router)
 		coordinator.finishFlow = { [weak self, weak coordinator] in
-			self?.isOnboarding = true
+			self?.hadOnboarding = true
 			self?.start()
 			self?.removeDependency(coordinator)
 		}

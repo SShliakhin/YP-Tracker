@@ -59,6 +59,8 @@
 		5AA7AD0C2A1647550022C334 /* TrackersInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA7AD0B2A1647550022C334 /* TrackersInteractor.swift */; };
 		5AA7AD0E2A1648E20022C334 /* TrackersPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA7AD0D2A1648E20022C334 /* TrackersPresenter.swift */; };
 		5AA7AD102A16AA590022C334 /* HeaderSupplementaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA7AD0F2A16AA590022C334 /* HeaderSupplementaryView.swift */; };
+		5ACDBE1F2A4B8C6E00F86895 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACDBE1E2A4B8C6E00F86895 /* PageViewController.swift */; };
+		5ACDBE212A4C733100F86895 /* OnboardingInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACDBE202A4C733100F86895 /* OnboardingInteractor.swift */; };
 		5ADD1F0429E358F50072EE78 /* YSDisplay-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5ADD1F0129E358F40072EE78 /* YSDisplay-Regular.ttf */; };
 		5ADD1F0529E358F50072EE78 /* YSDisplay-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5ADD1F0229E358F50072EE78 /* YSDisplay-Bold.ttf */; };
 		5ADD1F0629E358F50072EE78 /* YSDisplay-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5ADD1F0329E358F50072EE78 /* YSDisplay-Medium.ttf */; };
@@ -179,6 +181,8 @@
 		5AA7AD0B2A1647550022C334 /* TrackersInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersInteractor.swift; sourceTree = "<group>"; };
 		5AA7AD0D2A1648E20022C334 /* TrackersPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersPresenter.swift; sourceTree = "<group>"; };
 		5AA7AD0F2A16AA590022C334 /* HeaderSupplementaryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderSupplementaryView.swift; sourceTree = "<group>"; };
+		5ACDBE1E2A4B8C6E00F86895 /* PageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
+		5ACDBE202A4C733100F86895 /* OnboardingInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingInteractor.swift; sourceTree = "<group>"; };
 		5ADD1F0129E358F40072EE78 /* YSDisplay-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YSDisplay-Regular.ttf"; sourceTree = "<group>"; };
 		5ADD1F0229E358F50072EE78 /* YSDisplay-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YSDisplay-Bold.ttf"; sourceTree = "<group>"; };
 		5ADD1F0329E358F50072EE78 /* YSDisplay-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YSDisplay-Medium.ttf"; sourceTree = "<group>"; };
@@ -496,6 +500,15 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
+		5ACDBE222A4C801200F86895 /* PageViewController */ = {
+			isa = PBXGroup;
+			children = (
+				5AF35C172A44BCCC00BC1C3A /* OnboardingPageViewController.swift */,
+				5ACDBE1E2A4B8C6E00F86895 /* PageViewController.swift */,
+			);
+			path = PageViewController;
+			sourceTree = "<group>";
+		};
 		5ADD1F0B29E38ECA0072EE78 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -570,8 +583,9 @@
 		5AE1F01D2A09628300103F08 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
+				5ACDBE222A4C801200F86895 /* PageViewController */,
+				5ACDBE202A4C733100F86895 /* OnboardingInteractor.swift */,
 				5AE1F01E2A09628300103F08 /* OnboardingViewController.swift */,
-				5AF35C172A44BCCC00BC1C3A /* OnboardingPageViewController.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -827,6 +841,7 @@
 				5AE6BDED2A1924580068CB53 /* YPViewController.swift in Sources */,
 				5AA5FA332A1409420056633B /* TrackerEmojiCell.swift in Sources */,
 				5AE6BDF12A197E610068CB53 /* YPInteractor.swift in Sources */,
+				5ACDBE212A4C733100F86895 /* OnboardingInteractor.swift in Sources */,
 				5A2837602A3E457C00513B91 /* CreateEditCategoryInteractor.swift in Sources */,
 				5AA5FA2B2A13CDCC0056633B /* ICellViewModel.swift in Sources */,
 				5AE12A272A0B926D0054D782 /* Theme+Images.swift in Sources */,
@@ -834,6 +849,7 @@
 				5A45EA682A0D22CE003269D3 /* EmptyView.swift in Sources */,
 				5A91DEDA29E12F82001A23C3 /* UIViewController+Preview.swift in Sources */,
 				5AA7AD102A16AA590022C334 /* HeaderSupplementaryView.swift in Sources */,
+				5ACDBE1F2A4B8C6E00F86895 /* PageViewController.swift in Sources */,
 				5AE12A322A0BC70F0054D782 /* TrackersCoordinator.swift in Sources */,
 				5A1DFF022A3B847200AD63F3 /* TrackerCD+CoreDataProperties.swift in Sources */,
 				5A84742B2A0E91BC00C2F93E /* CreateEditTrackerCoordinator.swift in Sources */,

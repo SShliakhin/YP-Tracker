@@ -1,11 +1,22 @@
 import UIKit
 
 final class OnboardingViewController: UIViewController {
-	var didSendEventClosure: ((OnboardingViewController.Event) -> Void)?
+	private let interactor: IOnboardingInteractor
+	private let pageViewController: UIPageViewController
 
-	private lazy var startButton: UIButton = makeStartButton()
+	private lazy var actionButton: UIButton = makeActionButton()
 
 	// MARK: - Inits
+
+	init(interactor: IOnboardingInteractor, pageViewController: UIPageViewController) {
+		self.interactor = interactor
+		self.pageViewController = pageViewController
+		super.init(nibName: nil, bundle: nil)
+	}
+
+	required init?(coder: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
+	}
 
 	deinit {
 		print("OnboardingViewController deinit")
@@ -21,57 +32,57 @@ final class OnboardingViewController: UIViewController {
 	}
 }
 
-// MARK: - Event
-extension OnboardingViewController {
-	enum Event {
-		case start
-	}
-}
-
-// MARK: - Actions
-private extension OnboardingViewController {
-	@objc func didTapStartButton(_ sender: Any) {
-		didSendEventClosure?(.start)
-	}
-}
-
 // MARK: - UI
 private extension OnboardingViewController {
 	func setup() {
-		startButton.addTarget(self, action: #selector(didTapStartButton(_:)), for: .touchUpInside)
+		addChild(pageViewController)
+		view.addSubview(pageViewController.view)
+		pageViewController.didMove(toParent: self)
 	}
 	func applyStyle() {
 		view.backgroundColor = Theme.color(usage: .white)
 	}
 	func setConstraints() {
-		let stackView = UIStackView()
-		stackView.axis = .vertical
-		stackView.spacing = Theme.spacing(usage: .standard)
-
 		[
-			startButton
-		].forEach { item in
-			stackView.addArrangedSubview(item)
-		}
+			actionButton
+		].forEach { view.addSubview($0) }
 
-		view.addSubview(stackView)
-		stackView.makeEqualToSuperviewCenter()
-
-		startButton.makeConstraints { make in
-			make.size(.init(width: Appearance.buttonSize.width, height: Appearance.buttonSize.height))
+		actionButton.makeConstraints { make in
+			[
+				make.leadingAnchor.constraint(
+					equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+					constant: Theme.spacing(usage: .constant20)
+				),
+				make.trailingAnchor.constraint(
+					equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+					constant: -Theme.spacing(usage: .constant20)
+				),
+				make.bottomAnchor.constraint(
+					equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+					constant: -Appearance.buttonBottomAnchorConstant
+				),
+				make.heightAnchor.constraint(
+					equalToConstant: Theme.size(kind: .buttonHeight)
+				)
+			]
 		}
 	}
 }
 
 // MARK: - UI make
 private extension OnboardingViewController {
-	func makeStartButton() -> UIButton {
+	func makeActionButton() -> UIButton {
 		let button = UIButton()
-		button.setTitle(Appearance.buttonText, for: .normal)
+
+		button.setTitle(Appearance.buttonTitle, for: .normal)
+		button.setTitleColor(Theme.color(usage: .white), for: .normal)
 		button.titleLabel?.font = Theme.font(style: .callout)
-		button.backgroundColor = Theme.color(usage: .accent)
-		button.setTitleColor(Theme.color(usage: .attention), for: .normal)
+		button.backgroundColor = Theme.color(usage: .black)
 		button.layer.cornerRadius = Theme.size(kind: .cornerRadius)
+
+		button.event = { [weak self] in
+			self?.interactor.didUserDo(request: .finishOnboarding)
+		}
 
 		return button
 	}
@@ -80,7 +91,7 @@ private extension OnboardingViewController {
 // MARK: - Appearance
 private extension OnboardingViewController {
 	enum Appearance {
-		static let buttonText = "Onboarding"
-		static let buttonSize: CGSize = .init(width: 200, height: 50)
+		static let buttonTitle = "Вот это технологии!"
+		static let buttonBottomAnchorConstant: CGFloat = 50
 	}
 }
