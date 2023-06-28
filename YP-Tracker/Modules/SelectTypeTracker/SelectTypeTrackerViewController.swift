@@ -1,7 +1,7 @@
 import UIKit
 
 final class SelectTypeTrackerViewController: UIViewController {
-	let interactor: ISelectTypeTrackerInteractor
+	private let interactor: ISelectTypeTrackerInteractor
 
 	private lazy var habitButton: UIButton = makeButtonByTrackerType(.habit)
 	private lazy var eventButton: UIButton = makeButtonByTrackerType(.event)
