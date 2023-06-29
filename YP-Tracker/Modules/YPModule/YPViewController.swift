@@ -62,15 +62,6 @@ extension YPViewController: IYPViewController {
 	}
 }
 
-// MARK: - Event
-extension YPViewController {
-	enum Event {
-		case didSelectFilter(TrackerFilter)
-		case didSelectSchedule([Int: Bool])
-		case didSelectCategory(UUID)
-	}
-}
-
 // MARK: - UICollectionViewDataSource
 
 extension YPViewController: UICollectionViewDataSource {
