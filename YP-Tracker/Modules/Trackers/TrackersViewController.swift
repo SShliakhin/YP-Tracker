@@ -42,6 +42,7 @@ final class TrackersViewController: UIViewController {
 	}
 
 	// MARK: - Lifecycle
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
@@ -173,6 +174,7 @@ private extension TrackersViewController {
 	}
 	func setConstraints() {
 		[
+			UIView(frame: .zero), // сделать навбар непрокручиваемым
 			collectionView,
 			emptyView,
 			filtersButton
