@@ -20,92 +20,6 @@ final class CategoriesManagerCD {
 	}
 }
 
-private extension CategoriesManagerCD {
-	func runRequest<T: NSManagedObject>(
-		_ request: NSFetchRequest<T>
-	) -> [T] {
-		var result: [T] = []
-		do {
-			result = try mainContext.fetch(request)
-		} catch let error as NSError {
-			let message = "При выполнении запроса Core Data произошла ошибка:"
-			print(message, error, error.userInfo)
-		}
-		return result
-	}
-
-	func findObjectByUUID<T: NSManagedObject>(
-		id: UUID,
-		key: String,
-		withRequest request: NSFetchRequest<T>
-	) -> T? {
-		request.predicate = NSPredicate(format: "\(key) == %@", id as CVarArg)
-		request.fetchLimit = 1
-		guard let object = runRequest(request).first else { return nil }
-		return object
-	}
-
-	func updateCreateTracker(
-		from tracker: Tracker,
-		withCategoryID categoryID: UUID
-	) {
-		guard let categoryCD = findObjectByUUID(
-			id: categoryID,
-			key: "categoryID",
-			withRequest: TrackerCategoryCD.fetchRequest()
-		) else { return }
-
-		let trackerCD: TrackerCD
-		if let foundTrackerCD = findObjectByUUID(
-			id: tracker.id,
-			key: "trackerID",
-			withRequest: TrackerCD.fetchRequest()
-		) {
-			trackerCD = foundTrackerCD
-		} else {
-			trackerCD = TrackerCD(context: mainContext)
-		}
-
-		trackerCD.trackerID = tracker.id
-		trackerCD.title = tracker.title
-		trackerCD.emoji = tracker.emoji
-		trackerCD.color = tracker.color
-		trackerCD.schedule = tracker.scheduleCD
-		trackerCD.trackerCategory = categoryCD
-		mainContext.saveContext()
-	}
-
-	func completeUncompletedTracker(
-		trackerID: UUID,
-		date: Date
-	) {
-		guard let trackerCD = findObjectByUUID(
-			id: trackerID,
-			key: "trackerID",
-			withRequest: TrackerCD.fetchRequest()
-		) else { return }
-
-		let dateString = Theme.dateFormatterCD.string(from: date)
-
-		let request = TrackerRecordCD.fetchRequest()
-		request.predicate = NSPredicate(
-			format: "trackerID == %@ && dateString == %@",
-			trackerID as CVarArg,
-			dateString
-		)
-
-		if let trackerRecordCD = runRequest(request).first {
-			mainContext.delete(trackerRecordCD)
-		} else {
-			let trackerRecordCD = TrackerRecordCD(context: mainContext)
-			trackerRecordCD.trackerID = trackerID
-			trackerRecordCD.dateString = dateString
-			trackerRecordCD.tracker = trackerCD
-		}
-		mainContext.saveContext()
-	}
-}
-
 // MARK: - ICategoriesManager
 
 extension CategoriesManagerCD: ICategoriesManager {
@@ -209,6 +123,92 @@ extension CategoriesManagerCD: ICategoriesManager {
 			trackerID: trackerID,
 			date: date
 		)
+	}
+}
+
+private extension CategoriesManagerCD {
+	func runRequest<T: NSManagedObject>(
+		_ request: NSFetchRequest<T>
+	) -> [T] {
+		var result: [T] = []
+		do {
+			result = try mainContext.fetch(request)
+		} catch let error as NSError {
+			let message = "При выполнении запроса Core Data произошла ошибка:"
+			print(message, error, error.userInfo)
+		}
+		return result
+	}
+
+	func findObjectByUUID<T: NSManagedObject>(
+		id: UUID,
+		key: String,
+		withRequest request: NSFetchRequest<T>
+	) -> T? {
+		request.predicate = NSPredicate(format: "\(key) == %@", id as CVarArg)
+		request.fetchLimit = 1
+		guard let object = runRequest(request).first else { return nil }
+		return object
+	}
+
+	func updateCreateTracker(
+		from tracker: Tracker,
+		withCategoryID categoryID: UUID
+	) {
+		guard let categoryCD = findObjectByUUID(
+			id: categoryID,
+			key: "categoryID",
+			withRequest: TrackerCategoryCD.fetchRequest()
+		) else { return }
+
+		let trackerCD: TrackerCD
+		if let foundTrackerCD = findObjectByUUID(
+			id: tracker.id,
+			key: "trackerID",
+			withRequest: TrackerCD.fetchRequest()
+		) {
+			trackerCD = foundTrackerCD
+		} else {
+			trackerCD = TrackerCD(context: mainContext)
+		}
+
+		trackerCD.trackerID = tracker.id
+		trackerCD.title = tracker.title
+		trackerCD.emoji = tracker.emoji
+		trackerCD.color = tracker.color
+		trackerCD.schedule = tracker.scheduleCD
+		trackerCD.trackerCategory = categoryCD
+		mainContext.saveContext()
+	}
+
+	func completeUncompletedTracker(
+		trackerID: UUID,
+		date: Date
+	) {
+		guard let trackerCD = findObjectByUUID(
+			id: trackerID,
+			key: "trackerID",
+			withRequest: TrackerCD.fetchRequest()
+		) else { return }
+
+		let dateString = Theme.dateFormatterCD.string(from: date)
+
+		let request = TrackerRecordCD.fetchRequest()
+		request.predicate = NSPredicate(
+			format: "trackerID == %@ && dateString == %@",
+			trackerID as CVarArg,
+			dateString
+		)
+
+		if let trackerRecordCD = runRequest(request).first {
+			mainContext.delete(trackerRecordCD)
+		} else {
+			let trackerRecordCD = TrackerRecordCD(context: mainContext)
+			trackerRecordCD.trackerID = trackerID
+			trackerRecordCD.dateString = dateString
+			trackerRecordCD.tracker = trackerCD
+		}
+		mainContext.saveContext()
 	}
 }
 
