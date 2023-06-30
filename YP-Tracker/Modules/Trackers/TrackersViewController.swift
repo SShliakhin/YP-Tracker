@@ -42,7 +42,7 @@ final class TrackersViewController: UIViewController {
 	}
 
 	// MARK: - Lifecycle
-	
+
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
@@ -178,9 +178,7 @@ private extension TrackersViewController {
 			collectionView,
 			emptyView,
 			filtersButton
-		].forEach { item in
-			view.addSubview(item)
-		}
+		].forEach { view.addSubview($0) }
 
 		collectionView.makeEqualToSuperviewToSafeArea()
 		emptyView.makeEqualToSuperviewCenterToSafeArea()
