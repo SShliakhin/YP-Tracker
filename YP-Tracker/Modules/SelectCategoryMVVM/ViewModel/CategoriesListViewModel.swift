@@ -31,16 +31,16 @@ final class DefaultCategoriesListViewModel: CategoriesListViewModel {
 	// MARK: - INPUT
 	var didSendEventClosure: ((CategoriesListEvents) -> Void)?
 
+	// MARK: - OUTPUT
+	var items: Observable<[CategoriesListItemViewModel]> = Observable([])
+	var numberOfItems: Int { items.value.count }
+	var isEmpty: Bool { items.value.isEmpty }
+
 	private let categoriesProvider: ICategoriesProvider
 	private let trackerAction: Tracker.Action
 
 	private var selectedItemIndex: Int?
 	private var categories: [TrackerCategory] = []
-
-	// MARK: - OUTPUT
-	var items: Observable<[CategoriesListItemViewModel]> = Observable([])
-	var numberOfItems: Int { items.value.count }
-	var isEmpty: Bool { items.value.isEmpty }
 
 	// MARK: - Inits
 
