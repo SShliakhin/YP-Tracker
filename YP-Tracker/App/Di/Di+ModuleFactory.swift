@@ -13,6 +13,9 @@ protocol IModuleFactory: AnyObject {
 	func makeCreateEditTrackerModule(trackerAction: Tracker.Action) -> (UIViewController, ICreateEditTrackerInteractor)
 	func makeCreateEditCategoryModule(trackerAction: Tracker.Action) -> (UIViewController, ICreateEditCategoryInteractor)
 	func makeCoreDataTrainerModule() -> UIViewController
+
+	// Study MVVM
+	func makeCategoriesListModuleMVVM(trackerAction: Tracker.Action) -> (UIViewController, CategoriesListViewModel)
 }
 
 extension Di {
@@ -75,6 +78,19 @@ extension Di {
 		presenter.viewController = view
 
 		return (view, interactor)
+	}
+
+	func makeCategoriesListModuleMVVM(
+		dep: AllDependencies,
+		trackerAction: Tracker.Action
+	) -> (UIViewController, CategoriesListViewModel) {
+		let viewModel = DefaultCategoriesListViewModel(
+			dep: dep,
+			trackerAction: trackerAction
+		)
+		let view = SelectCategoryViewController(viewModel: viewModel)
+
+		return (view, viewModel)
 	}
 
 	func makeCreateEditTrackerModule(
