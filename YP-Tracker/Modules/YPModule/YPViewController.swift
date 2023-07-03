@@ -7,7 +7,7 @@ protocol IYPViewController: AnyObject {
 
 final class YPViewController: UIViewController {
 	private let interactor: IYPInteractor
-	private var dataSource: [YPModels.YPCellModel] = []
+	private var dataSource: [YPCellModel] = []
 
 	private lazy var collectionView: UICollectionView = makeCollectionView()
 	private lazy var emptyView = makeEmptyView()
@@ -77,16 +77,7 @@ extension YPViewController: UICollectionViewDataSource {
 		cellForItemAt indexPath: IndexPath
 	) -> UICollectionViewCell {
 
-		let item = dataSource[indexPath.row]
-		let model = YPCell.YPCellModel(
-			type: item.type,
-			title: item.title,
-			description: item.description,
-			hasDivider: item.hasDivider,
-			outCorner: item.outCorner,
-			isSelected: item.isSelected,
-			event: item.event
-		)
+		let model = dataSource[indexPath.row]
 		return collectionView.dequeueReusableCell(withModel: model, for: indexPath)
 	}
 }
@@ -143,6 +134,7 @@ private extension YPViewController {
 		}
 
 		[
+			UIView(frame: .zero),
 			stack,
 			emptyView
 		].forEach { view.addSubview($0) }
@@ -170,7 +162,7 @@ private extension YPViewController {
 		)
 
 		collectionView.register(models: [
-			YPCell.YPCellModel.self
+			YPCellModel.self
 		])
 
 		collectionView.dataSource = self

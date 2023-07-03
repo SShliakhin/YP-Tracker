@@ -65,20 +65,8 @@ extension SelectCategoryViewController: UICollectionViewDataSource {
 		_ collectionView: UICollectionView,
 		cellForItemAt indexPath: IndexPath
 	) -> UICollectionViewCell {
-		collectionView.dequeueReusableCell(withModel: getModelAtIndex(indexPath.row), for: indexPath)
-	}
-
-	private func getModelAtIndex(_ index: Int) -> YPCell.YPCellModel {
-		let item = viewModel.itemAtIndex(index)
-		return YPCell.YPCellModel(
-			type: item.type,
-			title: item.title,
-			description: item.description,
-			hasDivider: item.hasDivider,
-			outCorner: item.outCorner,
-			isSelected: item.isSelected,
-			event: item.event
-		)
+		let model = viewModel.cellModelAtIndex(indexPath.row)
+		return collectionView.dequeueReusableCell(withModel: model, for: indexPath)
 	}
 }
 
@@ -162,7 +150,7 @@ private extension SelectCategoryViewController {
 		)
 
 		collectionView.register(models: [
-			YPCell.YPCellModel.self
+			YPCellModel.self
 		])
 
 		collectionView.dataSource = self

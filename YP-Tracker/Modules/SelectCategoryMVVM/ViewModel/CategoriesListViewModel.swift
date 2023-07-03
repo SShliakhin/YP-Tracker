@@ -19,7 +19,7 @@ protocol CategoriesListViewModelOutput: AnyObject {
 	var numberOfItems: Int { get }
 	var isEmpty: Bool { get }
 
-	func itemAtIndex(_ index: Int) -> CategoriesListItemViewModel
+	func cellModelAtIndex(_ index: Int) -> YPCellModel
 }
 
 typealias CategoriesListViewModel = (
@@ -56,8 +56,34 @@ final class DefaultCategoriesListViewModel: CategoriesListViewModel {
 // MARK: - OUTPUT
 
 extension DefaultCategoriesListViewModel {
-	func itemAtIndex(_ index: Int) -> CategoriesListItemViewModel {
-		items.value[index]
+	func cellModelAtIndex(_ index: Int) -> YPCellModel {
+		let item = items.value[index]
+
+		let all = categories.count
+		let first = index == 0
+		let last = index == all - 1
+
+		let outCorner: [CellCorner]
+		switch (first, last) {
+		case (true, true):
+			outCorner = [.all]
+		case (true, false):
+			outCorner = [.top]
+		case (false, true):
+			outCorner = [.bottom]
+		default:
+			outCorner = []
+		}
+
+		return YPCellModel(
+			type: .checkmarkType,
+			title: item.title,
+			description: "",
+			hasDivider: !last,
+			outCorner: outCorner,
+			isSelected: item.isSelected,
+			event: nil
+		)
 	}
 }
 
@@ -116,13 +142,9 @@ extension DefaultCategoriesListViewModel {
 
 private extension DefaultCategoriesListViewModel {
 	func createItem(index: Int, isSelected: Bool) -> CategoriesListItemViewModel {
-		let all = categories.count
-		return CategoriesListItemViewModel(
+		CategoriesListItemViewModel(
 			category: categories[index],
-			first: index == 0,
-			last: index == all - 1,
-			isSelected: isSelected,
-			event: nil
+			isSelected: isSelected
 		)
 	}
 }

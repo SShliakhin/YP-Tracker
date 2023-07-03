@@ -1,16 +1,6 @@
 import Foundation
 
 enum CreateEditTrackerModels {
-	struct YPCellModel {
-		let type: InnerViewType
-		let title: String
-		let description: String
-		let hasDivider: Bool
-		let outCorner: [CellCorner]
-		let isSelected: Bool
-		let event: (() -> Void)?
-	}
-
 	struct SimpleCellModel {
 		let title: String
 		let isSelected: Bool
@@ -73,7 +63,6 @@ enum CreateEditTrackerModels {
 				}
 			}
 		}
-
 		case showAllComponents(hasSchedule: Bool, title: String, components: [Section], isSaveEnabled: Bool)
 		case showNewSection(section: Int, items: Section, isSaveEnabled: Bool)
 		case showSaveEnabled(isSaveEnabled: Bool)

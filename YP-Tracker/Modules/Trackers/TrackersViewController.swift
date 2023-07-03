@@ -109,23 +109,7 @@ extension TrackersViewController: UICollectionViewDataSource {
 		cellForItemAt indexPath: IndexPath
 	) -> UICollectionViewCell {
 
-		let tracker = dataSource[indexPath.section].trackers[indexPath.row]
-		let model = TrackerCell.TrackerCellModel(
-			colorString: tracker.colorString,
-			emoji: tracker.emoji,
-			title: tracker.title,
-			dayTime: tracker.dayTime,
-			isCompleted: tracker.isCompleted,
-			isButtonEnabled: tracker.isActionEnabled,
-			event: { [weak self] in
-				self?.interactor.didUserDo(
-					request: .completeUncompleteTracker(
-						indexPath.section,
-						indexPath.row
-					)
-				)
-			}
-		)
+		let model = dataSource[indexPath.section].trackers[indexPath.row]
 		return collectionView.dequeueReusableCell(withModel: model, for: indexPath)
 	}
 
@@ -135,10 +119,7 @@ extension TrackersViewController: UICollectionViewDataSource {
 		at indexPath: IndexPath
 	) -> UICollectionReusableView {
 
-		let section = dataSource[indexPath.section]
-		let model = HeaderSupplementaryView.HeaderSupplementaryViewModel(
-			title: section.title
-		)
+		let model = dataSource[indexPath.section].header
 		return collectionView.dequeueReusableSupplementaryView(
 			kind: kind,
 			withModel: model,
@@ -274,10 +255,10 @@ private extension TrackersViewController {
 		)
 
 		collectionView.register(models: [
-			TrackerCell.TrackerCellModel.self
+			TrackerCellModel.self
 		])
 		collectionView.registerSupplementaryView(models: [
-			(HeaderSupplementaryView.HeaderSupplementaryViewModel.self, UICollectionView.elementKindSectionHeader)
+			(HeaderSupplementaryViewModel.self, UICollectionView.elementKindSectionHeader)
 		])
 
 		collectionView.dataSource = self

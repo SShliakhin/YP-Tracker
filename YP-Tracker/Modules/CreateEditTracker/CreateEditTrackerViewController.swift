@@ -149,21 +149,19 @@ extension CreateEditTrackerViewController: UICollectionViewDataSource {
 		let section = dataSource[indexPath.section]
 		switch section {
 		case let .category(category):
-			let model = makeCellModel(item: category)
-			return collectionView.dequeueReusableCell(withModel: model, for: indexPath)
+			return collectionView.dequeueReusableCell(withModel: category, for: indexPath)
 		case let .schedule(schedule):
-			let model = makeCellModel(item: schedule)
-			return collectionView.dequeueReusableCell(withModel: model, for: indexPath)
+			return collectionView.dequeueReusableCell(withModel: schedule, for: indexPath)
 		case let .emoji(emojis):
 			let emoji = emojis[indexPath.row]
-			let model = TrackerEmojiCell.TrackerEmojiCellModel(
+			let model = TrackerEmojiCellModel(
 				emoji: emoji.title,
 				isSelected: emoji.isSelected
 			)
 			return collectionView.dequeueReusableCell(withModel: model, for: indexPath)
 		case let .color(colors):
 			let color = colors[indexPath.row]
-			let model = TrackerColorCell.TrackerColorCellModel(
+			let model = TrackerColorCellModel(
 				colorString: color.title,
 				isSelected: color.isSelected
 			)
@@ -177,25 +175,13 @@ extension CreateEditTrackerViewController: UICollectionViewDataSource {
 		at indexPath: IndexPath
 	) -> UICollectionReusableView {
 		let section = dataSource[indexPath.section]
-		let model = HeaderSupplementaryView.HeaderSupplementaryViewModel(
+		let model = HeaderSupplementaryViewModel(
 			title: section.description
 		)
 		return collectionView.dequeueReusableSupplementaryView(
 			kind: kind,
 			withModel: model,
 			for: indexPath
-		)
-	}
-
-	private func makeCellModel(item: CreateEditTrackerModels.YPCellModel) -> YPCell.YPCellModel {
-		return YPCell.YPCellModel(
-			type: item.type,
-			title: item.title,
-			description: item.description,
-			hasDivider: item.hasDivider,
-			outCorner: item.outCorner,
-			isSelected: item.isSelected,
-			event: item.event
 		)
 	}
 }
@@ -266,7 +252,10 @@ private extension CreateEditTrackerViewController {
 			]
 		}
 
-		view.addSubview(scrollView)
+		[
+			UIView(frame: .zero),
+			scrollView
+		].forEach { view.addSubview($0) }
 		scrollView.makeEqualToSuperviewToSafeArea()
 	}
 
@@ -374,12 +363,12 @@ private extension CreateEditTrackerViewController {
 		)
 
 		collectionView.register(models: [
-			YPCell.YPCellModel.self,
-			TrackerEmojiCell.TrackerEmojiCellModel.self,
-			TrackerColorCell.TrackerColorCellModel.self
+			YPCellModel.self,
+			TrackerEmojiCellModel.self,
+			TrackerColorCellModel.self
 		])
 		collectionView.registerSupplementaryView(models: [
-			(HeaderSupplementaryView.HeaderSupplementaryViewModel.self, UICollectionView.elementKindSectionHeader)
+			(HeaderSupplementaryViewModel.self, UICollectionView.elementKindSectionHeader)
 		])
 
 		collectionView.dataSource = self

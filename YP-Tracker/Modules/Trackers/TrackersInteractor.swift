@@ -108,6 +108,6 @@ private extension TrackersInteractor {
 			sectionsWithTrackers.append(sectionWithTrackers)
 		}
 
-		presenter.present(data: .update(sectionsWithTrackers, conditions))
+		presenter.present(data: .update(sectionsWithTrackers, conditions, self))
 	}
 }

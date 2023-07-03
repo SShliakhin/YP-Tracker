@@ -2,7 +2,7 @@ import UIKit
 
 final class HeaderSupplementaryView: UICollectionReusableView {
 	// MARK: - UI Elements
-	private lazy var headerLabel = makeHeaderLabel()
+	fileprivate lazy var headerLabel = makeHeaderLabel()
 
 	// MARK: - Inits
 
@@ -23,17 +23,17 @@ final class HeaderSupplementaryView: UICollectionReusableView {
 
 		headerLabel.text = nil
 	}
+}
 
-	// MARK: - Data model for cell
+// MARK: - Data model for cell
 
-	struct HeaderSupplementaryViewModel {
-		let title: String
-	}
+struct HeaderSupplementaryViewModel {
+	let title: String
 }
 
 // MARK: - ICellViewModel
 
-extension HeaderSupplementaryView.HeaderSupplementaryViewModel: ICellViewModel {
+extension HeaderSupplementaryViewModel: ICellViewModel {
 	func setup(cell: HeaderSupplementaryView) {
 		cell.headerLabel.text = title
 	}

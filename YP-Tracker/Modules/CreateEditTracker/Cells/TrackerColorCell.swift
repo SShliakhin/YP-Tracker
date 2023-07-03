@@ -3,8 +3,8 @@ import UIKit
 final class TrackerColorCell: UICollectionViewCell {
 	// MARK: - UI Elements
 
-	private lazy var background = makeBagroundView()
-	private lazy var colorView = makeColorView()
+	fileprivate lazy var background = makeBagroundView()
+	fileprivate lazy var colorView = makeColorView()
 
 	// MARK: - Inits
 
@@ -32,18 +32,18 @@ final class TrackerColorCell: UICollectionViewCell {
 
 		colorView.backgroundColor = .clear
 	}
+}
 
-	// MARK: - Data model for cell
+// MARK: - Data model for cell
 
-	struct TrackerColorCellModel {
-		let colorString: String
-		let isSelected: Bool
-	}
+struct TrackerColorCellModel {
+	let colorString: String
+	let isSelected: Bool
 }
 
 // MARK: - ICellViewModel
 
-extension TrackerColorCell.TrackerColorCellModel: ICellViewModel {
+extension TrackerColorCellModel: ICellViewModel {
 	func setup(cell: TrackerColorCell) {
 		let color = UIColor(hex: colorString)
 		cell.colorView.backgroundColor = color
@@ -93,11 +93,11 @@ struct TrackerColorCell_Previews: PreviewProvider {
 	static var previews: some View {
 
 		let view1 = TrackerColorCell()
-		let model = TrackerColorCell.TrackerColorCellModel(colorString: TrackerColor.green.rawValue, isSelected: false)
+		let model = TrackerColorCellModel(colorString: TrackerColor.green.rawValue, isSelected: false)
 		model.setup(cell: view1)
 
 		let view2 = TrackerColorCell()
-		let model2 = TrackerColorCell.TrackerColorCellModel(colorString: TrackerColor.green.rawValue, isSelected: true)
+		let model2 = TrackerColorCellModel(colorString: TrackerColor.green.rawValue, isSelected: true)
 		model2.setup(cell: view2)
 
 		let view3 = TrackerColorCell()
