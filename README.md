@@ -41,11 +41,12 @@
 
 [In progress]
 
-* Clean Swift
+* Clean Swift / MVVM (SelectCategoryMVVM module)
 * Navigation: Coordinator
 * DI: на базе фабрик
 * Persistence storage: Core Data
 * Layout: Anchors, CompositionalLayout
+* Animation: ScrollView animation (Onboarding module)
 * Fonts: YSDisplay
 
 # Structure
