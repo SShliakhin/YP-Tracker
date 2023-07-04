@@ -64,9 +64,12 @@ extension Di: IModuleFactory {
 	func makeStartModule() -> UIViewController {
 		// Вспомогательный метод, для отдельного запуска сцен
 		// при let isOnlyScene = true в SceneDelegate
-		makeCoreDataTrainerModule()
+		// makeOnboardingModule().0
+		let view = makeCategoriesListModuleMVVM(trackerAction: .selectCategory(nil)).0
+		view.title = "Категория"
+		return UINavigationController(rootViewController: view)
 	}
-	func makeOnboardingModule() -> UIViewController {
+	func makeOnboardingModule() -> (UIViewController, IOnboardingInteractor) {
 		makeOnboardingModule(dep: dependencies)
 	}
 	func makeTabbarModule() -> UIViewController {
@@ -80,6 +83,9 @@ extension Di: IModuleFactory {
 	}
 	func makeYPModule(trackerAction: Tracker.Action) -> (UIViewController, IYPInteractor) {
 		makeYPModule(dep: dependencies, trackerAction: trackerAction)
+	}
+	func makeCategoriesListModuleMVVM(trackerAction: Tracker.Action) -> (UIViewController, CategoriesListViewModel) {
+		makeCategoriesListModuleMVVM(dep: dependencies, trackerAction: trackerAction)
 	}
 	func makeSelectTypeTrackerModule() -> (UIViewController, ISelectTypeTrackerInteractor) {
 		makeSelectTypeTrackerModule(dep: dependencies)

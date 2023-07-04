@@ -21,11 +21,10 @@ final class OnboardingCoordinator: BaseCoordinator {
 // MARK: - show Modules
 private extension OnboardingCoordinator {
 	func showOnboardingModule() {
-		let module = factory.makeOnboardingModule()
-		let moduleVC = module as? OnboardingViewController
-		moduleVC?.didSendEventClosure = { [weak self] event in
+		let (module, moduleInteractor) = factory.makeOnboardingModule()
+		moduleInteractor.didSendEventClosure = { [weak self] event in
 			switch event {
-			case .start:
+			case .finishOnboarding:
 				self?.finishFlow?()
 			}
 		}

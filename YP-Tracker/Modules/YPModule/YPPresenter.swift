@@ -32,12 +32,12 @@ private extension YPPresenter {
 		let all = array.count
 		var next = 1
 
-		let dataSource: [YPModels.YPCellModel] = array.map { item in
+		let dataSource: [YPCellModel] = array.map { item in
 			let (hasDivider, outCorner) = getDecor(all: all, next: next)
 			let isSelected = item == current
 
 			next += 1
-			return YPModels.YPCellModel(
+			return YPCellModel(
 				type: .checkmarkType,
 				title: item.description,
 				description: "",
@@ -59,12 +59,12 @@ private extension YPPresenter {
 		let all = array.count
 		var next = 1
 
-		let dataSource: [YPModels.YPCellModel] = array.map { item in
+		let dataSource: [YPCellModel] = array.map { item in
 			let (hasDivider, outCorner) = getDecor(all: all, next: next)
 			let isSelected = current[next] ?? false
 
 			next += 1
-			return YPModels.YPCellModel(
+			return YPCellModel(
 				type: .switchType,
 				title: item,
 				description: "",
@@ -87,12 +87,12 @@ private extension YPPresenter {
 		let all = array.count
 		var next = 1
 
-		let dataSource: [YPModels.YPCellModel] = array.map { item in
+		let dataSource: [YPCellModel] = array.map { item in
 			let (hasDivider, outCorner) = getDecor(all: all, next: next)
 			let isSelected = item.id == current
 
 			next += 1
-			return YPModels.YPCellModel(
+			return YPCellModel(
 				type: .checkmarkType,
 				title: item.title,
 				description: "",
@@ -103,7 +103,7 @@ private extension YPPresenter {
 			)
 		}
 
-		return .showSchedule(
+		return .showCategories(
 			.init(
 				dataSource: dataSource,
 				titleButtonAction: Appearance.addCategoryButtonTitle

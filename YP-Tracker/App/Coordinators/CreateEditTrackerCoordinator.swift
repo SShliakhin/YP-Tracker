@@ -41,7 +41,9 @@ private extension CreateEditTrackerCoordinator {
 		moduleInteractor.didSendEventClosure = { [weak self, weak module] event in
 			switch event {
 			case let .selectCategory(currentID):
-				self?.showSelectCategoryModule(
+				// Study MVVM
+				// self?.showSelectCategoryModule(
+				self?.showSelectCategoryModuleMVVM(
 					currentCategory: currentID,
 					router: module
 				)
@@ -86,6 +88,27 @@ private extension CreateEditTrackerCoordinator {
 		router?.present(UINavigationController(rootViewController: module), animated: true)
 	}
 
+	func showSelectCategoryModuleMVVM(currentCategory: UUID?, router: UIViewController?) {
+		let (module, viewModel) = factory.makeCategoriesListModuleMVVM(
+			trackerAction: .selectCategory(currentCategory)
+		)
+
+		onUpdateCategories = { [weak viewModel] in
+			viewModel?.update()
+		}
+		viewModel.didSendEventClosure = { [weak self, weak module] event in
+			if case let .selectCategory(id, title) = event {
+				module?.dismiss(animated: true)
+				self?.onUpdateCategory?(id, title)
+			}
+			if case .showCreateEditCategory = event {
+				self?.showAddCategoryModule(router: module)
+			}
+		}
+		module.title = Appearance.titleCategoryVC
+		router?.present(UINavigationController(rootViewController: module), animated: true)
+	}
+
 	func showSelectScheduleModule(currentSchedule: [Int: Bool], router: UIViewController?) {
 		let (module, moduleInteractor) = factory.makeYPModule(
 			trackerAction: .selectSchedule(currentSchedule)
@@ -117,7 +140,7 @@ private extension CreateEditTrackerCoordinator {
 	enum Appearance {
 		static let titleHabitVC = "Новая привычка"
 		static let titleEventVC = "Новое нерегулярное событие"
-		static let titleCategoryVC = "Категории"
+		static let titleCategoryVC = "Категория"
 		static let titleScheduleVC = "Расписание"
 		static let titleAddCategoryVC = "Новая категория"
 	}

@@ -16,21 +16,13 @@ enum TrackersModels {
 			// swiftlint:disable:next large_tuple
 			let trackers: [(tracker: Tracker, completed: Bool, allTimes: Int)]
 		}
-		case update([SectionWithTrackers], TrackerConditions)
+		case update([SectionWithTrackers], TrackerConditions, ITrackersInteractor?)
 	}
 
 	enum ViewModel {
-		struct TrackerModel {
-			let colorString: String
-			let emoji: String
-			let title: String
-			let dayTime: String
-			let isCompleted: Bool
-			let isActionEnabled: Bool
-		}
 		struct Section {
-			let title: String
-			let trackers: [TrackerModel]
+			let header: HeaderSupplementaryViewModel
+			let trackers: [TrackerCellModel]
 		}
 
 		case update([Section], TrackerConditions)

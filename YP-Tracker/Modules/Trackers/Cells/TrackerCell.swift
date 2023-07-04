@@ -3,11 +3,11 @@ import UIKit
 final class TrackerCell: UICollectionViewCell {
 	// MARK: - UI Elements
 
-	private lazy var colorBackgroudnView = makeColorBackgroundView()
-	private lazy var emojiLabel = makeEmojiLabel()
-	private lazy var titleLabel = makeTitleLabel()
-	private lazy var dayLabel = makeDayLabel()
-	private lazy var completeButton = makeCompleteButton()
+	fileprivate lazy var colorBackgroudnView = makeColorBackgroundView()
+	fileprivate lazy var emojiLabel = makeEmojiLabel()
+	fileprivate lazy var titleLabel = makeTitleLabel()
+	fileprivate lazy var dayLabel = makeDayLabel()
+	fileprivate lazy var completeButton = makeCompleteButton()
 
 	// MARK: - Inits
 
@@ -31,23 +31,23 @@ final class TrackerCell: UICollectionViewCell {
 		dayLabel.text = ""
 		completeButton.event = nil
 	}
+}
 
-	// MARK: - Data model for cell
+// MARK: - Data model for cell
 
-	struct TrackerCellModel {
-		let colorString: String
-		let emoji: String
-		let title: String
-		let dayTime: String
-		let isCompleted: Bool
-		let isButtonEnabled: Bool
-		let event: (() -> Void)?
-	}
+struct TrackerCellModel {
+	let colorString: String
+	let emoji: String
+	let title: String
+	let dayTime: String
+	let isCompleted: Bool
+	let isButtonEnabled: Bool
+	let event: (() -> Void)?
 }
 
 // MARK: - ICellViewModel
 
-extension TrackerCell.TrackerCellModel: ICellViewModel {
+extension TrackerCellModel: ICellViewModel {
 	func setup(cell: TrackerCell) {
 		let color = UIColor(hex: colorString)
 
@@ -192,7 +192,7 @@ struct TrackerCell_Previews: PreviewProvider {
 	static var previews: some View {
 
 		let view1 = TrackerCell()
-		let model1 = TrackerCell.TrackerCellModel(
+		let model1 = TrackerCellModel(
 			colorString: TrackerColor.blue.rawValue,
 			emoji: "🏓",
 			title: "Учить iOS много много учить еще учить",
@@ -204,7 +204,7 @@ struct TrackerCell_Previews: PreviewProvider {
 		model1.setup(cell: view1)
 
 		let view2 = TrackerCell()
-		let model2 = TrackerCell.TrackerCellModel(
+		let model2 = TrackerCellModel(
 			colorString: TrackerColor.orange.rawValue,
 			emoji: "😇",
 			title: "Бабушка прислала открытку в вотсапе",
@@ -216,7 +216,7 @@ struct TrackerCell_Previews: PreviewProvider {
 		model2.setup(cell: view2)
 
 		let view3 = TrackerCell()
-		let model3 = TrackerCell.TrackerCellModel(
+		let model3 = TrackerCellModel(
 			colorString: TrackerColor.green.rawValue,
 			emoji: "😇",
 			title: "Хорошее настроение",

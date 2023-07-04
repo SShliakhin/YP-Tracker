@@ -1,13 +1,7 @@
 import UIKit
 
-protocol IYPViewController: AnyObject {
-	/// Рендрит вьюмодель
-	func render(viewModel: YPModels.ViewModel)
-}
-
-final class YPViewController: UIViewController {
-	private let interactor: IYPInteractor
-	private var dataSource: [YPCellModel] = []
+final class SelectCategoryViewController: UIViewController {
+	private var viewModel: CategoriesListViewModel
 
 	private lazy var collectionView: UICollectionView = makeCollectionView()
 	private lazy var emptyView = makeEmptyView()
@@ -15,8 +9,8 @@ final class YPViewController: UIViewController {
 
 	// MARK: - Inits
 
-	init(interactor: IYPInteractor) {
-		self.interactor = interactor
+	init(viewModel: CategoriesListViewModel) {
+		self.viewModel = viewModel
 		super.init(nibName: nil, bundle: nil)
 	}
 
@@ -25,10 +19,11 @@ final class YPViewController: UIViewController {
 	}
 
 	deinit {
-		print("IYPViewController deinit")
+		print("SelectCategoryViewController deinit")
 	}
 
 	// MARK: - Lifecycle
+
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
@@ -36,66 +31,59 @@ final class YPViewController: UIViewController {
 		applyStyle()
 		setConstraints()
 
-		interactor.viewIsReady()
+		bind(to: viewModel)
+		viewModel.viewIsReady()
 	}
 }
 
-// MARK: - IYPViewController
+// MARK: - Bind
 
-extension YPViewController: IYPViewController {
-	func render(viewModel: YPModels.ViewModel) {
-		switch viewModel {
-		case
-			let .showFilters(viewData),
-			let .showSchedule(viewData),
-			let .showCategories(viewData):
-
-			actionButton.setTitle(viewData.titleButtonAction, for: .normal)
-			actionButton.isHidden = viewData.titleButtonAction.isEmpty
-			dataSource = viewData.dataSource
-			collectionView.reloadData()
+private extension SelectCategoryViewController {
+	func bind(to viewModel: CategoriesListViewModel) {
+		viewModel.items.observe(on: self) { [weak self] _ in
+			self?.updateItems()
 		}
+	}
 
-		if case .showCategories = viewModel {
-			emptyView.isHidden = !dataSource.isEmpty
-		}
+	func updateItems() {
+		collectionView.reloadData()
+		emptyView.isHidden = !viewModel.isEmpty
 	}
 }
 
 // MARK: - UICollectionViewDataSource
 
-extension YPViewController: UICollectionViewDataSource {
+extension SelectCategoryViewController: UICollectionViewDataSource {
 	func collectionView(
 		_ collectionView: UICollectionView,
 		numberOfItemsInSection section: Int
 	) -> Int {
-		dataSource.count
+		viewModel.numberOfItems
 	}
 
 	func collectionView(
 		_ collectionView: UICollectionView,
 		cellForItemAt indexPath: IndexPath
 	) -> UICollectionViewCell {
-
-		let model = dataSource[indexPath.row]
+		let model = viewModel.cellModelAtIndex(indexPath.row)
 		return collectionView.dequeueReusableCell(withModel: model, for: indexPath)
 	}
 }
 
 // MARK: - UICollectionViewDelegate
 
-extension YPViewController: UICollectionViewDelegate {
+extension SelectCategoryViewController: UICollectionViewDelegate {
 	func collectionView(
 		_ collectionView: UICollectionView,
 		didSelectItemAt indexPath: IndexPath
 	) {
 		collectionView.deselectItem(at: indexPath, animated: true)
-		interactor.didUserDo(request: .selectItemAtIndex(indexPath.row))
+		viewModel.didSelectItemAtIndex(indexPath.row)
 	}
 }
 
 // MARK: - UI
-private extension YPViewController {
+private extension SelectCategoryViewController {
 	func setup() {
 		navigationController?.navigationBar.prefersLargeTitles = false
 		navigationController?.navigationBar.standardAppearance.titleTextAttributes = [
@@ -152,7 +140,7 @@ private extension YPViewController {
 }
 
 // MARK: - UI make
-private extension YPViewController {
+private extension SelectCategoryViewController {
 	func makeCollectionView() -> UICollectionView {
 		let layout = createLayout()
 
@@ -186,13 +174,14 @@ private extension YPViewController {
 	func makeActionButton() -> UIButton {
 		let button = UIButton()
 
+		button.setTitle(Appearance.actionButtonTitle, for: .normal)
 		button.setTitleColor(Theme.color(usage: .white), for: .normal)
 		button.titleLabel?.font = Theme.font(style: .callout)
 		button.backgroundColor = Theme.color(usage: .black)
 		button.layer.cornerRadius = Theme.size(kind: .cornerRadius)
 
 		button.event = { [weak self] in
-			self?.interactor.didUserDo(request: .tapActionButton)
+			self?.viewModel.didTapAddCategoryButton()
 		}
 
 		return button
@@ -200,7 +189,7 @@ private extension YPViewController {
 }
 
 // MARK: - CompositionalLayout
-private extension YPViewController {
+private extension SelectCategoryViewController {
 	func createLayout() -> UICollectionViewCompositionalLayout {
 		UICollectionViewCompositionalLayout { [weak self] _, _ in
 			guard let self = self else { return nil }
@@ -247,5 +236,12 @@ private extension YPViewController {
 		)
 
 		return section
+	}
+}
+
+// MARK: - Appearance
+private extension SelectCategoryViewController {
+	enum Appearance {
+		static let actionButtonTitle = "Добавить категорию"
 	}
 }

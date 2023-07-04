@@ -44,6 +44,7 @@
 * Clean Swift
 * Navigation: Coordinator
 * DI: на базе фабрик
+* Persistence storage: Core Data
 * Layout: Anchors, CompositionalLayout
 * Fonts: YSDisplay
 

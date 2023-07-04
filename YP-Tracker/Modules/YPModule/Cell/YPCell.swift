@@ -3,12 +3,12 @@ import UIKit
 final class YPCell: UICollectionViewCell {
 	// MARK: - UI Elements
 
-	private lazy var titleLabel = makeTitleLabel()
-	private lazy var descriptionLabel = makeDescriptionLabel()
-	private lazy var dividerView = makeDividerView()
+	fileprivate lazy var titleLabel = makeTitleLabel()
+	fileprivate lazy var descriptionLabel = makeDescriptionLabel()
+	fileprivate lazy var dividerView = makeDividerView()
 
-	private var innerView = UIView()
-	private var event: (() -> Void)?
+	fileprivate var innerView = UIView()
+	fileprivate var event: (() -> Void)?
 
 	// MARK: - Inits
 
@@ -35,23 +35,23 @@ final class YPCell: UICollectionViewCell {
 			view.removeFromSuperview()
 		}
 	}
+}
 
-	// MARK: - Data model for cell
+// MARK: - Data model for cell
 
-	struct YPCellModel {
-		let type: InnerViewType
-		let title: String
-		let description: String
-		let hasDivider: Bool
-		let outCorner: [CellCorner]
-		let isSelected: Bool
-		let event: (() -> Void)?
-	}
+struct YPCellModel {
+	let type: InnerViewType
+	let title: String
+	let description: String
+	let hasDivider: Bool
+	let outCorner: [CellCorner]
+	let isSelected: Bool
+	let event: (() -> Void)?
 }
 
 // MARK: - ICellViewModel
 
-extension YPCell.YPCellModel: ICellViewModel {
+extension YPCellModel: ICellViewModel {
 	func setup(cell: YPCell) {
 		cell.titleLabel.text = title
 		cell.descriptionLabel.text = description
@@ -194,7 +194,7 @@ struct YPCell_Previews: PreviewProvider {
 	static var previews: some View {
 
 		let viewSwitch = YPCell()
-		let modelSwitch = YPCell.YPCellModel(
+		let modelSwitch = YPCellModel(
 			type: .switchType,
 			title: "Label",
 			description: "Описание",
@@ -206,7 +206,7 @@ struct YPCell_Previews: PreviewProvider {
 		modelSwitch.setup(cell: viewSwitch)
 
 		let viewSwitch2 = YPCell()
-		let modelSwitch2 = YPCell.YPCellModel(
+		let modelSwitch2 = YPCellModel(
 			type: .switchType,
 			title: "Label",
 			description: "Описание",
@@ -218,7 +218,7 @@ struct YPCell_Previews: PreviewProvider {
 		modelSwitch2.setup(cell: viewSwitch2)
 
 		let viewChevron = YPCell()
-		let modelChevron = YPCell.YPCellModel(
+		let modelChevron = YPCellModel(
 			type: .chevronType,
 			title: "Label",
 			description: "Описание",
@@ -230,7 +230,7 @@ struct YPCell_Previews: PreviewProvider {
 		modelChevron.setup(cell: viewChevron)
 
 		let viewChevron2 = YPCell()
-		let modelChevron2 = YPCell.YPCellModel(
+		let modelChevron2 = YPCellModel(
 			type: .chevronType,
 			title: "Label",
 			description: "",
@@ -242,7 +242,7 @@ struct YPCell_Previews: PreviewProvider {
 		modelChevron2.setup(cell: viewChevron2)
 
 		let viewCheckmark = YPCell()
-		let modelCheckmark = YPCell.YPCellModel(
+		let modelCheckmark = YPCellModel(
 			type: .checkmarkType,
 			title: "Label",
 			description: "Описание",
@@ -254,7 +254,7 @@ struct YPCell_Previews: PreviewProvider {
 		modelCheckmark.setup(cell: viewCheckmark)
 
 		let viewCheckmark2 = YPCell()
-		let modelCheckmark2 = YPCell.YPCellModel(
+		let modelCheckmark2 = YPCellModel(
 			type: .checkmarkType,
 			title: "Label",
 			description: "Описание",

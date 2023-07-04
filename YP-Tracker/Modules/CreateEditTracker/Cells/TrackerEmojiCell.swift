@@ -3,8 +3,8 @@ import UIKit
 final class TrackerEmojiCell: UICollectionViewCell {
 	// MARK: - UI Elements
 
-	private lazy var background = makeBagroundView()
-	private lazy var emojiLabel = makeEmojiLabel()
+	fileprivate lazy var background = makeBagroundView()
+	fileprivate lazy var emojiLabel = makeEmojiLabel()
 
 	// MARK: - Inits
 
@@ -32,18 +32,18 @@ final class TrackerEmojiCell: UICollectionViewCell {
 
 		emojiLabel.text = nil
 	}
+}
 
-	// MARK: - Data model for cell
+// MARK: - Data model for cell
 
-	struct TrackerEmojiCellModel {
-		let emoji: String
-		let isSelected: Bool
-	}
+struct TrackerEmojiCellModel {
+	let emoji: String
+	let isSelected: Bool
 }
 
 // MARK: - ICellViewModel
 
-extension TrackerEmojiCell.TrackerEmojiCellModel: ICellViewModel {
+extension TrackerEmojiCellModel: ICellViewModel {
 	func setup(cell: TrackerEmojiCell) {
 		cell.emojiLabel.text = emoji
 		if isSelected {
@@ -91,11 +91,11 @@ struct TrackerEmojiCell_Previews: PreviewProvider {
 	static var previews: some View {
 
 		let view1 = TrackerEmojiCell()
-		let model1 = TrackerEmojiCell.TrackerEmojiCellModel(emoji: "❤️", isSelected: false)
+		let model1 = TrackerEmojiCellModel(emoji: "❤️", isSelected: false)
 		model1.setup(cell: view1)
 
 		let view2 = TrackerEmojiCell()
-		let model2 = TrackerEmojiCell.TrackerEmojiCellModel(emoji: "❤️", isSelected: true)
+		let model2 = TrackerEmojiCellModel(emoji: "❤️", isSelected: true)
 		model2.setup(cell: view2)
 
 		let view3 = TrackerEmojiCell()

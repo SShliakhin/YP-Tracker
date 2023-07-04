@@ -9,27 +9,30 @@ final class TrackersPresenter: ITrackersPresenter {
 	weak var viewController: ITrackersViewController?
 
 	typealias TrackerSection = TrackersModels.ViewModel.Section
-	typealias TrackerModel = TrackersModels.ViewModel.TrackerModel
 
 	func present(data: TrackersModels.Response) {
 
 		let viewData: TrackersModels.ViewModel
 
 		switch data {
-		case let .update(categories, conditions):
+		case let .update(categories, conditions, interactor):
+			weak var interactor = interactor
 			let isActionEnabled = checkIsActionEnabled(date: conditions.date)
 			var sections: [TrackerSection] = []
-			for category in categories {
+			for (index, category) in categories.enumerated() {
 				let section = TrackerSection(
-					title: category.sectionName,
-					trackers: category.trackers.map({ tracker, completed, allTimes in
-						TrackerModel(
-							colorString: tracker.color,
-							emoji: tracker.emoji,
-							title: tracker.title,
-							dayTime: "\(allTimes) дн./дней",
-							isCompleted: completed,
-							isActionEnabled: isActionEnabled
+					header: HeaderSupplementaryViewModel(title: category.sectionName),
+					trackers: category.trackers
+						.enumerated()
+						.map({ key, val in
+						TrackerCellModel(
+							colorString: val.tracker.color,
+							emoji: val.tracker.emoji,
+							title: val.tracker.title,
+							dayTime: "\(val.allTimes) дн./дней",
+							isCompleted: val.completed,
+							isButtonEnabled: isActionEnabled,
+							event: { interactor?.didUserDo(request: .completeUncompleteTracker(index, key)) }
 						)
 					})
 				)

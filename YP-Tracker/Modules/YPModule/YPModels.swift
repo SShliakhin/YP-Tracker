@@ -1,15 +1,5 @@
 import Foundation
 enum YPModels {
-	struct YPCellModel {
-		let type: InnerViewType
-		let title: String
-		let description: String
-		let hasDivider: Bool
-		let outCorner: [CellCorner]
-		let isSelected: Bool
-		let event: (() -> Void)?
-	}
-
 	enum Request {
 		case selectItemAtIndex(_ index: Int)
 		case tapActionButton
