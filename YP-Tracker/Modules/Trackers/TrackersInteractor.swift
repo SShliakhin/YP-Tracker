@@ -50,23 +50,31 @@ final class TrackersInteractor: ITrackersInteractor {
 			if conditions.filter == .today {
 				conditions.filter = .all
 			}
+		case let .newFilter(filter):
+			conditions.filter = filter
+			if filter == .today {
+				conditions.date = Date()
+			}
 		case let .completeUncompleteTracker(section, row):
 			guard categoriesProvider.completeUncompleteTrackerByPlace(
 				section: section,
 				row: row,
 				date: conditions.date
 			) else { return }
-		case let .newFilter(filter):
-			conditions.filter = filter
-			if filter == .today {
-				conditions.date = Date()
-			}
+		case let .editTracker(section, row):
+			let trackerID = categoriesProvider.getTrackerID(
+				section: section,
+				row: row
+			)
+			didSendEventClosure?(.editTracker(trackerID))
+			return
+		case let .deleteTracker(section, row):
+			categoriesProvider.removeTrackerByPlace(
+				section: section,
+				row: row
+			)
 		case .addTracker:
 			didSendEventClosure?(.addTracker)
-			return
-		case let .editTracker(section, row):
-			let trackerID = categoriesProvider.getTrackerID(section: section, row: row)
-			didSendEventClosure?(.editTracker(trackerID))
 			return
 		case .selectFilter:
 			didSendEventClosure?(.selectFilter(conditions.filter))

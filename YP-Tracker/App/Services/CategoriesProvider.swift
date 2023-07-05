@@ -7,8 +7,9 @@ protocol ICategoriesProvider {
 	func getCategories(date: Date, text: String?, completed: Bool?) -> [TrackerCategory]
 	// swiftlint:disable:next large_tuple
 	func getTrackerBoxByID(_ id: UUID) -> (tracker: Tracker, completed: Bool, allTimes: Int)?
-	func completeUncompleteTrackerByPlace(section: Int, row: Int, date: Date) -> Bool
 	func getTrackerID(section: Int, row: Int) -> UUID
+	func completeUncompleteTrackerByPlace(section: Int, row: Int, date: Date) -> Bool
+	func removeTrackerByPlace(section: Int, row: Int)
 }
 
 final class CategoriesProvider: ICategoriesProvider {
@@ -130,6 +131,11 @@ final class CategoriesProvider: ICategoriesProvider {
 			)
 		}
 		return true
+	}
+
+	func removeTrackerByPlace(section: Int, row: Int) {
+		let trackerID = getTrackerID(section: section, row: row)
+		categoriesManager.removeTrackerBy(trackerID: trackerID)
 	}
 
 	func getTrackerID(section: Int, row: Int) -> UUID {

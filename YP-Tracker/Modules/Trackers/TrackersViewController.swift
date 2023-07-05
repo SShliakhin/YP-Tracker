@@ -164,12 +164,37 @@ extension TrackersViewController: UICollectionViewDelegate {
 								title: Appearance.menuTrackerDelete,
 								attributes: .destructive
 							) { [weak self] _ in
-								print("Удалить")
+								self?.deleteRequest(indexPaths)
 							}
 						]
 				)
 			}
 		)
+	}
+
+	private func deleteRequest(_ indexPath: IndexPath) {
+		let alert = UIAlertController(
+			title: nil,
+			message: Appearance.deleteRequestMessage,
+			preferredStyle: .actionSheet
+		)
+		alert.addAction(
+			.init(
+				title: Appearance.deleteRequestDeleteTitle,
+				style: .destructive
+			) { [weak self] _ in
+				self?.interactor.didUserDo(
+					request: .deleteTracker(indexPath.section, indexPath.row)
+				)
+			}
+		)
+		alert.addAction(
+			.init(
+				title: Appearance.deleteRequestCancelTitle,
+				style: .cancel
+			)
+		)
+		present(alert, animated: true)
 	}
 }
 
@@ -399,5 +424,8 @@ private extension TrackersViewController {
 		static let menuTrackerUnpin = "Открепить"
 		static let menuTrackerEdit = "Редактировать"
 		static let menuTrackerDelete = "Удалить"
+		static let deleteRequestMessage = "Уверены, что хотите удалить трекер?"
+		static let deleteRequestDeleteTitle = "Удалить"
+		static let deleteRequestCancelTitle = "Отменить"
 	}
 }

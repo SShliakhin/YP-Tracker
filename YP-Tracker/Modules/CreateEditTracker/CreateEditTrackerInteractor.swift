@@ -89,7 +89,7 @@ final class CreateEditTrackerInteractor: ICreateEditTrackerInteractor {
 			)
 			isNewTracker = false
 		}
-		
+
 		presenter.present(
 			data: .update(
 				hasSchedule: hasSchedule,
