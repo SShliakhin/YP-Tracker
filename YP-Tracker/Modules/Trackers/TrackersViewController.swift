@@ -132,6 +132,45 @@ extension TrackersViewController: UICollectionViewDataSource {
 
 extension TrackersViewController: UICollectionViewDelegate {
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) { }
+
+	func collectionView(
+		_ collectionView: UICollectionView,
+		contextMenuConfigurationForItemAt indexPaths: IndexPath,
+		point: CGPoint
+	) -> UIContextMenuConfiguration? {
+		guard !indexPaths.isEmpty else { return nil }
+
+		let pinUnpinTitle = indexPaths.section == 0
+		? Appearance.menuTrackerUnpin
+		: Appearance.menuTrackerPin
+		return UIContextMenuConfiguration(
+			identifier: nil,
+			previewProvider: nil,
+			actionProvider: { _ in
+				UIMenu(
+					children:
+						[
+							UIAction(
+								title: pinUnpinTitle
+							) { [weak self] _ in
+								print("Открепить/закрепить")
+							},
+							UIAction(
+								title: Appearance.menuTrackerEdit
+							) { [weak self] _ in
+								print("Редактировать")
+							},
+							UIAction(
+								title: Appearance.menuTrackerDelete,
+								attributes: .destructive
+							) { [weak self] _ in
+								print("Удалить")
+							}
+						]
+				)
+			}
+		)
+	}
 }
 
 // MARK: - UISearchResultsUpdating
@@ -356,5 +395,9 @@ private extension TrackersViewController {
 		static let datePickerWidth: CGFloat = 104
 		static let searchPlacholder = "Поиск"
 		static let searchCancelButtonTitle = "Отмена"
+		static let menuTrackerPin = "Закрепить"
+		static let menuTrackerUnpin = "Открепить"
+		static let menuTrackerEdit = "Редактировать"
+		static let menuTrackerDelete = "Удалить"
 	}
 }
