@@ -94,14 +94,14 @@ private extension CreateEditTrackerCoordinator {
 		)
 
 		onUpdateCategories = { [weak viewModel] in
-			viewModel?.update()
+			viewModel?.didUserDo(request: .updateView)
 		}
 		viewModel.didSendEventClosure = { [weak self, weak module] event in
 			if case let .selectCategory(id, title) = event {
 				module?.dismiss(animated: true)
 				self?.onUpdateCategory?(id, title)
 			}
-			if case .showCreateEditCategory = event {
+			if case .addCategory = event {
 				self?.showAddCategoryModule(router: module)
 			}
 		}

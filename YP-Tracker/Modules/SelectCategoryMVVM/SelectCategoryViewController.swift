@@ -78,7 +78,66 @@ extension SelectCategoryViewController: UICollectionViewDelegate {
 		didSelectItemAt indexPath: IndexPath
 	) {
 		collectionView.deselectItem(at: indexPath, animated: true)
-		viewModel.didSelectItemAtIndex(indexPath.row)
+		// viewModel.didSelectItemAtIndex(indexPath.row)
+		viewModel.didUserDo(request: .selectItemAtIndex(indexPath.row))
+	}
+
+	func collectionView(
+		_ collectionView: UICollectionView,
+		contextMenuConfigurationForItemAt indexPaths: IndexPath,
+		point: CGPoint
+	) -> UIContextMenuConfiguration? {
+		guard !indexPaths.isEmpty else { return nil }
+
+		return UIContextMenuConfiguration(
+			identifier: nil,
+			previewProvider: nil,
+			actionProvider: { _ in
+				UIMenu(
+					children:
+						[
+							UIAction(
+								title: Appearance.menuEdit
+							) { [weak self] _ in
+								print("Редактировать")
+								// self?.interactor.didUserDo(request: .editTracker(indexPaths.section, indexPaths.row))
+							},
+							UIAction(
+								title: Appearance.menuDelete,
+								attributes: .destructive
+							) { [weak self] _ in
+								self?.deleteRequest(indexPaths)
+							}
+						]
+				)
+			}
+		)
+	}
+
+	private func deleteRequest(_ indexPath: IndexPath) {
+		let alert = UIAlertController(
+			title: nil,
+			message: Appearance.deleteRequestMessage,
+			preferredStyle: .actionSheet
+		)
+		alert.addAction(
+			.init(
+				title: Appearance.deleteRequestDeleteTitle,
+				style: .destructive
+			) { [weak self] _ in
+				print("Удалить")
+//				self?.interactor.didUserDo(
+//					request: .deleteTracker(indexPath.section, indexPath.row)
+//				)
+			}
+		)
+		alert.addAction(
+			.init(
+				title: Appearance.deleteRequestCancelTitle,
+				style: .cancel
+			)
+		)
+		present(alert, animated: true)
 	}
 }
 
@@ -181,7 +240,8 @@ private extension SelectCategoryViewController {
 		button.layer.cornerRadius = Theme.size(kind: .cornerRadius)
 
 		button.event = { [weak self] in
-			self?.viewModel.didTapAddCategoryButton()
+			// self?.viewModel.didTapAddCategoryButton()
+			self?.viewModel.didUserDo(request: .tapActionButton)
 		}
 
 		return button
@@ -243,5 +303,10 @@ private extension SelectCategoryViewController {
 private extension SelectCategoryViewController {
 	enum Appearance {
 		static let actionButtonTitle = "Добавить категорию"
+		static let menuEdit = "Редактировать"
+		static let menuDelete = "Удалить"
+		static let deleteRequestMessage = "Эта категория точно не нужна?"
+		static let deleteRequestDeleteTitle = "Удалить"
+		static let deleteRequestCancelTitle = "Отменить"
 	}
 }
