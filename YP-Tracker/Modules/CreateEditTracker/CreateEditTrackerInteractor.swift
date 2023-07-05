@@ -34,6 +34,10 @@ final class CreateEditTrackerInteractor: ICreateEditTrackerInteractor {
 		if case let .new(trackerType) = trackerAction {
 			hasSchedule = trackerType == .habit
 		}
+		if case .edit = trackerAction {
+			// можно превратить привычку в обычное событие!
+			hasSchedule = !newTracker.scheduleString.isEmpty
+		}
 		return (hasSchedule && !newTracker.scheduleString.isEmpty) || !hasSchedule
 	}
 
@@ -48,8 +52,9 @@ final class CreateEditTrackerInteractor: ICreateEditTrackerInteractor {
 	}
 
 	func viewIsReady() {
+		var hasSchedule = false
 		if case let .new(trackerType) = trackerAction {
-			let hasSchedule = trackerType == .habit
+			hasSchedule = trackerType == .habit
 			if hasSchedule {
 				newTracker = Tracker(
 					id: newTracker.id,
@@ -59,20 +64,32 @@ final class CreateEditTrackerInteractor: ICreateEditTrackerInteractor {
 					schedule: Dictionary(uniqueKeysWithValues: (1...7).map { ($0, false) })
 				)
 			}
-			presenter.present(
-				data: .update(
-					hasSchedule: hasSchedule,
-					title: newTracker.title,
-					components: [
-						.category(newCategory.title),
-						.schedule(newTracker.scheduleString),
-						.emoji(Theme.Constansts.emojis, newTracker.emoji),
-						.color(Theme.Constansts.trackerColors, newTracker.color)
-					],
-					isSaveEnabled: checkSavePossibility()
-				)
+		}
+		if case let .edit(trackerID) = trackerAction {
+			guard let tracker = categoriesManager.getTrackers()
+					.first(where: { $0.id == trackerID }) else { return }
+			hasSchedule = !newTracker.scheduleString.isEmpty
+			newTracker = Tracker(
+				id: tracker.id,
+				title: tracker.title,
+				emoji: tracker.emoji,
+				color: tracker.color,
+				schedule: tracker.schedule
 			)
 		}
+		presenter.present(
+			data: .update(
+				hasSchedule: hasSchedule,
+				title: newTracker.title,
+				components: [
+					.category(newCategory.title),
+					.schedule(newTracker.scheduleString),
+					.emoji(Theme.Constansts.emojis, newTracker.emoji),
+					.color(Theme.Constansts.trackerColors, newTracker.color)
+				],
+				isSaveEnabled: checkSavePossibility()
+			)
+		)
 	}
 
 	func didUserDo(request: CreateEditTrackerModels.Request) {
