@@ -69,9 +69,16 @@ final class CreateEditTrackerViewController: UIViewController {
 extension CreateEditTrackerViewController: ICreateEditTrackerViewController {
 	func render(viewModel: CreateEditTrackerModels.ViewModel) {
 		switch viewModel {
-		case let .showAllComponents(hasSchedule, title, components, isSaveEnabled):
+		case let .showAllComponents(
+			hasSchedule,
+			title,
+			components,
+			isSaveEnabled,
+			saveTitle
+		):
 			self.hasSchedule = hasSchedule
 			self.isSaveEnabled = isSaveEnabled
+			createButton.setTitle(saveTitle, for: .normal)
 			titleTextField.text = title
 			dataSource = components
 			collectionView.reloadData()

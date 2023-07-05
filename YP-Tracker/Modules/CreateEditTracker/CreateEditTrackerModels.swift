@@ -38,7 +38,13 @@ enum CreateEditTrackerModels {
 				}
 			}
 		}
-		case update(hasSchedule: Bool, title: String, components: [Section], isSaveEnabled: Bool)
+		case update(
+			hasSchedule: Bool,
+			title: String,
+			components: [Section],
+			isSaveEnabled: Bool,
+			saveTitle: String
+		)
 		case updateSection(section: Int, items: Section, isSaveEnabled: Bool)
 		case updateSaveEnabled(isSaveEnabled: Bool)
 	}
@@ -63,7 +69,13 @@ enum CreateEditTrackerModels {
 				}
 			}
 		}
-		case showAllComponents(hasSchedule: Bool, title: String, components: [Section], isSaveEnabled: Bool)
+		case showAllComponents(
+			hasSchedule: Bool,
+			title: String,
+			components: [Section],
+			isSaveEnabled: Bool,
+			saveTitle: String
+		)
 		case showNewSection(section: Int, items: Section, isSaveEnabled: Bool)
 		case showSaveEnabled(isSaveEnabled: Bool)
 	}

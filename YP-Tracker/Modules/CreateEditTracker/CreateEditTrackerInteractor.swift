@@ -35,8 +35,7 @@ final class CreateEditTrackerInteractor: ICreateEditTrackerInteractor {
 			hasSchedule = trackerType == .habit
 		}
 		if case .edit = trackerAction {
-			// можно превратить привычку в обычное событие!
-			hasSchedule = !newTracker.scheduleString.isEmpty
+			hasSchedule = !newTracker.schedule.isEmpty
 		}
 		return (hasSchedule && !newTracker.scheduleString.isEmpty) || !hasSchedule
 	}
@@ -51,8 +50,11 @@ final class CreateEditTrackerInteractor: ICreateEditTrackerInteractor {
 		self.trackerAction = trackerAction
 	}
 
+	// swiftlint:disable:next function_body_length
 	func viewIsReady() {
 		var hasSchedule = false
+		var isNewTracker = true
+
 		if case let .new(trackerType) = trackerAction {
 			hasSchedule = trackerType == .habit
 			if hasSchedule {
@@ -65,10 +67,15 @@ final class CreateEditTrackerInteractor: ICreateEditTrackerInteractor {
 				)
 			}
 		}
+
 		if case let .edit(trackerID) = trackerAction {
-			guard let tracker = categoriesManager.getTrackers()
-					.first(where: { $0.id == trackerID }) else { return }
-			hasSchedule = !newTracker.scheduleString.isEmpty
+			guard let trackerEditBox: (
+				tracker: Tracker,
+				categoryID: UUID,
+				categoryTitle: String
+			) = categoriesManager.getTrackerEditBoxByID(trackerID) else { return }
+			let tracker = trackerEditBox.tracker
+			hasSchedule = !tracker.scheduleString.isEmpty
 			newTracker = Tracker(
 				id: tracker.id,
 				title: tracker.title,
@@ -76,7 +83,13 @@ final class CreateEditTrackerInteractor: ICreateEditTrackerInteractor {
 				color: tracker.color,
 				schedule: tracker.schedule
 			)
+			newCategory = (
+				trackerEditBox.categoryID,
+				trackerEditBox.categoryTitle
+			)
+			isNewTracker = false
 		}
+		
 		presenter.present(
 			data: .update(
 				hasSchedule: hasSchedule,
@@ -87,7 +100,10 @@ final class CreateEditTrackerInteractor: ICreateEditTrackerInteractor {
 					.emoji(Theme.Constansts.emojis, newTracker.emoji),
 					.color(Theme.Constansts.trackerColors, newTracker.color)
 				],
-				isSaveEnabled: checkSavePossibility()
+				isSaveEnabled: checkSavePossibility(),
+				saveTitle: isNewTracker
+				? Appearance.titleCreate
+				: Appearance.titleEdit
 			)
 		)
 	}
@@ -213,5 +229,13 @@ private extension CreateEditTrackerInteractor {
 			return false
 		}
 		return true
+	}
+}
+
+// MARK: - Appearance
+private extension CreateEditTrackerInteractor {
+	enum Appearance {
+		static let titleCreate = "Создать"
+		static let titleEdit = "Сохранить"
 	}
 }

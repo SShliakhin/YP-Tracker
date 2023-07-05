@@ -62,6 +62,22 @@ extension CategoriesManagerCD: ICategoriesManager {
 		return objects.compactMap { TrackerRecord.convertFromCD(object: $0) }
 	}
 
+	// swiftlint:disable:next large_tuple
+	func getTrackerEditBoxByID(_ trackerID: UUID) -> (Tracker, UUID, String)? {
+		guard let trackerCD = findObjectByUUID(
+			id: trackerID,
+			key: "trackerID",
+			withRequest: TrackerCD.fetchRequest()
+		) else { return nil }
+		guard let categoryCD = trackerCD.trackerCategory else { return nil }
+		guard
+			let tracker = Tracker.convertFromCD(object: trackerCD),
+			let categoryID = categoryCD.categoryID,
+			let categoryTitle = categoryCD.title
+		else { return nil }
+		return (tracker, categoryID, categoryTitle)
+	}
+
 	func addCategory(title: String) {
 		// как вариант можно поискать по названию уже имеющуюся
 		// удалить вокруг пробелы и не учитывать регистр

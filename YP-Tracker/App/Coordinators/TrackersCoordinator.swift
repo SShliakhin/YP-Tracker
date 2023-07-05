@@ -39,6 +39,19 @@ private extension TrackersCoordinator {
 		addDependency(coordinator)
 		coordinator.start()
 	}
+
+	func runEditTrackerFlow(trackerID: UUID) {
+		let coordinator = coordinatorFactory.makeCreateEditTrackerCoordinator(
+			router: router,
+			trackerAction: .edit(trackerID)
+		)
+		coordinator.finishFlow = { [weak self, weak coordinator] in
+			self?.removeDependency(coordinator)
+			self?.onUpdateTrackers?()
+		}
+		addDependency(coordinator)
+		coordinator.start()
+	}
 }
 
 // MARK: - show Modules
@@ -56,6 +69,8 @@ private extension TrackersCoordinator {
 			switch event {
 			case .addTracker:
 				self?.showSelectTypeTrackerModule()
+			case let .editTracker(trackerID):
+				self?.runEditTrackerFlow(trackerID: trackerID)
 			case let .selectFilter(filter):
 				self?.showSelectFilterModule(currentFilter: filter)
 			}

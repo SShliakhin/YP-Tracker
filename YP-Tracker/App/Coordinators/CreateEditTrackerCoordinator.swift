@@ -143,13 +143,21 @@ private extension CreateEditTrackerCoordinator {
 		static let titleCategoryVC = "Категория"
 		static let titleScheduleVC = "Расписание"
 		static let titleAddCategoryVC = "Новая категория"
+		static let titleEditTrackerVC = "Редактирование привычки"
+		static let defaultTitle = "Создание/редактирование привычки"
 	}
 
 	func makeTitle() -> String {
-		if case Tracker.Action.new(.habit) = trackerAction {
-			return Appearance.titleHabitVC
-		} else {
-			return Appearance.titleEventVC
+		if case let Tracker.Action.new(trackerType) = trackerAction {
+			if trackerType == .habit {
+				return Appearance.titleHabitVC
+			} else {
+				return Appearance.titleEventVC
+			}
 		}
+		if case Tracker.Action.edit = trackerAction {
+			return Appearance.titleEditTrackerVC
+		}
+		return Appearance.defaultTitle
 	}
 }

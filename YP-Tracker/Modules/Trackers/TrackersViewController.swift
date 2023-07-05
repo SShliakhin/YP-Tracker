@@ -158,7 +158,7 @@ extension TrackersViewController: UICollectionViewDelegate {
 							UIAction(
 								title: Appearance.menuTrackerEdit
 							) { [weak self] _ in
-								print("Редактировать")
+								self?.interactor.didUserDo(request: .editTracker(indexPaths.section, indexPaths.row))
 							},
 							UIAction(
 								title: Appearance.menuTrackerDelete,

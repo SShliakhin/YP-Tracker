@@ -4,6 +4,8 @@ protocol ICategoriesManager: AnyObject {
 	func getCategories() -> [TrackerCategory]
 	func getTrackers() -> [Tracker]
 	func getCompletedTrackers() -> [TrackerRecord]
+	// swiftlint:disable:next large_tuple
+	func getTrackerEditBoxByID(_ trackerID: UUID) -> (Tracker, UUID, String)?
 
 	func addCategory(title: String)
 	func editCategoryBy(categoryID: UUID, newtitle: String)
@@ -40,6 +42,19 @@ final class CategoriesManager: ICategoriesManager {
 
 	func getCompletedTrackers() -> [TrackerRecord] {
 		completedTrackers
+	}
+
+	// swiftlint:disable:next large_tuple
+	func getTrackerEditBoxByID(_ trackerID: UUID) -> (Tracker, UUID, String)? {
+		guard let trackerIndex = trackers.firstIndex(where: { item in
+			item.id == trackerID
+		}) else { return nil }
+		guard let categoryIndex = getCategoryIndexByTrackerId(trackerID) else { return nil }
+		return (
+			trackers[trackerIndex],
+			categories[categoryIndex].id,
+			categories[categoryIndex].title
+		)
 	}
 
 	func addCategory(title: String) {

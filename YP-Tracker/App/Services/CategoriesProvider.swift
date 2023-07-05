@@ -8,6 +8,7 @@ protocol ICategoriesProvider {
 	// swiftlint:disable:next large_tuple
 	func getTrackerBoxByID(_ id: UUID) -> (tracker: Tracker, completed: Bool, allTimes: Int)?
 	func completeUncompleteTrackerByPlace(section: Int, row: Int, date: Date) -> Bool
+	func getTrackerID(section: Int, row: Int) -> UUID
 }
 
 final class CategoriesProvider: ICategoriesProvider {
@@ -114,8 +115,7 @@ final class CategoriesProvider: ICategoriesProvider {
 	}
 
 	func completeUncompleteTrackerByPlace(section: Int, row: Int, date: Date) -> Bool {
-		// не безопасно!!!
-		let trackerID = categories[section].trackers[row]
+		let trackerID = getTrackerID(section: section, row: row)
 		guard let (_, completed, _) = getTrackerBoxByID(trackerID) else { return false }
 
 		if completed {
@@ -130,5 +130,10 @@ final class CategoriesProvider: ICategoriesProvider {
 			)
 		}
 		return true
+	}
+
+	func getTrackerID(section: Int, row: Int) -> UUID {
+		// не безопасно!!!
+		categories[section].trackers[row]
 	}
 }

@@ -11,10 +11,17 @@ final class CreateEditTrackerPresenter: ICreateEditTrackerPresenter {
 
 	typealias Section = CreateEditTrackerModels.ViewModel.Section
 
+	// swiftlint:disable:next function_body_length
 	func present(data: CreateEditTrackerModels.Response) {
 
 		switch data {
-		case let .update(hasSchedule, title, components, isSaveEnabled):
+		case let .update(
+			hasSchedule,
+			title,
+			components,
+			isSaveEnabled,
+			saveTitle
+		):
 
 			self.hasSchedule = hasSchedule
 			let newComponents = getNewComponents(
@@ -27,7 +34,8 @@ final class CreateEditTrackerPresenter: ICreateEditTrackerPresenter {
 					hasSchedule: hasSchedule,
 					title: title,
 					components: newComponents,
-					isSaveEnabled: isSaveEnabled
+					isSaveEnabled: isSaveEnabled,
+					saveTitle: saveTitle
 				)
 			)
 		case let .updateSection(section, items, isSaveEnabled):

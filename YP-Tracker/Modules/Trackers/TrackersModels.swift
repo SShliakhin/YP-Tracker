@@ -7,6 +7,7 @@ enum TrackersModels {
 		case completeUncompleteTracker(Int, Int)
 		case newFilter(TrackerFilter)
 		case addTracker
+		case editTracker(Int, Int)
 		case selectFilter
 	}
 

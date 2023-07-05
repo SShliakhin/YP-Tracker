@@ -2,6 +2,7 @@ import Foundation
 
 enum EventTrackersInteractor {
 	case addTracker
+	case editTracker(UUID)
 	case selectFilter(TrackerFilter)
 }
 
@@ -62,6 +63,10 @@ final class TrackersInteractor: ITrackersInteractor {
 			}
 		case .addTracker:
 			didSendEventClosure?(.addTracker)
+			return
+		case let .editTracker(section, row):
+			let trackerID = categoriesProvider.getTrackerID(section: section, row: row)
+			didSendEventClosure?(.editTracker(trackerID))
 			return
 		case .selectFilter:
 			didSendEventClosure?(.selectFilter(conditions.filter))
