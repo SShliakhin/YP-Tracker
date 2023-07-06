@@ -52,13 +52,11 @@ extension Tracker {
 		}
 	}
 	enum Action {
-		case edit(UUID) // редактировать существующий трекер
-		case new(TrackerType) // создать новый трекер, передаем тип
-		case selectCategory(UUID?) // передаем существующие UUID категории
-		case selectSchedule([Int: Bool]) // передаем существующее расписание
+		case edit(UUID)
+		case new(TrackerType)
+		case selectCategory(UUID?)
+		case selectSchedule([Int: Bool])
 		case selectFilter(TrackerFilter)
-		case save
-		case cancel
 		case addCategory
 		case editCategory(UUID)
 	}
