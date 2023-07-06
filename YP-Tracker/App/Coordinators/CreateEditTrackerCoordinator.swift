@@ -81,8 +81,13 @@ private extension CreateEditTrackerCoordinator {
 				self?.onUpdateCategory?(id, title)
 			}
 			if case .addCategory = event {
-				self?.showAddCategoryModule(router: module)
+				self?.showCreateEditCategoryModule(
+					trackerAction: .addCategory,
+					titleVC: Appearance.titleAddCategoryVC,
+					router: module
+				)
 			}
+			// внедрить новый функционал по категориям в общий YPModule сложно
 		}
 		module.title = Appearance.titleCategoryVC
 		router?.present(UINavigationController(rootViewController: module), animated: true)
@@ -102,7 +107,18 @@ private extension CreateEditTrackerCoordinator {
 				self?.onUpdateCategory?(id, title)
 			}
 			if case .addCategory = event {
-				self?.showAddCategoryModule(router: module)
+				self?.showCreateEditCategoryModule(
+					trackerAction: .addCategory,
+					titleVC: Appearance.titleAddCategoryVC,
+					router: module
+				)
+			}
+			if case let .editCategory(categoryID) = event {
+				self?.showCreateEditCategoryModule(
+					trackerAction: .editCategory(categoryID),
+					titleVC: Appearance.titleEditTrackerVC,
+					router: module
+				)
 			}
 		}
 		module.title = Appearance.titleCategoryVC
@@ -123,15 +139,19 @@ private extension CreateEditTrackerCoordinator {
 		router?.present(UINavigationController(rootViewController: module), animated: true)
 	}
 
-	func showAddCategoryModule(router: UIViewController?) {
-		let (module, moduleInteractor) = factory.makeCreateEditCategoryModule(trackerAction: .addCategory)
+	func showCreateEditCategoryModule(
+		trackerAction: Tracker.Action,
+		titleVC: String,
+		router: UIViewController?
+	) {
+		let (module, moduleInteractor) = factory.makeCreateEditCategoryModule(trackerAction: trackerAction)
 		moduleInteractor.didSendEventClosure = { [weak self, weak module] event in
 			if case .save = event {
 				module?.dismiss(animated: true)
 				self?.onUpdateCategories?()
 			}
 		}
-		module.title = Appearance.titleAddCategoryVC
+		module.title = titleVC
 		router?.present(UINavigationController(rootViewController: module), animated: true)
 	}
 }
@@ -143,6 +163,7 @@ private extension CreateEditTrackerCoordinator {
 		static let titleCategoryVC = "Категория"
 		static let titleScheduleVC = "Расписание"
 		static let titleAddCategoryVC = "Новая категория"
+		static let titleEditCategoryVC = "Редактирование категории"
 		static let titleEditTrackerVC = "Редактирование привычки"
 		static let defaultTitle = "Создание/редактирование привычки"
 	}

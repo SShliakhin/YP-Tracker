@@ -2,11 +2,14 @@ import Foundation
 
 enum CategoriesListEvents {
 	case addCategory
+	case editCategory(UUID)
 	case selectCategory(UUID, String)
 }
 
 enum CategoriesListRequest {
-	case selectItemAtIndex(_ index: Int)
+	case editCategory(Int)
+	case deleteCategory(Int)
+	case selectItemAtIndex(Int)
 	case tapActionButton
 	case updateView
 }
@@ -139,6 +142,13 @@ extension DefaultCategoriesListViewModel {
 			didSendEventClosure?(.selectCategory(category.id, category.title))
 		case .tapActionButton:
 			didSendEventClosure?(.addCategory)
+		case let .editCategory(index):
+			let category = categories[index]
+			didSendEventClosure?(.editCategory(category.id))
+		case let .deleteCategory(index):
+			let category = categories[index]
+			categoriesProvider.removeCategoryByID(category.id)
+			viewIsReady()
 		}
 	}
 }

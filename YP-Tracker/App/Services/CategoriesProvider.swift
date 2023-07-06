@@ -10,6 +10,7 @@ protocol ICategoriesProvider {
 	func getTrackerID(section: Int, row: Int) -> UUID
 	func completeUncompleteTrackerByPlace(section: Int, row: Int, date: Date) -> Bool
 	func removeTrackerByPlace(section: Int, row: Int)
+	func removeCategoryByID(_ id: UUID)
 }
 
 final class CategoriesProvider: ICategoriesProvider {
@@ -141,5 +142,9 @@ final class CategoriesProvider: ICategoriesProvider {
 	func getTrackerID(section: Int, row: Int) -> UUID {
 		// не безопасно!!!
 		categories[section].trackers[row]
+	}
+
+	func removeCategoryByID(_ id: UUID) {
+		categoriesManager.removeCategoryBy(categoryID: id)
 	}
 }

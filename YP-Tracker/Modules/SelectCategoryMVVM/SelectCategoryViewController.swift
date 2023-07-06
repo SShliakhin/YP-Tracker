@@ -99,8 +99,7 @@ extension SelectCategoryViewController: UICollectionViewDelegate {
 							UIAction(
 								title: Appearance.menuEdit
 							) { [weak self] _ in
-								print("Редактировать")
-								// self?.interactor.didUserDo(request: .editTracker(indexPaths.section, indexPaths.row))
+								self?.viewModel.didUserDo(request: .editCategory(indexPaths.row))
 							},
 							UIAction(
 								title: Appearance.menuDelete,
@@ -125,10 +124,7 @@ extension SelectCategoryViewController: UICollectionViewDelegate {
 				title: Appearance.deleteRequestDeleteTitle,
 				style: .destructive
 			) { [weak self] _ in
-				print("Удалить")
-//				self?.interactor.didUserDo(
-//					request: .deleteTracker(indexPath.section, indexPath.row)
-//				)
+				self?.viewModel.didUserDo(request: .deleteCategory(indexPath.row))
 			}
 		)
 		alert.addAction(
