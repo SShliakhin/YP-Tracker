@@ -117,6 +117,23 @@ extension CategoriesManagerCD: ICategoriesManager {
 		updateCreateTracker(from: tracker, withCategoryID: categoryID)
 	}
 
+	func pinUnpinTracker(_ tracker: Tracker) {
+		guard
+			let trackerCD = findObjectByUUID(
+				id: tracker.id,
+				key: "trackerID",
+				withRequest: TrackerCD.fetchRequest()
+			),
+			let categoryCD = trackerCD.trackerCategory
+		else { return }
+
+		saveTrackerCD(
+			trackerCD,
+			from: tracker,
+			withCategoryCD: categoryCD
+		)
+	}
+
 	func removeTrackerBy(trackerID: UUID) {
 		guard let trackerCD = findObjectByUUID(
 			id: trackerID,
@@ -188,12 +205,26 @@ private extension CategoriesManagerCD {
 			trackerCD = TrackerCD(context: mainContext)
 		}
 
+		saveTrackerCD(
+			trackerCD,
+			from: tracker,
+			withCategoryCD: categoryCD
+		)
+	}
+
+	func saveTrackerCD(
+		_ trackerCD: TrackerCD,
+		from tracker: Tracker,
+		withCategoryCD categoryCD: TrackerCategoryCD
+	) {
 		trackerCD.trackerID = tracker.id
 		trackerCD.title = tracker.title
 		trackerCD.emoji = tracker.emoji
 		trackerCD.color = tracker.color
 		trackerCD.schedule = tracker.scheduleCD
 		trackerCD.trackerCategory = categoryCD
+		trackerCD.pinned = tracker.pinned
+
 		mainContext.saveContext()
 	}
 
@@ -277,7 +308,8 @@ extension Tracker {
 			title: title,
 			emoji: emoji,
 			color: color,
-			schedule: schedule
+			schedule: schedule,
+			pinned: trackerCD.pinned
 		)
 	}
 }

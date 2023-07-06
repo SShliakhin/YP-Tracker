@@ -26,7 +26,8 @@ final class CreateEditTrackerInteractor: ICreateEditTrackerInteractor {
 		title: "",
 		emoji: "",
 		color: "",
-		schedule: [:]
+		schedule: [:],
+		pinned: false
 	)
 	private var newCategory: (id: UUID?, title: String) = (nil, "")
 	private var isCorrectSchedule: Bool {
@@ -63,7 +64,8 @@ final class CreateEditTrackerInteractor: ICreateEditTrackerInteractor {
 					title: newTracker.title,
 					emoji: newTracker.emoji,
 					color: newTracker.color,
-					schedule: Dictionary(uniqueKeysWithValues: (1...7).map { ($0, false) })
+					schedule: Dictionary(uniqueKeysWithValues: (1...7).map { ($0, false) }),
+					pinned: false
 				)
 			}
 		}
@@ -81,7 +83,8 @@ final class CreateEditTrackerInteractor: ICreateEditTrackerInteractor {
 				title: tracker.title,
 				emoji: tracker.emoji,
 				color: tracker.color,
-				schedule: tracker.schedule
+				schedule: tracker.schedule,
+				pinned: tracker.pinned
 			)
 			newCategory = (
 				trackerEditBox.categoryID,
@@ -145,7 +148,8 @@ private extension CreateEditTrackerInteractor {
 			title: title,
 			emoji: newTracker.emoji,
 			color: newTracker.color,
-			schedule: newTracker.schedule
+			schedule: newTracker.schedule,
+			pinned: newTracker.pinned
 		)
 		presenter.present(
 			data: .updateSaveEnabled(
@@ -168,7 +172,8 @@ private extension CreateEditTrackerInteractor {
 			title: newTracker.title,
 			emoji: newTracker.emoji,
 			color: newTracker.color,
-			schedule: schedule
+			schedule: schedule,
+			pinned: newTracker.pinned
 		)
 		presenter.present(
 			data: .updateSection(
@@ -184,7 +189,8 @@ private extension CreateEditTrackerInteractor {
 			title: newTracker.title,
 			emoji: Theme.Constansts.emojis[item],
 			color: newTracker.color,
-			schedule: newTracker.schedule
+			schedule: newTracker.schedule,
+			pinned: newTracker.pinned
 		)
 
 		presenter.present(
@@ -204,7 +210,8 @@ private extension CreateEditTrackerInteractor {
 			title: newTracker.title,
 			emoji: newTracker.emoji,
 			color: Theme.Constansts.trackerColors[item],
-			schedule: newTracker.schedule
+			schedule: newTracker.schedule,
+			pinned: newTracker.pinned
 		)
 
 		presenter.present(

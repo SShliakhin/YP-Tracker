@@ -33,7 +33,8 @@ final class TrackerCategoriesStub: ICategoriesRepository {
 					5: true,
 					6: true,
 					7: false
-				]
+				],
+				pinned: false
 			),
 			Tracker(
 				id: UUID(),
@@ -48,14 +49,16 @@ final class TrackerCategoriesStub: ICategoriesRepository {
 					5: false,
 					6: true,
 					7: false
-				]
+				],
+				pinned: false
 			),
 			Tracker(
 				id: UUID(),
 				title: "Кошка заслонила камеру на созвоне",
 				emoji: "😻",
 				color: TrackerColor.orange.rawValue,
-				schedule: [:]
+				schedule: [:],
+				pinned: false
 			),
 			Tracker(
 				id: UUID(),
@@ -70,14 +73,16 @@ final class TrackerCategoriesStub: ICategoriesRepository {
 					5: false,
 					6: true,
 					7: false
-				]
+				],
+				pinned: false
 			),
 			Tracker(
 				id: UUID(),
 				title: "Бабушка прислала открытку в вотсапе",
 				emoji: "😇",
 				color: TrackerColor.red.rawValue,
-				schedule: [:]
+				schedule: [:],
+				pinned: false
 			)
 		]
 	}

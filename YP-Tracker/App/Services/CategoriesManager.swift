@@ -15,6 +15,7 @@ protocol ICategoriesManager: AnyObject {
 	func removeTrackerBy(trackerID: UUID)
 	func addCompletedTracker(trackerID: UUID, date: Date)
 	func cancelCompletedTracker(trackerID: UUID, date: Date)
+	func pinUnpinTracker(_ tracker: Tracker)
 }
 
 final class CategoriesManager: ICategoriesManager {
@@ -180,5 +181,13 @@ final class CategoriesManager: ICategoriesManager {
 			}) != nil { return index }
 		}
 		return nil
+	}
+
+	func pinUnpinTracker(_ tracker: Tracker) {
+		guard let trackerIndex = trackers.firstIndex(where: { item in
+			item.id == tracker.id
+		}) else { return }
+
+		trackers[trackerIndex] = tracker
 	}
 }
