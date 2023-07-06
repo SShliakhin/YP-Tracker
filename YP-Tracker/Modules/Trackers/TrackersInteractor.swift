@@ -73,6 +73,11 @@ final class TrackersInteractor: ITrackersInteractor {
 				section: section,
 				row: row
 			)
+		case let .pinUnpin(section, row):
+			categoriesProvider.pinUnpinTrackerByPlace(
+				section: section,
+				row: row
+			)
 		case .addTracker:
 			didSendEventClosure?(.addTracker)
 			return

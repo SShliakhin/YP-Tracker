@@ -8,6 +8,7 @@ enum TrackersModels {
 		case completeUncompleteTracker(Int, Int)
 		case editTracker(Int, Int)
 		case deleteTracker(Int, Int)
+		case pinUnpin(Int, Int)
 		case addTracker
 		case selectFilter
 	}

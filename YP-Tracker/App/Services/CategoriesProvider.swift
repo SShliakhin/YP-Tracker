@@ -11,6 +11,7 @@ protocol ICategoriesProvider {
 	func completeUncompleteTrackerByPlace(section: Int, row: Int, date: Date) -> Bool
 	func removeTrackerByPlace(section: Int, row: Int)
 	func removeCategoryByID(_ id: UUID)
+	func pinUnpinTrackerByPlace(section: Int, row: Int)
 }
 
 final class CategoriesProvider: ICategoriesProvider {
@@ -87,21 +88,7 @@ final class CategoriesProvider: ICategoriesProvider {
 			}
 		}
 
-		// создаем категории которые содержат только отфильтрованные трекеры
-		categories = categoriesManager.getCategories().compactMap { category in
-			let trackers = category.trackers.filter { id in
-				trackersUUID.contains(id)
-			}
-
-			if trackers.isEmpty { return nil }
-
-			return TrackerCategory(
-				id: category.id,
-				title: category.title,
-				trackers: trackers
-			)
-		}
-		categories = categories.sorted { $0.title < $1.title }
+		categories = makeCategories(from: trackersUUID)
 
 		return categories
 	}
@@ -139,6 +126,20 @@ final class CategoriesProvider: ICategoriesProvider {
 		categoriesManager.removeTrackerBy(trackerID: trackerID)
 	}
 
+	func pinUnpinTrackerByPlace(section: Int, row: Int) {
+		let trackerID = getTrackerID(section: section, row: row)
+		guard let tracker = trackers.first(where: { $0.id == trackerID }) else { return }
+		let newTracker = Tracker(
+			id: trackerID,
+			title: tracker.title,
+			emoji: tracker.emoji,
+			color: tracker.color,
+			schedule: tracker.schedule,
+			pinned: !tracker.pinned
+		)
+		categoriesManager.pinUnpinTracker(newTracker)
+	}
+
 	func getTrackerID(section: Int, row: Int) -> UUID {
 		// не безопасно!!!
 		categories[section].trackers[row]
@@ -146,5 +147,52 @@ final class CategoriesProvider: ICategoriesProvider {
 
 	func removeCategoryByID(_ id: UUID) {
 		categoriesManager.removeCategoryBy(categoryID: id)
+	}
+}
+
+private extension CategoriesProvider {
+	func makeCategories(from trackersUUID: [UUID]) -> [TrackerCategory] {
+		var trackersUUID = trackersUUID
+		var categories: [TrackerCategory] = []
+
+		// из trackersUUID надо выделить pinnedUUID
+		let pinnedUUID = trackers
+			.filter { $0.pinned && trackersUUID.contains($0.id) }
+			.map { $0.id }
+
+		if !pinnedUUID.isEmpty {
+			let pinnedTrackersCategory = TrackerCategory(
+				id: UUID(),
+				title: Appearance.pinnedCategoryTitle,
+				trackers: pinnedUUID
+			)
+			categories.append(pinnedTrackersCategory)
+			trackersUUID = trackersUUID.filter { !pinnedUUID.contains($0) }
+		}
+
+		// создаем категории которые содержат только отфильтрованные трекеры
+		let unpinnedTrackersCategories: [TrackerCategory] = categoriesManager.getCategories()
+			.compactMap { category in
+				let trackers = category.trackers.filter { trackersUUID.contains($0) }
+
+				if trackers.isEmpty { return nil }
+
+				return TrackerCategory(
+					id: category.id,
+					title: category.title,
+					trackers: trackers
+				)
+			}
+		categories.append(
+			contentsOf: unpinnedTrackersCategories.sorted { $0.title < $1.title }
+		)
+
+		return categories
+	}
+}
+
+private extension CategoriesProvider {
+	enum Appearance {
+		static let pinnedCategoryTitle = "Закрепленные"
 	}
 }

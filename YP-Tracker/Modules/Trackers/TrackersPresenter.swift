@@ -32,6 +32,7 @@ final class TrackersPresenter: ITrackersPresenter {
 							dayTime: "\(val.allTimes) дн./дней",
 							isCompleted: val.completed,
 							isButtonEnabled: isActionEnabled,
+							isPinned: val.tracker.pinned,
 							event: { interactor?.didUserDo(request: .completeUncompleteTracker(index, key)) }
 						)
 					})

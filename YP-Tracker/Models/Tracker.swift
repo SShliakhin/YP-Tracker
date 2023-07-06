@@ -6,6 +6,7 @@ struct Tracker: Identifiable, Hashable {
 	let emoji: String
 	let color: String
 	let schedule: [Int: Bool]
+	let pinned: Bool
 
 	var scheduleString: String {
 		let allSelectedDays = schedule.filter { $0.value }

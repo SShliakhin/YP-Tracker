@@ -13,6 +13,7 @@ extension TrackerCD {
 	@NSManaged public var schedule: String?
 	@NSManaged public var title: String?
 	@NSManaged public var trackerID: UUID?
+	@NSManaged public var pinned: Bool
 	@NSManaged public var trackerCategory: TrackerCategoryCD?
 	@NSManaged public var trackerRecords: NSSet?
 }

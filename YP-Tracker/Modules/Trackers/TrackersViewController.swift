@@ -140,7 +140,7 @@ extension TrackersViewController: UICollectionViewDelegate {
 	) -> UIContextMenuConfiguration? {
 		guard !indexPaths.isEmpty else { return nil }
 
-		let pinUnpinTitle = indexPaths.section == 0
+		let pinUnpinTitle = dataSource[indexPaths.section].trackers[indexPaths.row].isPinned
 		? Appearance.menuTrackerUnpin
 		: Appearance.menuTrackerPin
 		return UIContextMenuConfiguration(
@@ -153,7 +153,7 @@ extension TrackersViewController: UICollectionViewDelegate {
 							UIAction(
 								title: pinUnpinTitle
 							) { [weak self] _ in
-								print("Открепить/закрепить")
+								self?.interactor.didUserDo(request: .pinUnpin(indexPaths.section, indexPaths.row))
 							},
 							UIAction(
 								title: Appearance.menuTrackerEdit
