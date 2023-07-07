@@ -8,7 +8,9 @@ extension Theme {
 		case standardHalf
 		case standard3
 		case standard4
+		case standard5
 		case constant20
+		case constant12
 	}
 
 	static func spacing(usage: Spacing) -> CGFloat {
@@ -25,8 +27,12 @@ extension Theme {
 			customSpacing = 24
 		case .standard4:
 			customSpacing = 32
+		case .standard5:
+			customSpacing = 40
 		case .constant20:
 			customSpacing = 20
+		case .constant12:
+			customSpacing = 12
 		}
 
 		return customSpacing

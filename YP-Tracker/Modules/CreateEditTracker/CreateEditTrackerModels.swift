@@ -38,13 +38,15 @@ enum CreateEditTrackerModels {
 				}
 			}
 		}
-		case update(
-			hasSchedule: Bool,
-			title: String,
-			components: [Section],
-			isSaveEnabled: Bool,
-			saveTitle: String
-		)
+		struct UpdateBox {
+			let hasSchedule: Bool
+			let title: String
+			let components: [Section]
+			let isSaveEnabled: Bool
+			let isNewTracker: Bool
+			let totalCompletions: Int
+		}
+		case update(UpdateBox)
 		case updateSection(section: Int, items: Section, isSaveEnabled: Bool)
 		case updateSaveEnabled(isSaveEnabled: Bool)
 	}
@@ -69,13 +71,15 @@ enum CreateEditTrackerModels {
 				}
 			}
 		}
-		case showAllComponents(
-			hasSchedule: Bool,
-			title: String,
-			components: [Section],
-			isSaveEnabled: Bool,
-			saveTitle: String
-		)
+		struct UpdateBox {
+			let hasSchedule: Bool
+			let title: String
+			let components: [Section]
+			let isSaveEnabled: Bool
+			let saveTitle: String
+			let totalCompletionsString: String
+		}
+		case showAllComponents(UpdateBox)
 		case showNewSection(section: Int, items: Section, isSaveEnabled: Bool)
 		case showSaveEnabled(isSaveEnabled: Bool)
 	}

@@ -30,6 +30,7 @@ final class CreateEditTrackerInteractor: ICreateEditTrackerInteractor {
 		pinned: false
 	)
 	private var newCategory: (id: UUID?, title: String) = (nil, "")
+	private var totalCompletions = 0
 	private var isCorrectSchedule: Bool {
 		var hasSchedule = false
 		if case let .new(trackerType) = trackerAction {
@@ -51,7 +52,6 @@ final class CreateEditTrackerInteractor: ICreateEditTrackerInteractor {
 		self.trackerAction = trackerAction
 	}
 
-	// swiftlint:disable:next function_body_length
 	func viewIsReady() {
 		var hasSchedule = false
 		var isNewTracker = true
@@ -71,11 +71,7 @@ final class CreateEditTrackerInteractor: ICreateEditTrackerInteractor {
 		}
 
 		if case let .edit(trackerID) = trackerAction {
-			guard let trackerEditBox: (
-				tracker: Tracker,
-				categoryID: UUID,
-				categoryTitle: String
-			) = categoriesManager.getTrackerEditBoxByID(trackerID) else { return }
+			guard let trackerEditBox = categoriesManager.getTrackerEditBoxByID(trackerID) else { return }
 			let tracker = trackerEditBox.tracker
 			hasSchedule = !tracker.scheduleString.isEmpty
 			newTracker = Tracker(
@@ -91,24 +87,24 @@ final class CreateEditTrackerInteractor: ICreateEditTrackerInteractor {
 				trackerEditBox.categoryTitle
 			)
 			isNewTracker = false
+			totalCompletions = trackerEditBox.totalTrackerCompletions
 		}
 
-		presenter.present(
-			data: .update(
-				hasSchedule: hasSchedule,
-				title: newTracker.title,
-				components: [
-					.category(newCategory.title),
-					.schedule(newTracker.scheduleString),
-					.emoji(Theme.Constansts.emojis, newTracker.emoji),
-					.color(Theme.Constansts.trackerColors, newTracker.color)
-				],
-				isSaveEnabled: checkSavePossibility(),
-				saveTitle: isNewTracker
-				? Appearance.titleCreate
-				: Appearance.titleEdit
-			)
+		let update = CreateEditTrackerModels.Response.UpdateBox(
+			hasSchedule: hasSchedule,
+			title: newTracker.title,
+			components: [
+				.category(newCategory.title),
+				.schedule(newTracker.scheduleString),
+				.emoji(Theme.Constansts.emojis, newTracker.emoji),
+				.color(Theme.Constansts.trackerColors, newTracker.color)
+			],
+			isSaveEnabled: checkSavePossibility(),
+			isNewTracker: isNewTracker,
+			totalCompletions: totalCompletions
 		)
+
+		presenter.present(data: .update(update))
 	}
 
 	func didUserDo(request: CreateEditTrackerModels.Request) {
@@ -236,13 +232,5 @@ private extension CreateEditTrackerInteractor {
 			return false
 		}
 		return true
-	}
-}
-
-// MARK: - Appearance
-private extension CreateEditTrackerInteractor {
-	enum Appearance {
-		static let titleCreate = "Создать"
-		static let titleEdit = "Сохранить"
 	}
 }

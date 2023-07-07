@@ -15,29 +15,33 @@ final class CreateEditTrackerPresenter: ICreateEditTrackerPresenter {
 	func present(data: CreateEditTrackerModels.Response) {
 
 		switch data {
-		case let .update(
-			hasSchedule,
-			title,
-			components,
-			isSaveEnabled,
-			saveTitle
-		):
+		case let .update(updateBox):
 
-			self.hasSchedule = hasSchedule
+			self.hasSchedule = updateBox.hasSchedule
 			let newComponents = getNewComponents(
 				hasSchedule: hasSchedule,
-				components: components
+				components: updateBox.components
 			)
 
-			viewController?.render(
-				viewModel: .showAllComponents(
-					hasSchedule: hasSchedule,
-					title: title,
-					components: newComponents,
-					isSaveEnabled: isSaveEnabled,
-					saveTitle: saveTitle
-				)
+			let saveTitle = updateBox.isNewTracker
+			? Appearance.titleCreate
+			: Appearance.titleEdit
+
+			let totalCompletionsString = updateBox.totalCompletions == 0
+			? ""
+			: "\(updateBox.totalCompletions) дн./дней"
+
+			let update = CreateEditTrackerModels.ViewModel.UpdateBox(
+				hasSchedule: updateBox.hasSchedule,
+				title: updateBox.title,
+				components: newComponents,
+				isSaveEnabled: updateBox.isSaveEnabled,
+				saveTitle: saveTitle,
+				totalCompletionsString: totalCompletionsString
 			)
+
+			viewController?.render(viewModel: .showAllComponents(update))
+
 		case let .updateSection(section, items, isSaveEnabled):
 			let newItems: Section
 
@@ -154,4 +158,16 @@ private extension CreateEditTrackerPresenter {
 			)
 		)
 	}
+}
+
+// MARK: - Appearance
+private extension CreateEditTrackerPresenter {
+	enum Appearance {
+		static let titleCreate = "Создать"
+		static let titleEdit = "Сохранить"
+	}
+
+	//	saveTitle: isNewTracker
+	//	? Appearance.titleCreate
+	//	: Appearance.titleEdit
 }

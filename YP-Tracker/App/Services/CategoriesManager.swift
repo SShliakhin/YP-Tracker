@@ -1,11 +1,17 @@
 import Foundation
 
+struct TrackerEditBox {
+	let tracker: Tracker
+	let categoryID: UUID
+	let categoryTitle: String
+	let totalTrackerCompletions: Int
+}
+
 protocol ICategoriesManager: AnyObject {
 	func getCategories() -> [TrackerCategory]
 	func getTrackers() -> [Tracker]
 	func getCompletedTrackers() -> [TrackerRecord]
-	// swiftlint:disable:next large_tuple
-	func getTrackerEditBoxByID(_ trackerID: UUID) -> (Tracker, UUID, String)?
+	func getTrackerEditBoxByID(_ trackerID: UUID) -> TrackerEditBox?
 
 	func addCategory(title: String)
 	func editCategoryBy(categoryID: UUID, newtitle: String)
@@ -18,7 +24,7 @@ protocol ICategoriesManager: AnyObject {
 	func pinUnpinTracker(_ tracker: Tracker)
 }
 
-final class CategoriesManager: ICategoriesManager {
+final class CategoriesManager {
 	private var trackers: [Tracker]
 	private var categories: [TrackerCategory]
 	private var completedTrackers: [TrackerRecord]
@@ -32,7 +38,11 @@ final class CategoriesManager: ICategoriesManager {
 		self.categories = categories
 		self.completedTrackers = completedTrackers
 	}
+}
 
+// MARK: - ICategoriesManager
+
+extension CategoriesManager: ICategoriesManager {
 	func getCategories() -> [TrackerCategory] {
 		categories
 	}
@@ -45,16 +55,20 @@ final class CategoriesManager: ICategoriesManager {
 		completedTrackers
 	}
 
-	// swiftlint:disable:next large_tuple
-	func getTrackerEditBoxByID(_ trackerID: UUID) -> (Tracker, UUID, String)? {
-		guard let trackerIndex = trackers.firstIndex(where: { item in
-			item.id == trackerID
-		}) else { return nil }
+	func getTrackerEditBoxByID(_ trackerID: UUID) -> TrackerEditBox? {
+		guard let trackerIndex = trackers.firstIndex(where: { $0.id == trackerID }) else { return nil }
 		guard let categoryIndex = getCategoryIndexByTrackerId(trackerID) else { return nil }
-		return (
-			trackers[trackerIndex],
-			categories[categoryIndex].id,
-			categories[categoryIndex].title
+
+		let category = categories[categoryIndex]
+		let totalCompletions = completedTrackers
+			.filter { $0.trackerId == trackerID }
+			.count
+
+		return TrackerEditBox(
+			tracker: trackers[trackerIndex],
+			categoryID: category.id,
+			categoryTitle: category.title,
+			totalTrackerCompletions: totalCompletions
 		)
 	}
 
@@ -82,10 +96,13 @@ final class CategoriesManager: ICategoriesManager {
 	}
 
 	func removeCategoryBy(categoryID: UUID) {
-		// TODO: - пока не знаю что делать с трекерами в удаляемой категории
-		categories.removeAll { category in
-			category.id == categoryID
+		guard let category = categories.first(where: { $0.id == categoryID }) else { return }
+
+		let trackersID = category.trackers
+		if !trackersID.isEmpty {
+			removeTrackersBy(trackersID: trackersID)
 		}
+		categories.removeAll { $0.id == categoryID }
 	}
 
 	func addTracker(tracker: Tracker, categoryID: UUID) {
@@ -189,5 +206,14 @@ final class CategoriesManager: ICategoriesManager {
 		}) else { return }
 
 		trackers[trackerIndex] = tracker
+	}
+}
+
+private extension CategoriesManager {
+	func removeTrackersBy(trackersID: [UUID]) {
+		trackers = trackers
+			.filter { !trackersID.contains($0.id) }
+		completedTrackers = completedTrackers
+			.filter { !trackersID.contains($0.trackerId) }
 	}
 }

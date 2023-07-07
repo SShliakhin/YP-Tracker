@@ -17,6 +17,7 @@ final class CreateEditTrackerViewController: UIViewController {
 		}
 	}
 
+	private lazy var titleTotalCompletionsLabel: UILabel = makeTitleTotalCompletionsLabel()
 	private lazy var titleTextField: UITextField = makeTitleTextField()
 	private lazy var titleCharactersLimitLabel: UILabel = makeTitleCharactersLimitLabel()
 	private lazy var collectionView: UICollectionView = makeCollectionView()
@@ -69,18 +70,17 @@ final class CreateEditTrackerViewController: UIViewController {
 extension CreateEditTrackerViewController: ICreateEditTrackerViewController {
 	func render(viewModel: CreateEditTrackerModels.ViewModel) {
 		switch viewModel {
-		case let .showAllComponents(
-			hasSchedule,
-			title,
-			components,
-			isSaveEnabled,
-			saveTitle
-		):
-			self.hasSchedule = hasSchedule
-			self.isSaveEnabled = isSaveEnabled
-			createButton.setTitle(saveTitle, for: .normal)
-			titleTextField.text = title
-			dataSource = components
+		case let .showAllComponents(updateBox):
+			self.hasSchedule = updateBox.hasSchedule
+			self.isSaveEnabled = updateBox.isSaveEnabled
+			createButton.setTitle(updateBox.saveTitle, for: .normal)
+			titleTextField.text = updateBox.title
+
+			let totalCompletionsString = updateBox.totalCompletionsString
+			titleTotalCompletionsLabel.text = totalCompletionsString
+			titleTotalCompletionsLabel.isHidden = totalCompletionsString.isEmpty
+
+			dataSource = updateBox.components
 			collectionView.reloadData()
 		case let .showNewSection(section, items, isSaveEnabled):
 			self.isSaveEnabled = isSaveEnabled
@@ -290,9 +290,15 @@ private extension CreateEditTrackerViewController {
 		vStackView.axis = .vertical
 		vStackView.spacing = Theme.spacing(usage: .standard)
 		[
+			titleTotalCompletionsLabel,
 			textFieldView,
 			titleCharactersLimitLabel
 		].forEach { vStackView.addArrangedSubview($0) }
+
+		vStackView.setCustomSpacing(
+			Theme.spacing(usage: .standard5),
+			after: titleTotalCompletionsLabel
+		)
 
 		return vStackView
 	}
@@ -317,6 +323,15 @@ private extension CreateEditTrackerViewController {
 
 // MARK: - UI make
 private extension CreateEditTrackerViewController {
+	func makeTitleTotalCompletionsLabel() -> UILabel {
+		let label = UILabel()
+		label.textAlignment = .center
+		label.textColor = Theme.color(usage: .main)
+		label.font = Theme.font(style: .title1)
+		label.isHidden = true
+
+		return label
+	}
 	func makeTitleTextField() -> UITextField {
 		let textField = UITextField()
 

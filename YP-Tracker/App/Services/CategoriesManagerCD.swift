@@ -62,8 +62,7 @@ extension CategoriesManagerCD: ICategoriesManager {
 		return objects.compactMap { TrackerRecord.convertFromCD(object: $0) }
 	}
 
-	// swiftlint:disable:next large_tuple
-	func getTrackerEditBoxByID(_ trackerID: UUID) -> (Tracker, UUID, String)? {
+	func getTrackerEditBoxByID(_ trackerID: UUID) -> TrackerEditBox? {
 		guard let trackerCD = findObjectByUUID(
 			id: trackerID,
 			key: "trackerID",
@@ -75,7 +74,15 @@ extension CategoriesManagerCD: ICategoriesManager {
 			let categoryID = categoryCD.categoryID,
 			let categoryTitle = categoryCD.title
 		else { return nil }
-		return (tracker, categoryID, categoryTitle)
+
+		let totalCompletions = trackerCD.trackerRecords?.count ?? 0
+
+		return TrackerEditBox(
+			tracker: tracker,
+			categoryID: categoryID,
+			categoryTitle: categoryTitle,
+			totalTrackerCompletions: totalCompletions
+		)
 	}
 
 	func addCategory(title: String) {
