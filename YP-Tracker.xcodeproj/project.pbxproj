@@ -48,6 +48,7 @@
 		5A91DEDA29E12F82001A23C3 /* UIViewController+Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A91DED929E12F82001A23C3 /* UIViewController+Preview.swift */; };
 		5A930CF12A56FDC6005094E7 /* TrackerCD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A930CEF2A56FDC6005094E7 /* TrackerCD.swift */; };
 		5A930CF22A56FDC6005094E7 /* TrackerCD+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A930CF02A56FDC6005094E7 /* TrackerCD+CoreDataProperties.swift */; };
+		5A930CF42A58A728005094E7 /* LocalState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A930CF32A58A728005094E7 /* LocalState.swift */; };
 		5A9CFECB2A4F797E0044A189 /* CategoriesListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9CFECA2A4F797E0044A189 /* CategoriesListViewModel.swift */; };
 		5A9CFECD2A4F7BA70044A189 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9CFECC2A4F7BA70044A189 /* Observable.swift */; };
 		5A9CFECF2A4F7E780044A189 /* CategoriesListItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9CFECE2A4F7E780044A189 /* CategoriesListItemViewModel.swift */; };
@@ -174,6 +175,7 @@
 		5A91DED929E12F82001A23C3 /* UIViewController+Preview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Preview.swift"; sourceTree = "<group>"; };
 		5A930CEF2A56FDC6005094E7 /* TrackerCD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCD.swift; sourceTree = "<group>"; };
 		5A930CF02A56FDC6005094E7 /* TrackerCD+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TrackerCD+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		5A930CF32A58A728005094E7 /* LocalState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalState.swift; sourceTree = "<group>"; };
 		5A9CFECA2A4F797E0044A189 /* CategoriesListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesListViewModel.swift; sourceTree = "<group>"; };
 		5A9CFECC2A4F7BA70044A189 /* Observable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		5A9CFECE2A4F7E780044A189 /* CategoriesListItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesListItemViewModel.swift; sourceTree = "<group>"; };
@@ -647,6 +649,7 @@
 				5A1DFF082A3BB9FB00AD63F3 /* CategoriesManagerCD.swift */,
 				5AF5CAF32A124EA4004AB8D2 /* CategoriesProvider.swift */,
 				5AFC98B62A37CB1E005E3C4D /* CoreDataStack.swift */,
+				5A930CF32A58A728005094E7 /* LocalState.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -822,6 +825,7 @@
 				5A2837622A3E4BE100513B91 /* CreateEditCategoryPresenter.swift in Sources */,
 				5AE12A2B2A0B936B0054D782 /* Theme+DateFormatter.swift in Sources */,
 				5AE6BDEF2A197BCD0068CB53 /* YPModels.swift in Sources */,
+				5A930CF42A58A728005094E7 /* LocalState.swift in Sources */,
 				5A45EA5D2A0CD9BC003269D3 /* StatisticsViewController.swift in Sources */,
 				5ADD1F0929E38E6E0072EE78 /* UIColor+Hex.swift in Sources */,
 				5A8D1DB52A0DAFAB00A2924F /* TrackerCategory.swift in Sources */,

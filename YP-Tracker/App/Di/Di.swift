@@ -19,12 +19,14 @@ final class Di {
 
 		// MARK: - подготовка локальных сервисов
 		dependencies = Dependency(
+			localState: makeLocalState(),
 			categoriesManager: categoriesManager,
 			categoriesProvider: makeCategoriesProvider(manager: categoriesManager)
 		)
 	}
 
 	struct Dependency: AllDependencies {
+		let localState: ILocalState
 		let categoriesManager: ICategoriesManager
 		let categoriesProvider: ICategoriesProvider
 	}
@@ -48,15 +50,44 @@ protocol ICreateEditCategoryModuleDependency {
 	var categoriesManager: ICategoriesManager { get }
 }
 
+protocol IAppCoordinatorDependcy {
+	var localState: ILocalState { get }
+}
+
 protocol IEmptyDependency {}
 
 typealias AllDependencies = (
 	IEmptyDependency &
+	IAppCoordinatorDependcy &
 	ITrackersModuleDependency &
 	ICreateEditTrackerModuleDependency &
 	ICreateEditCategoryModuleDependency &
 	IYPModuleDependency
 )
+
+// MARK: - ICoordinatorFactory
+
+extension Di: ICoordinatorFactory {
+	func makeApplicationCoordinator(router: Router) -> AppCoordinator {
+		makeApplicationCoordinator(router: router, dep: dependencies)
+	}
+	func makeOnboardingCoordinator(router: Router) -> OnboardingCoordinator {
+		OnboardingCoordinator(router: router, factory: self)
+	}
+	func makeTabbarCoordinator(router: Router) -> TabbarCoordinator {
+		TabbarCoordinator(router: router, factory: self, coordinatorFactory: self)
+	}
+	func makeTrackersCoordinator(navController: UINavigationController) -> TrackersCoordinator {
+		TrackersCoordinator(
+			router: Router(rootController: navController),
+			factory: self,
+			coordinatorFactory: self
+		)
+	}
+	func makeCreateEditTrackerCoordinator(router: Router, trackerAction: Tracker.Action) -> CreateEditTrackerCoordinator {
+		CreateEditTrackerCoordinator(router: router, factory: self, trackerAction: trackerAction)
+	}
+}
 
 // MARK: - ModuleFactory
 

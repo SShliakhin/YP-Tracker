@@ -10,24 +10,8 @@ protocol ICoordinatorFactory {
 	func makeCreateEditTrackerCoordinator(router: Router, trackerAction: Tracker.Action) -> CreateEditTrackerCoordinator
 }
 
-extension Di: ICoordinatorFactory {
-	func makeApplicationCoordinator(router: Router) -> AppCoordinator {
-		AppCoordinator(router: router, factory: self)
-	}
-	func makeOnboardingCoordinator(router: Router) -> OnboardingCoordinator {
-		OnboardingCoordinator(router: router, factory: self)
-	}
-	func makeTabbarCoordinator(router: Router) -> TabbarCoordinator {
-		TabbarCoordinator(router: router, factory: self, coordinatorFactory: self)
-	}
-	func makeTrackersCoordinator(navController: UINavigationController) -> TrackersCoordinator {
-		TrackersCoordinator(
-			router: Router(rootController: navController),
-			factory: self,
-			coordinatorFactory: self
-		)
-	}
-	func makeCreateEditTrackerCoordinator(router: Router, trackerAction: Tracker.Action) -> CreateEditTrackerCoordinator {
-		CreateEditTrackerCoordinator(router: router, factory: self, trackerAction: trackerAction)
+extension Di {
+	func makeApplicationCoordinator(router: Router, dep: AllDependencies) -> AppCoordinator {
+		AppCoordinator(router: router, factory: self, dep: dep)
 	}
 }
