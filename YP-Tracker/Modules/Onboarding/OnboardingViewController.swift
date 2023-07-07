@@ -62,7 +62,7 @@ private extension OnboardingViewController {
 					constant: -Appearance.buttonBottomAnchorConstant
 				),
 				make.heightAnchor.constraint(
-					equalToConstant: Theme.size(kind: .buttonHeight)
+					equalToConstant: Theme.dimension(kind: .smallHeight)
 				)
 			]
 		}
@@ -78,7 +78,7 @@ private extension OnboardingViewController {
 		button.setTitleColor(Theme.color(usage: .white), for: .normal)
 		button.titleLabel?.font = Theme.font(style: .callout)
 		button.backgroundColor = Theme.color(usage: .black)
-		button.layer.cornerRadius = Theme.size(kind: .cornerRadius)
+		button.layer.cornerRadius = Theme.dimension(kind: .cornerRadius)
 
 		button.event = { [weak self] in
 			self?.interactor.didUserDo(request: .finishOnboarding)

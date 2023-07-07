@@ -68,7 +68,7 @@ private extension TrackerEmojiCell {
 private extension TrackerEmojiCell {
 	func makeBagroundView() -> UIView {
 		let view = UIView()
-		view.layer.cornerRadius = Theme.size(kind: .cornerRadius)
+		view.layer.cornerRadius = Theme.dimension(kind: .cornerRadius)
 		view.clipsToBounds = true
 		view.backgroundColor = Theme.color(usage: .lightGray)
 

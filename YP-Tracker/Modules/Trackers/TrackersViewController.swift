@@ -301,7 +301,7 @@ private extension TrackersViewController {
 		button.setTitleColor(Theme.color(usage: .allDayWhite), for: .normal)
 		button.titleLabel?.font = Theme.font(style: .body)
 		button.backgroundColor = Theme.color(usage: .accent)
-		button.layer.cornerRadius = Theme.size(kind: .cornerRadius)
+		button.layer.cornerRadius = Theme.dimension(kind: .cornerRadius)
 
 		button.event = { [weak self] in
 			self?.interactor.didUserDo(request: .selectFilter)

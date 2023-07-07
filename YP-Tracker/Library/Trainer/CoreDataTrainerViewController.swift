@@ -372,7 +372,7 @@ private extension CoreDataTrainerViewController {
 		button.titleLabel?.font = Theme.font(style: .callout)
 		button.backgroundColor = Theme.color(usage: .accent)
 		button.setTitleColor(Theme.color(usage: .attention), for: .normal)
-		button.layer.cornerRadius = Theme.size(kind: .cornerRadius)
+		button.layer.cornerRadius = Theme.dimension(kind: .cornerRadius)
 
 		switch event {
 		case .create:

@@ -138,7 +138,7 @@ private extension CreateEditCategoryViewController {
 
 		actionButton.makeConstraints { make in
 			[
-				make.heightAnchor.constraint(equalToConstant: Theme.size(kind: .buttonHeight)),
+				make.heightAnchor.constraint(equalToConstant: Theme.dimension(kind: .smallHeight)),
 				make.leadingAnchor.constraint(
 					equalTo: view.safeAreaLayoutGuide.leadingAnchor,
 					constant: Theme.spacing(usage: .constant20)
@@ -158,7 +158,7 @@ private extension CreateEditCategoryViewController {
 	func arrangeTextFieldBlockStackView() -> UIStackView {
 		let textFieldView = UIView()
 		textFieldView.backgroundColor = Theme.color(usage: .background)
-		textFieldView.layer.cornerRadius = Theme.size(kind: .cornerRadius)
+		textFieldView.layer.cornerRadius = Theme.dimension(kind: .cornerRadius)
 
 		textFieldView.addSubview(titleTextField)
 		titleTextField.makeEqualToSuperview(
@@ -171,7 +171,7 @@ private extension CreateEditCategoryViewController {
 		)
 		titleTextField.makeConstraints { make in
 			[
-				make.heightAnchor.constraint(equalToConstant: Theme.size(kind: .textFieldHeight))
+				make.heightAnchor.constraint(equalToConstant: Theme.dimension(kind: .mediumHeight))
 			]
 		}
 
@@ -245,7 +245,7 @@ private extension CreateEditCategoryViewController {
 		}
 
 		func buttonLayerValue(_ button: UIButton) {
-			button.layer.cornerRadius = Theme.size(kind: .cornerRadius)
+			button.layer.cornerRadius = Theme.dimension(kind: .cornerRadius)
 			switch self {
 			case .save:
 				button.backgroundColor =

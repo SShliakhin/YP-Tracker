@@ -75,13 +75,15 @@ extension TrackerCellModel: ICellViewModel {
 // MARK: - UI
 private extension TrackerCell {
 	func setConstraints() {
+		let localSpacing = Theme.spacing(usage: .constant12)
+
 		let topStack = UIStackView()
 		[
 			emojiLabel,
 			UIView(),
 			pinnedImageView
 		].forEach { topStack.addArrangedSubview($0) }
-		[emojiLabel, pinnedImageView].forEach { $0.makeConstraints { $0.size(CGSize(width: 24, height: 24)) } }
+		[emojiLabel, pinnedImageView].forEach { $0.makeConstraints { $0.size(Theme.size(kind: .small)) } }
 
 		let vStack = UIStackView()
 		vStack.axis = .vertical
@@ -95,10 +97,10 @@ private extension TrackerCell {
 
 		colorBackgroudnView.addSubview(vStack)
 		vStack.makeEqualToSuperview(insets: .init(
-			top: 12,
-			left: 12,
-			bottom: 12,
-			right: 12
+			top: localSpacing,
+			left: localSpacing,
+			bottom: localSpacing,
+			right: localSpacing
 		))
 
 		let bottomStack = UIStackView()
@@ -108,7 +110,7 @@ private extension TrackerCell {
 			completeButton
 		].forEach { bottomStack.addArrangedSubview($0) }
 
-		completeButton.makeConstraints { $0.size(CGSize(width: 34, height: 34)) }
+		completeButton.makeConstraints { $0.size(Theme.size(kind: .medium)) }
 		dayLabel.makeConstraints { [$0.centerYAnchor.constraint(equalTo: completeButton.centerYAnchor)] }
 		[
 			colorBackgroudnView,
@@ -119,14 +121,14 @@ private extension TrackerCell {
 			[
 				make.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
 				make.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-				make.heightAnchor.constraint(equalToConstant: 90)
+				make.heightAnchor.constraint(equalToConstant: Theme.dimension(kind: .largeHeight))
 			]
 		}
 		bottomStack.makeConstraints { make in
 			[
 				make.topAnchor.constraint(equalTo: colorBackgroudnView.bottomAnchor, constant: Theme.spacing(usage: .standard)),
-				make.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
-				make.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
+				make.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: localSpacing),
+				make.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -localSpacing),
 				make.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
 			]
 		}
@@ -137,7 +139,7 @@ private extension TrackerCell {
 private extension TrackerCell {
 	func makeColorBackgroundView() -> UIView {
 		let view = UIView()
-		view.layer.cornerRadius = Theme.size(kind: .cornerRadius)
+		view.layer.cornerRadius = Theme.dimension(kind: .cornerRadius)
 		view.clipsToBounds = true
 
 		return view
@@ -148,7 +150,7 @@ private extension TrackerCell {
 		label.font = Theme.font(style: .caption1)
 		label.textAlignment = .center
 		label.backgroundColor = Theme.color(usage: .clear)
-		label.layer.cornerRadius = Theme.size(kind: .largeRadius)
+		label.layer.cornerRadius = Theme.dimension(kind: .largeRadius)
 		label.clipsToBounds = true
 
 		return label

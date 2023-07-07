@@ -87,7 +87,7 @@ extension YPCellModel: ICellViewModel {
 private extension YPCell {
 	func applyStyle() {
 		backgroundColor = Theme.color(usage: .background)
-		layer.cornerRadius = Theme.size(kind: .mediumRadius)
+		layer.cornerRadius = Theme.dimension(kind: .mediumRadius)
 		layer.masksToBounds = true
 	}
 
@@ -111,7 +111,7 @@ private extension YPCell {
 
 		hStack.makeConstraints { make in
 			[
-				make.heightAnchor.constraint(equalToConstant: Theme.size(kind: .textFieldHeight))
+				make.heightAnchor.constraint(equalToConstant: Theme.dimension(kind: .mediumHeight))
 			]
 		}
 

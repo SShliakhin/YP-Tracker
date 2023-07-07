@@ -172,7 +172,7 @@ private extension SelectCategoryViewController {
 			[
 				make.leadingAnchor.constraint(equalTo: stack.leadingAnchor, constant: Theme.spacing(usage: .standardHalf)),
 				make.trailingAnchor.constraint(equalTo: stack.trailingAnchor, constant: -Theme.spacing(usage: .standardHalf)),
-				make.heightAnchor.constraint(equalToConstant: Theme.size(kind: .buttonHeight))
+				make.heightAnchor.constraint(equalToConstant: Theme.dimension(kind: .smallHeight))
 			]
 		}
 
@@ -214,7 +214,7 @@ private extension SelectCategoryViewController {
 		collectionView.backgroundColor = .clear
 		collectionView.bounces = false // чтобы не скролилось никуда
 
-		collectionView.layer.cornerRadius = Theme.size(kind: .cornerRadius)
+		collectionView.layer.cornerRadius = Theme.dimension(kind: .cornerRadius)
 		collectionView.clipsToBounds = true
 
 		return collectionView
@@ -233,7 +233,7 @@ private extension SelectCategoryViewController {
 		button.setTitleColor(Theme.color(usage: .white), for: .normal)
 		button.titleLabel?.font = Theme.font(style: .callout)
 		button.backgroundColor = Theme.color(usage: .black)
-		button.layer.cornerRadius = Theme.size(kind: .cornerRadius)
+		button.layer.cornerRadius = Theme.dimension(kind: .cornerRadius)
 
 		button.event = { [weak self] in
 			// self?.viewModel.didTapAddCategoryButton()
@@ -276,7 +276,7 @@ private extension SelectCategoryViewController {
 
 		let groupSize = NSCollectionLayoutSize(
 			widthDimension: .fractionalWidth(1.0),
-			heightDimension: .absolute(Theme.size(kind: .textFieldHeight)) // высота
+			heightDimension: .absolute(Theme.dimension(kind: .largeHeight)) // высота
 		)
 		let group = NSCollectionLayoutGroup.horizontal(
 			layoutSize: groupSize,

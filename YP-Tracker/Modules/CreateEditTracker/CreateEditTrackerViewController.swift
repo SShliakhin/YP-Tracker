@@ -269,7 +269,7 @@ private extension CreateEditTrackerViewController {
 	func arrangeTextFieldBlockStackView() -> UIStackView {
 		let textFieldView = UIView()
 		textFieldView.backgroundColor = Theme.color(usage: .background)
-		textFieldView.layer.cornerRadius = Theme.size(kind: .cornerRadius)
+		textFieldView.layer.cornerRadius = Theme.dimension(kind: .cornerRadius)
 
 		textFieldView.addSubview(titleTextField)
 		titleTextField.makeEqualToSuperview(
@@ -282,7 +282,7 @@ private extension CreateEditTrackerViewController {
 		)
 		titleTextField.makeConstraints { make in
 			[
-				make.heightAnchor.constraint(equalToConstant: Theme.size(kind: .textFieldHeight))
+				make.heightAnchor.constraint(equalToConstant: Theme.dimension(kind: .mediumHeight))
 			]
 		}
 
@@ -313,7 +313,7 @@ private extension CreateEditTrackerViewController {
 		].forEach { hStackView.addArrangedSubview($0) }
 		hStackView.makeConstraints { make in
 			[
-				make.heightAnchor.constraint(equalToConstant: Theme.size(kind: .buttonHeight))
+				make.heightAnchor.constraint(equalToConstant: Theme.dimension(kind: .smallHeight))
 			]
 		}
 
@@ -445,7 +445,7 @@ private extension CreateEditTrackerViewController {
 
 		let groupSize = NSCollectionLayoutSize(
 			widthDimension: .fractionalWidth(1.0),
-			heightDimension: .absolute(Theme.size(kind: .textFieldHeight))
+			heightDimension: .absolute(Theme.dimension(kind: .mediumHeight))
 		)
 		let group = NSCollectionLayoutGroup.horizontal(
 			layoutSize: groupSize,
@@ -494,7 +494,7 @@ private extension CreateEditTrackerViewController {
 	func supplementaryHeaderItem() -> NSCollectionLayoutBoundarySupplementaryItem {
 		let itemSize = NSCollectionLayoutSize(
 			widthDimension: .fractionalWidth(1.0),
-			heightDimension: .absolute(Theme.size(kind: .textFieldHeight))
+			heightDimension: .absolute(Theme.dimension(kind: .mediumHeight))
 		)
 		let item = NSCollectionLayoutBoundarySupplementaryItem(
 			layoutSize: itemSize,
@@ -532,7 +532,7 @@ private extension CreateEditTrackerViewController {
 		}
 
 		func buttonLayerValue(_ button: UIButton) {
-			button.layer.cornerRadius = Theme.size(kind: .cornerRadius)
+			button.layer.cornerRadius = Theme.dimension(kind: .cornerRadius)
 			switch self {
 			case .save:
 				button.backgroundColor =
@@ -541,7 +541,7 @@ private extension CreateEditTrackerViewController {
 				: Theme.color(usage: .gray)
 			case .cancel:
 				button.backgroundColor = Theme.color(usage: .white)
-				button.layer.borderWidth = Theme.size(kind: .smallBorder)
+				button.layer.borderWidth = Theme.dimension(kind: .smallBorder)
 				button.layer.borderColor = Theme.color(usage: .attention).cgColor
 			}
 		}
