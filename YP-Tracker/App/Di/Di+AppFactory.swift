@@ -16,10 +16,10 @@ extension Di: IAppFactory {
 		navigationController.navigationBar.prefersLargeTitles = true
 
 		let router = Router(rootController: navigationController)
-		let cooridnator = makeApplicationCoordinator(router: router)
+		let coordinator = makeApplicationCoordinator(router: router)
 
 		window.rootViewController = navigationController
-		return (window, cooridnator)
+		return (window, coordinator)
 	}
 
 	func makeKeyWindow(scene: UIWindowScene) -> UIWindow {
