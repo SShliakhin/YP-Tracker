@@ -6,7 +6,7 @@ protocol ITrackersViewController: AnyObject {
 }
 
 final class TrackersViewController: UIViewController {
-	let interactor: ITrackersInteractor
+	private let interactor: ITrackersInteractor
 	private var dataSource: [TrackersModels.ViewModel.Section] = []
 
 	private var searchText = "" {
@@ -51,14 +51,6 @@ final class TrackersViewController: UIViewController {
 		setConstraints()
 
 		interactor.viewIsReady()
-	}
-}
-
-// MARK: - Event
-extension TrackersViewController {
-	enum Event {
-		case addTracker(TrackerConditions)
-		case selectFilter(TrackerConditions)
 	}
 }
 
@@ -219,7 +211,7 @@ private extension TrackersViewController {
 	}
 	func setConstraints() {
 		[
-			UIView(frame: .zero), // сделать навбар непрокручиваемым
+			UIView(frame: .zero),
 			collectionView,
 			emptyView,
 			filtersButton
@@ -272,11 +264,8 @@ private extension TrackersViewController {
 		return picker
 	}
 	func makeSearchController() -> UISearchController {
-		// VC сам покажет результат
 		let search = UISearchController(searchResultsController: nil)
-		// подписываемся
 		search.searchResultsUpdater = self
-		// рекомендации - вводим строку поиска и сразу видим результат
 		search.obscuresBackgroundDuringPresentation = false
 
 		search.searchBar.placeholder = Appearance.searchPlacholder
