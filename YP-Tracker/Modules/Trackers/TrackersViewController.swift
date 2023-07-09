@@ -10,12 +10,7 @@ final class TrackersViewController: UIViewController {
 	private var dataSource: [TrackersModels.ViewModel.Section] = []
 
 	private var searchText = "" {
-		didSet {
-			if searchText != oldValue {
-				searchController.searchBar.searchTextField.text = searchText
-				interactor.didUserDo(request: .newSearchText(searchText))
-			}
-		}
+		didSet { if searchText != oldValue { didTypeSearchText(searchText) } }
 	}
 
 	// MARK: - UI Elements
@@ -67,6 +62,10 @@ private extension TrackersViewController {
 	}
 	func didDateSelect(date: Date) {
 		interactor.didUserDo(request: .newDate(date))
+	}
+	func didTypeSearchText(_ text: String) {
+		searchController.searchBar.searchTextField.text = text
+		interactor.didUserDo(request: .newSearchText(text))
 	}
 }
 
@@ -129,8 +128,6 @@ extension TrackersViewController: UICollectionViewDataSource {
 // MARK: - UICollectionViewDelegate
 
 extension TrackersViewController: UICollectionViewDelegate {
-	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) { }
-
 	func collectionView(
 		_ collectionView: UICollectionView,
 		contextMenuConfigurationForItemAt indexPaths: IndexPath,
@@ -138,9 +135,17 @@ extension TrackersViewController: UICollectionViewDelegate {
 	) -> UIContextMenuConfiguration? {
 		guard !indexPaths.isEmpty else { return nil }
 
-		let pinUnpinTitle = dataSource[indexPaths.section].trackers[indexPaths.row].isPinned
+		return makeContextMenuByPlace(section: indexPaths.section, row: indexPaths.row)
+	}
+
+	private func makeContextMenuByPlace(
+		section: Int,
+		row: Int
+	) -> UIContextMenuConfiguration {
+		let pinUnpinTitle = dataSource[section].trackers[row].isPinned
 		? Appearance.menuTrackerUnpin
 		: Appearance.menuTrackerPin
+
 		return UIContextMenuConfiguration(
 			identifier: nil,
 			previewProvider: nil,
@@ -151,18 +156,18 @@ extension TrackersViewController: UICollectionViewDelegate {
 							UIAction(
 								title: pinUnpinTitle
 							) { [weak self] _ in
-								self?.interactor.didUserDo(request: .pinUnpin(indexPaths.section, indexPaths.row))
+								self?.interactor.didUserDo(request: .pinUnpin(section, row))
 							},
 							UIAction(
 								title: Appearance.menuTrackerEdit
 							) { [weak self] _ in
-								self?.interactor.didUserDo(request: .editTracker(indexPaths.section, indexPaths.row))
+								self?.interactor.didUserDo(request: .editTracker(section, row))
 							},
 							UIAction(
 								title: Appearance.menuTrackerDelete,
 								attributes: .destructive
 							) { [weak self] _ in
-								self?.deleteRequest(indexPaths)
+								self?.deleteRequestByPlace(section: section, row: row)
 							}
 						]
 				)
@@ -170,7 +175,7 @@ extension TrackersViewController: UICollectionViewDelegate {
 		)
 	}
 
-	private func deleteRequest(_ indexPath: IndexPath) {
+	private func deleteRequestByPlace(section: Int, row: Int) {
 		let alert = UIAlertController(
 			title: nil,
 			message: Appearance.deleteRequestMessage,
@@ -181,9 +186,7 @@ extension TrackersViewController: UICollectionViewDelegate {
 				title: Appearance.deleteRequestDeleteTitle,
 				style: .destructive
 			) { [weak self] _ in
-				self?.interactor.didUserDo(
-					request: .deleteTracker(indexPath.section, indexPath.row)
-				)
+				self?.interactor.didUserDo(request: .deleteTracker(section, row))
 			}
 		)
 		alert.addAction(
