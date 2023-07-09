@@ -168,7 +168,7 @@ private extension TrackerCell {
 		let label = UILabel()
 		label.numberOfLines = 2
 		label.font = Theme.font(style: .caption1)
-		label.textColor = Theme.color(usage: .white)
+		label.textColor = Theme.color(usage: .allDayWhite)
 
 		return label
 	}

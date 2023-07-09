@@ -15,4 +15,11 @@ extension Theme {
 		formatter.locale = Locale(identifier: "ru-RU")
 		return formatter
 	}()
+
+	static let dateFormatterShortYear: DateFormatter = {
+		let formatter = DateFormatter()
+		formatter.dateFormat = "dd.MM.yy"
+		formatter.locale = Locale(identifier: "ru-RU")
+		return formatter
+	}()
 }

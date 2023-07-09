@@ -49,6 +49,7 @@
 		5A930CF12A56FDC6005094E7 /* TrackerCD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A930CEF2A56FDC6005094E7 /* TrackerCD.swift */; };
 		5A930CF22A56FDC6005094E7 /* TrackerCD+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A930CF02A56FDC6005094E7 /* TrackerCD+CoreDataProperties.swift */; };
 		5A930CF42A58A728005094E7 /* LocalState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A930CF32A58A728005094E7 /* LocalState.swift */; };
+		5A930CF62A5A1BDF005094E7 /* YPDatePickerLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A930CF52A5A1BDF005094E7 /* YPDatePickerLabelView.swift */; };
 		5A9CFECB2A4F797E0044A189 /* CategoriesListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9CFECA2A4F797E0044A189 /* CategoriesListViewModel.swift */; };
 		5A9CFECD2A4F7BA70044A189 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9CFECC2A4F7BA70044A189 /* Observable.swift */; };
 		5A9CFECF2A4F7E780044A189 /* CategoriesListItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9CFECE2A4F7E780044A189 /* CategoriesListItemViewModel.swift */; };
@@ -176,6 +177,7 @@
 		5A930CEF2A56FDC6005094E7 /* TrackerCD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCD.swift; sourceTree = "<group>"; };
 		5A930CF02A56FDC6005094E7 /* TrackerCD+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TrackerCD+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		5A930CF32A58A728005094E7 /* LocalState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalState.swift; sourceTree = "<group>"; };
+		5A930CF52A5A1BDF005094E7 /* YPDatePickerLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YPDatePickerLabelView.swift; sourceTree = "<group>"; };
 		5A9CFECA2A4F797E0044A189 /* CategoriesListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesListViewModel.swift; sourceTree = "<group>"; };
 		5A9CFECC2A4F7BA70044A189 /* Observable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		5A9CFECE2A4F7E780044A189 /* CategoriesListItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesListItemViewModel.swift; sourceTree = "<group>"; };
@@ -304,6 +306,7 @@
 		5A45EA612A0CEA7E003269D3 /* Trackers */ = {
 			isa = PBXGroup;
 			children = (
+				5A930CF72A5A501E005094E7 /* Components */,
 				5AA7AD082A163A7E0022C334 /* Cells */,
 				5AA7AD092A163A990022C334 /* TrackersModels.swift */,
 				5AA7AD0B2A1647550022C334 /* TrackersInteractor.swift */,
@@ -484,6 +487,14 @@
 				5A9CFECC2A4F7BA70044A189 /* Observable.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		5A930CF72A5A501E005094E7 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				5A930CF52A5A1BDF005094E7 /* YPDatePickerLabelView.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 		5A9CFED02A50FC630044A189 /* SelectCategoryMVVM */ = {
@@ -891,6 +902,7 @@
 				5AE1F00C2A0944D400103F08 /* IRouter.swift in Sources */,
 				5A46689F2A1AA55300FEBD9B /* CreateEditTrackerModels.swift in Sources */,
 				5A77EF642A2891DE000CF24C /* SelectTypeTrackerModels.swift in Sources */,
+				5A930CF62A5A1BDF005094E7 /* YPDatePickerLabelView.swift in Sources */,
 				5AE6BDF32A1989D30068CB53 /* YPPresenter.swift in Sources */,
 				5A8474302A0F764A00C2F93E /* UIButton+Event.swift in Sources */,
 				5A61DD3D29E13FF9001E8665 /* UIView+Preview.swift in Sources */,

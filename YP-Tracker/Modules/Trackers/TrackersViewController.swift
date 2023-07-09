@@ -18,12 +18,18 @@ final class TrackersViewController: UIViewController {
 		}
 	}
 
+	// MARK: - UI Elements
 	private lazy var addTrackerBarButtonItem: UIBarButtonItem = makeAddTrackerBarButtonItem()
-	private lazy var datePicker: UIDatePicker = makeDatePicker()
+	private lazy var datePicker = YPDatePickerLabelView()
+		.updateAppearance(with: YPDatePickerLabelAppearance.defaultValue)
+		.updateAction { [weak self] date in
+			self?.didDateSelect(date: date)
+		}
 	private lazy var searchController: UISearchController = makeSearchController()
 
 	private lazy var collectionView: UICollectionView = makeCollectionView()
-	private lazy var emptyView = makeEmptyView()
+	private lazy var emptyView = EmptyView()
+		.update(with: EmptyInputData.emptyStartTrackers)
 	private lazy var filtersButton = makeFiltersButton()
 
 	// MARK: - Inits
@@ -59,8 +65,8 @@ private extension TrackersViewController {
 	@objc func didTapAddTrackerButton(_ sender: Any) {
 		interactor.didUserDo(request: .addTracker)
 	}
-	@objc func didDateSelect(_ sender: Any) {
-		interactor.didUserDo(request: .newDate(datePicker.date))
+	func didDateSelect(date: Date) {
+		interactor.didUserDo(request: .newDate(date))
 	}
 }
 
@@ -73,7 +79,9 @@ extension TrackersViewController: ITrackersViewController {
 			dataSource = sections
 
 			searchText = conditions.searchText
-			datePicker.setDate(conditions.date, animated: true)
+			datePicker.updateTitle(
+				with: Theme.dateFormatterShortYear.string(from: conditions.date)
+			)
 
 			if conditions.hasAnyTrackers {
 				emptyView.update(with: EmptyInputData.emptySearchTrackers)
@@ -252,36 +260,29 @@ private extension TrackersViewController {
 
 		return button
 	}
-	func makeDatePicker() -> UIDatePicker {
-		let picker = UIDatePicker()
-
-		picker.datePickerMode = .date
-		picker.preferredDatePickerStyle = .compact
-		picker.locale = Locale(identifier: "ru-RU")
-
-		picker.addTarget(self, action: #selector(didDateSelect), for: .valueChanged)
-
-		return picker
-	}
 	func makeSearchController() -> UISearchController {
 		let search = UISearchController(searchResultsController: nil)
 		search.searchResultsUpdater = self
 		search.obscuresBackgroundDuringPresentation = false
 
-		search.searchBar.placeholder = Appearance.searchPlacholder
+		let attributes: [NSAttributedString.Key: Any] = [
+			.foregroundColor: Theme.color(usage: .placeholder),
+			.font: Theme.font(style: .body)
+		]
+
+		search.searchBar.searchTextField.attributedPlaceholder = NSAttributedString(
+			string: Appearance.searchPlacholder,
+			attributes: attributes
+		)
+
 		search.searchBar.searchTextField.font = Theme.font(style: .body)
 		search.searchBar.searchTextField.textColor = Theme.color(usage: .main)
+		search.searchBar.searchTextField.backgroundColor = Theme.color(usage: .allDaySearchBase)
 
 		// хардкод для изменения надписи кнопки отмена, инетересно есть другой более правильный способ???
 		search.searchBar.setValue(Appearance.searchCancelButtonTitle, forKey: "cancelButtonText")
 
 		return search
-	}
-	func makeEmptyView() -> EmptyView {
-		let view = EmptyView()
-		view.update(with: EmptyInputData.emptyStartTrackers)
-
-		return view
 	}
 	func makeFiltersButton() -> UIButton {
 		let button = UIButton()
@@ -406,7 +407,7 @@ private extension TrackersViewController {
 private extension TrackersViewController {
 	enum Appearance {
 		static let filtersButtonTitle = "Фильтры"
-		static let datePickerWidth: CGFloat = 104
+		static let datePickerWidth: CGFloat = 77
 		static let searchPlacholder = "Поиск"
 		static let searchCancelButtonTitle = "Отмена"
 		static let menuTrackerPin = "Закрепить"
