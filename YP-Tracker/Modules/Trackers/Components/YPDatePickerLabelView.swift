@@ -17,7 +17,6 @@ extension YPDatePickerLabelAppearance {
 }
 
 final class YPDatePickerLabelView: UIView {
-
 	private var date = Date() { didSet { action?(date) } }
 	private var action: ((Date) -> Void)?
 
@@ -64,7 +63,7 @@ extension YPDatePickerLabelView {
 	}
 }
 
-// MARK: - UI make
+// MARK: - Actions
 private extension YPDatePickerLabelView {
 	@objc func didDateSelect(_ sender: Any) {
 		date = datePicker.date
@@ -76,13 +75,12 @@ private extension YPDatePickerLabelView {
 	func applyStyle() {
 		backgroundColor = .clear
 	}
+
 	func setConstaints() {
-		[
-			datePicker,
-			titleLabel
-		].forEach { addSubview($0) }
-		datePicker.makeEqualToSuperview()
-		titleLabel.makeEqualToSuperview()
+		[datePicker, titleLabel].forEach {
+			addSubview($0)
+			$0.makeEqualToSuperview()
+		}
 	}
 }
 

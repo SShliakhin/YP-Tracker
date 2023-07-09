@@ -79,9 +79,7 @@ extension TrackersViewController: ITrackersViewController {
 			dataSource = sections
 
 			searchText = conditions.searchText
-			datePicker.updateTitle(
-				with: Theme.dateFormatterShortYear.string(from: conditions.date)
-			)
+			datePicker.updateTitle(with: conditions.dateString)
 
 			if conditions.hasAnyTrackers {
 				emptyView.update(with: EmptyInputData.emptySearchTrackers)
