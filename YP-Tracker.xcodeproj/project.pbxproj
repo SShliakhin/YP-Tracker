@@ -50,6 +50,8 @@
 		5A930CF22A56FDC6005094E7 /* TrackerCD+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A930CF02A56FDC6005094E7 /* TrackerCD+CoreDataProperties.swift */; };
 		5A930CF42A58A728005094E7 /* LocalState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A930CF32A58A728005094E7 /* LocalState.swift */; };
 		5A930CF62A5A1BDF005094E7 /* YPDatePickerLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A930CF52A5A1BDF005094E7 /* YPDatePickerLabelView.swift */; };
+		5A930D012A5B83AA005094E7 /* YandexMobileMetrica in Frameworks */ = {isa = PBXBuildFile; productRef = 5A930D002A5B83AA005094E7 /* YandexMobileMetrica */; };
+		5A930D032A5B847F005094E7 /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A930D022A5B847F005094E7 /* AnalyticsService.swift */; };
 		5A9CFECB2A4F797E0044A189 /* CategoriesListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9CFECA2A4F797E0044A189 /* CategoriesListViewModel.swift */; };
 		5A9CFECD2A4F7BA70044A189 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9CFECC2A4F7BA70044A189 /* Observable.swift */; };
 		5A9CFECF2A4F7E780044A189 /* CategoriesListItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9CFECE2A4F7E780044A189 /* CategoriesListItemViewModel.swift */; };
@@ -178,6 +180,7 @@
 		5A930CF02A56FDC6005094E7 /* TrackerCD+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TrackerCD+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		5A930CF32A58A728005094E7 /* LocalState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalState.swift; sourceTree = "<group>"; };
 		5A930CF52A5A1BDF005094E7 /* YPDatePickerLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YPDatePickerLabelView.swift; sourceTree = "<group>"; };
+		5A930D022A5B847F005094E7 /* AnalyticsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
 		5A9CFECA2A4F797E0044A189 /* CategoriesListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesListViewModel.swift; sourceTree = "<group>"; };
 		5A9CFECC2A4F7BA70044A189 /* Observable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		5A9CFECE2A4F7E780044A189 /* CategoriesListItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesListItemViewModel.swift; sourceTree = "<group>"; };
@@ -243,6 +246,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5A930D012A5B83AA005094E7 /* YandexMobileMetrica in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -661,6 +665,7 @@
 				5AF5CAF32A124EA4004AB8D2 /* CategoriesProvider.swift */,
 				5AFC98B62A37CB1E005E3C4D /* CoreDataStack.swift */,
 				5A930CF32A58A728005094E7 /* LocalState.swift */,
+				5A930D022A5B847F005094E7 /* AnalyticsService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -682,6 +687,9 @@
 			dependencies = (
 			);
 			name = "YP-Tracker";
+			packageProductDependencies = (
+				5A930D002A5B83AA005094E7 /* YandexMobileMetrica */,
+			);
 			productName = "YP-Tracker";
 			productReference = 5A48061929DBA73B0096B7D8 /* YP-Tracker.app */;
 			productType = "com.apple.product-type.application";
@@ -754,6 +762,9 @@
 				Base,
 			);
 			mainGroup = 5A48061029DBA73B0096B7D8;
+			packageReferences = (
+				5A930CFF2A5B83AA005094E7 /* XCRemoteSwiftPackageReference "metrica-sdk-ios" */,
+			);
 			productRefGroup = 5A48061A29DBA73B0096B7D8 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -827,6 +838,7 @@
 				5A8D1DAD2A0D6ED000A2924F /* SelectTypeTrackerViewController.swift in Sources */,
 				5A84742D2A0E9A7500C2F93E /* CreateEditTrackerViewController.swift in Sources */,
 				5A8CD5202A20057B00A100BD /* InnerViewType.swift in Sources */,
+				5A930D032A5B847F005094E7 /* AnalyticsService.swift in Sources */,
 				5AE6BDE92A18D38F0068CB53 /* YPCell.swift in Sources */,
 				5A930CF12A56FDC6005094E7 /* TrackerCD.swift in Sources */,
 				5AF35C182A44BCCC00BC1C3A /* OnboardingPageViewController.swift in Sources */,
@@ -1245,6 +1257,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		5A930CFF2A5B83AA005094E7 /* XCRemoteSwiftPackageReference "metrica-sdk-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/yandexmobile/metrica-sdk-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		5A930D002A5B83AA005094E7 /* YandexMobileMetrica */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5A930CFF2A5B83AA005094E7 /* XCRemoteSwiftPackageReference "metrica-sdk-ios" */;
+			productName = YandexMobileMetrica;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		5AFC98B32A366735005E3C4D /* TrackersMOC.xcdatamodeld */ = {
