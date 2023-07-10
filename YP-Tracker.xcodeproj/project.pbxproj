@@ -52,6 +52,7 @@
 		5A930CF62A5A1BDF005094E7 /* YPDatePickerLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A930CF52A5A1BDF005094E7 /* YPDatePickerLabelView.swift */; };
 		5A930D012A5B83AA005094E7 /* YandexMobileMetrica in Frameworks */ = {isa = PBXBuildFile; productRef = 5A930D002A5B83AA005094E7 /* YandexMobileMetrica */; };
 		5A930D032A5B847F005094E7 /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A930D022A5B847F005094E7 /* AnalyticsService.swift */; };
+		5A930D052A5BD52E005094E7 /* AnalyticsEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A930D042A5BD52E005094E7 /* AnalyticsEvent.swift */; };
 		5A9CFECB2A4F797E0044A189 /* CategoriesListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9CFECA2A4F797E0044A189 /* CategoriesListViewModel.swift */; };
 		5A9CFECD2A4F7BA70044A189 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9CFECC2A4F7BA70044A189 /* Observable.swift */; };
 		5A9CFECF2A4F7E780044A189 /* CategoriesListItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9CFECE2A4F7E780044A189 /* CategoriesListItemViewModel.swift */; };
@@ -181,6 +182,7 @@
 		5A930CF32A58A728005094E7 /* LocalState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalState.swift; sourceTree = "<group>"; };
 		5A930CF52A5A1BDF005094E7 /* YPDatePickerLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YPDatePickerLabelView.swift; sourceTree = "<group>"; };
 		5A930D022A5B847F005094E7 /* AnalyticsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
+		5A930D042A5BD52E005094E7 /* AnalyticsEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsEvent.swift; sourceTree = "<group>"; };
 		5A9CFECA2A4F797E0044A189 /* CategoriesListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesListViewModel.swift; sourceTree = "<group>"; };
 		5A9CFECC2A4F7BA70044A189 /* Observable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		5A9CFECE2A4F7E780044A189 /* CategoriesListItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesListItemViewModel.swift; sourceTree = "<group>"; };
@@ -414,6 +416,7 @@
 				5AF5CAF82A12D0A4004AB8D2 /* TrackerFilter.swift */,
 				5AE6BDF42A19D8770068CB53 /* TrackerConditions.swift */,
 				5AF35C152A44B7EE00BC1C3A /* OnboardingPage.swift */,
+				5A930D042A5BD52E005094E7 /* AnalyticsEvent.swift */,
 				5A1DFF072A3B860A00AD63F3 /* CoreData */,
 				5AFC98B32A366735005E3C4D /* TrackersMOC.xcdatamodeld */,
 			);
@@ -844,6 +847,7 @@
 				5AF35C182A44BCCC00BC1C3A /* OnboardingPageViewController.swift in Sources */,
 				5A45EA602A0CE96D003269D3 /* TrackersViewController.swift in Sources */,
 				5AE12A202A0A6B360054D782 /* AppCoordinator.swift in Sources */,
+				5A930D052A5BD52E005094E7 /* AnalyticsEvent.swift in Sources */,
 				5AF5CAF62A125333004AB8D2 /* CategoriesManager.swift in Sources */,
 				5A2837622A3E4BE100513B91 /* CreateEditCategoryPresenter.swift in Sources */,
 				5AE12A2B2A0B936B0054D782 /* Theme+DateFormatter.swift in Sources */,

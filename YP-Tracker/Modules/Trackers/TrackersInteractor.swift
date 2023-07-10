@@ -14,10 +14,13 @@ protocol ITrackersInteractor: AnyObject {
 }
 
 final class TrackersInteractor: ITrackersInteractor {
-	private let categoriesProvider: ICategoriesProvider
 	private let presenter: ITrackersPresenter
 
+	private let categoriesProvider: ICategoriesProvider
+	private let analyticsService: IAnalyticsService
+
 	private var conditions: TrackerConditions
+
 	var didSendEventClosure: ((EventTrackersInteractor) -> Void)?
 
 	typealias SectionWithTrackers = TrackersModels.Response.SectionWithTrackers
@@ -28,6 +31,7 @@ final class TrackersInteractor: ITrackersInteractor {
 	) {
 		self.presenter = presenter
 		self.categoriesProvider = dep.categoriesProvider
+		self.analyticsService = dep.analyticsService
 
 		self.conditions = TrackerConditions(
 			date: Date(),
@@ -41,6 +45,7 @@ final class TrackersInteractor: ITrackersInteractor {
 		updateTrackers()
 	}
 
+	// swiftlint:disable:next function_body_length
 	func didUserDo(request: TrackersModels.Request) {
 		switch request {
 		case let .newSearchText(text):
@@ -61,18 +66,24 @@ final class TrackersInteractor: ITrackersInteractor {
 				row: row,
 				date: conditions.date
 			) else { return }
+
+			log(.click(.track))
 		case let .editTracker(section, row):
 			let trackerID = categoriesProvider.getTrackerID(
 				section: section,
 				row: row
 			)
 			didSendEventClosure?(.editTracker(trackerID))
+
+			log(.click(.edit))
 			return
 		case let .deleteTracker(section, row):
 			categoriesProvider.removeTrackerByPlace(
 				section: section,
 				row: row
 			)
+
+			log(.click(.delete))
 		case let .pinUnpin(section, row):
 			categoriesProvider.pinUnpinTrackerByPlace(
 				section: section,
@@ -80,9 +91,16 @@ final class TrackersInteractor: ITrackersInteractor {
 			)
 		case .addTracker:
 			didSendEventClosure?(.addTracker)
+
+			log(.click(.addTrack))
 			return
 		case .selectFilter:
 			didSendEventClosure?(.selectFilter(conditions.filter))
+
+			log(.click(.filter))
+			return
+		case let .analyticsEvent(event):
+			log(event)
 			return
 		}
 		updateTrackers()
@@ -127,5 +145,9 @@ private extension TrackersInteractor {
 		}
 
 		presenter.present(data: .update(sectionsWithTrackers, conditions, self))
+	}
+
+	func log(_ type: AnalyticsEvent.EventType) {
+		analyticsService.log(.init(type: type, screen: .main))
 	}
 }

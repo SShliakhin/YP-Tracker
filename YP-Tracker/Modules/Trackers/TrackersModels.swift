@@ -11,6 +11,7 @@ enum TrackersModels {
 		case pinUnpin(Int, Int)
 		case addTracker
 		case selectFilter
+		case analyticsEvent(AnalyticsEvent.EventType)
 	}
 
 	enum Response {

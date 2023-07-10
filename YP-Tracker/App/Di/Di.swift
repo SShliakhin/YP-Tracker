@@ -21,7 +21,8 @@ final class Di {
 		dependencies = Dependency(
 			localState: makeLocalState(),
 			categoriesManager: categoriesManager,
-			categoriesProvider: makeCategoriesProvider(manager: categoriesManager)
+			categoriesProvider: makeCategoriesProvider(manager: categoriesManager),
+			analyticsService: makeAnalyticsService()
 		)
 	}
 
@@ -29,6 +30,7 @@ final class Di {
 		let localState: ILocalState
 		let categoriesManager: ICategoriesManager
 		let categoriesProvider: ICategoriesProvider
+		let analyticsService: IAnalyticsService
 	}
 }
 
@@ -36,6 +38,7 @@ final class Di {
 
 protocol ITrackersModuleDependency {
 	var categoriesProvider: ICategoriesProvider { get }
+	var analyticsService: IAnalyticsService { get }
 }
 
 protocol IYPModuleDependency {

@@ -53,6 +53,16 @@ final class TrackersViewController: UIViewController {
 
 		interactor.viewIsReady()
 	}
+
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		interactor.didUserDo(request: .analyticsEvent(.screenOpen))
+	}
+
+	override func viewDidDisappear(_ animated: Bool) {
+		super.viewDidDisappear(animated)
+		interactor.didUserDo(request: .analyticsEvent(.screenClose))
+	}
 }
 
 // MARK: - Actions
