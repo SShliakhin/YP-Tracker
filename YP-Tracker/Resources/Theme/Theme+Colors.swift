@@ -79,6 +79,7 @@ extension Theme {
 		case placeholder
 	}
 
+	// swiftlint:disable:next function_body_length
 	static func color(usage: Color) -> UIColor {
 		let customColor: UIColor
 

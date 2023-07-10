@@ -1,6 +1,6 @@
 import Foundation
 
-struct TrackerConditions: Equatable {
+struct TrackerConditions {
 	var date: Date
 	var searchText: String
 	var filter: TrackerFilter
