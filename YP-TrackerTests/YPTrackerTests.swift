@@ -6,7 +6,7 @@ final class YPTrackerTests: XCTestCase {
 	private let mainVC: UIViewController = Di().makeTrackersModule().0
 
 	func testDarkMainVC_shouldBeFail() {
-		// mainVC.overrideUserInterfaceStyle = .light // после создания образца расскоментировать
+		// mainVC.overrideUserInterfaceStyle = .light // после создания образца раскоментировать
 		assertSnapshot(
 			matching: mainVC,
 			as: .image(traits: .init(userInterfaceStyle: .dark))
@@ -14,7 +14,7 @@ final class YPTrackerTests: XCTestCase {
 	}
 
 	func testLightMainVC_shouldBeFail() {
-		// mainVC.overrideUserInterfaceStyle = .dark // после создания образца расскоментировать
+		// mainVC.overrideUserInterfaceStyle = .dark // после создания образца раскоментировать
 		assertSnapshot(
 			matching: mainVC,
 			as: .image(traits: .init(userInterfaceStyle: .light))
