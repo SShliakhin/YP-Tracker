@@ -17,6 +17,7 @@
 		5A2837622A3E4BE100513B91 /* CreateEditCategoryPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2837612A3E4BE100513B91 /* CreateEditCategoryPresenter.swift */; };
 		5A2837642A3E515A00513B91 /* CreateEditCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2837632A3E515A00513B91 /* CreateEditCategoryViewController.swift */; };
 		5A2837672A3EF12B00513B91 /* UIViewController+hideKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2837662A3EF12B00513B91 /* UIViewController+hideKeyboard.swift */; };
+		5A2CFF6B2A5D0DD0009CBDA5 /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 5A2CFF6A2A5D0DD0009CBDA5 /* SnapshotTesting */; };
 		5A45EA5D2A0CD9BC003269D3 /* StatisticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A45EA5C2A0CD9BC003269D3 /* StatisticsViewController.swift */; };
 		5A45EA602A0CE96D003269D3 /* TrackersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A45EA5F2A0CE96D003269D3 /* TrackersViewController.swift */; };
 		5A45EA672A0D22CE003269D3 /* EmptyInputData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A45EA632A0D22CE003269D3 /* EmptyInputData.swift */; };
@@ -29,7 +30,7 @@
 		5A48062629DBA73F0096B7D8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5A48062529DBA73F0096B7D8 /* Assets.xcassets */; };
 		5A48062929DBA73F0096B7D8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A48062729DBA73F0096B7D8 /* LaunchScreen.storyboard */; };
 		5A48063A29DBC5690096B7D8 /* Theme+Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A48063929DBC5690096B7D8 /* Theme+Fonts.swift */; };
-		5A48064229DBCB8D0096B7D8 /* Swift_BaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A48064129DBCB8D0096B7D8 /* Swift_BaseTests.swift */; };
+		5A48064229DBCB8D0096B7D8 /* YPTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A48064129DBCB8D0096B7D8 /* YPTrackerTests.swift */; };
 		5A48064F29DBCBFB0096B7D8 /* Swift_BaseUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A48064E29DBCBFB0096B7D8 /* Swift_BaseUITests.swift */; };
 		5A48065129DBCBFB0096B7D8 /* Swift_BaseUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A48065029DBCBFB0096B7D8 /* Swift_BaseUITestsLaunchTests.swift */; };
 		5A61DD3D29E13FF9001E8665 /* UIView+Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A61DD3C29E13FF9001E8665 /* UIView+Preview.swift */; };
@@ -159,7 +160,7 @@
 		5A48063629DBAC450096B7D8 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		5A48063929DBC5690096B7D8 /* Theme+Fonts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Theme+Fonts.swift"; sourceTree = "<group>"; };
 		5A48063F29DBCB8D0096B7D8 /* YP-TrackerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "YP-TrackerTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		5A48064129DBCB8D0096B7D8 /* Swift_BaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Swift_BaseTests.swift; sourceTree = "<group>"; };
+		5A48064129DBCB8D0096B7D8 /* YPTrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YPTrackerTests.swift; sourceTree = "<group>"; };
 		5A48064C29DBCBFB0096B7D8 /* YP-TrackerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "YP-TrackerUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A48064E29DBCBFB0096B7D8 /* Swift_BaseUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Swift_BaseUITests.swift; sourceTree = "<group>"; };
 		5A48065029DBCBFB0096B7D8 /* Swift_BaseUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Swift_BaseUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -256,6 +257,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5A2CFF6B2A5D0DD0009CBDA5 /* SnapshotTesting in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -392,7 +394,7 @@
 		5A48064029DBCB8D0096B7D8 /* YP-TrackerTests */ = {
 			isa = PBXGroup;
 			children = (
-				5A48064129DBCB8D0096B7D8 /* Swift_BaseTests.swift */,
+				5A48064129DBCB8D0096B7D8 /* YPTrackerTests.swift */,
 			);
 			path = "YP-TrackerTests";
 			sourceTree = "<group>";
@@ -711,6 +713,9 @@
 				5A48064429DBCB8D0096B7D8 /* PBXTargetDependency */,
 			);
 			name = "YP-TrackerTests";
+			packageProductDependencies = (
+				5A2CFF6A2A5D0DD0009CBDA5 /* SnapshotTesting */,
+			);
 			productName = "YP-TrackerTests";
 			productReference = 5A48063F29DBCB8D0096B7D8 /* YP-TrackerTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -767,6 +772,7 @@
 			mainGroup = 5A48061029DBA73B0096B7D8;
 			packageReferences = (
 				5A930CFF2A5B83AA005094E7 /* XCRemoteSwiftPackageReference "metrica-sdk-ios" */,
+				5A2CFF692A5D0DD0009CBDA5 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */,
 			);
 			productRefGroup = 5A48061A29DBA73B0096B7D8 /* Products */;
 			projectDirPath = "";
@@ -937,7 +943,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5A48064229DBCB8D0096B7D8 /* Swift_BaseTests.swift in Sources */,
+				5A48064229DBCB8D0096B7D8 /* YPTrackerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1263,6 +1269,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		5A2CFF692A5D0DD0009CBDA5 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-snapshot-testing";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		5A930CFF2A5B83AA005094E7 /* XCRemoteSwiftPackageReference "metrica-sdk-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/yandexmobile/metrica-sdk-ios";
@@ -1274,6 +1288,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		5A2CFF6A2A5D0DD0009CBDA5 /* SnapshotTesting */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5A2CFF692A5D0DD0009CBDA5 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */;
+			productName = SnapshotTesting;
+		};
 		5A930D002A5B83AA005094E7 /* YandexMobileMetrica */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 5A930CFF2A5B83AA005094E7 /* XCRemoteSwiftPackageReference "metrica-sdk-ios" */;
