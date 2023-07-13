@@ -8,6 +8,7 @@ protocol IServiceFactory {
 	func makeCategoriesProvider(manager: ICategoriesManager) -> ICategoriesProvider
 	func makeLocalState() -> ILocalState
 	func makeAnalyticsService() -> IAnalyticsService
+	func makeStatisticsService() -> StatisticsIn & StatisticsOut
 }
 
 extension Di: IServiceFactory {
@@ -33,5 +34,9 @@ extension Di: IServiceFactory {
 
 	func makeAnalyticsService() -> IAnalyticsService {
 		AnalyticsService()
+	}
+
+	func makeStatisticsService() -> StatisticsIn & StatisticsOut {
+		StatisticsService()
 	}
 }

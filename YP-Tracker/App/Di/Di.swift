@@ -16,13 +16,16 @@ final class Di {
 		// let categoriesManager = makeCategoriesManager(repository: repository)
 		// вариант для работы с постоянным хранилищем
 		let categoriesManager = makeCategoriesManager(dataStore: trackersDataStore)
+		let statisticsService = makeStatisticsService()
 
 		// MARK: - подготовка локальных сервисов
 		dependencies = Dependency(
 			localState: makeLocalState(),
 			categoriesManager: categoriesManager,
 			categoriesProvider: makeCategoriesProvider(manager: categoriesManager),
-			analyticsService: makeAnalyticsService()
+			analyticsService: makeAnalyticsService(),
+			statisticsIn: statisticsService,
+			statisticsOut: statisticsService
 		)
 	}
 
@@ -31,6 +34,8 @@ final class Di {
 		let categoriesManager: ICategoriesManager
 		let categoriesProvider: ICategoriesProvider
 		let analyticsService: IAnalyticsService
+		let statisticsIn: StatisticsIn
+		let statisticsOut: StatisticsOut
 	}
 }
 
@@ -39,6 +44,11 @@ final class Di {
 protocol ITrackersModuleDependency {
 	var categoriesProvider: ICategoriesProvider { get }
 	var analyticsService: IAnalyticsService { get }
+	var statisticsIn: StatisticsIn { get }
+}
+
+protocol IStatisticsModuleDependency {
+	var statisticsOut: StatisticsOut { get }
 }
 
 protocol IYPModuleDependency {
@@ -63,6 +73,7 @@ typealias AllDependencies = (
 	IEmptyDependency &
 	IAppCoordinatorDependcy &
 	ITrackersModuleDependency &
+	IStatisticsModuleDependency &
 	ICreateEditTrackerModuleDependency &
 	ICreateEditCategoryModuleDependency &
 	IYPModuleDependency

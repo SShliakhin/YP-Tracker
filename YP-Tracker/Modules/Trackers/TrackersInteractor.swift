@@ -18,8 +18,10 @@ final class TrackersInteractor: ITrackersInteractor {
 
 	private let categoriesProvider: ICategoriesProvider
 	private let analyticsService: IAnalyticsService
+	private let statisticsService: StatisticsIn
 
 	private var conditions: TrackerConditions
+	private var trackersCount = 0 // количество трекеров на выбранный день для статистики
 
 	var didSendEventClosure: ((EventTrackersInteractor) -> Void)?
 
@@ -32,6 +34,7 @@ final class TrackersInteractor: ITrackersInteractor {
 		self.presenter = presenter
 		self.categoriesProvider = dep.categoriesProvider
 		self.analyticsService = dep.analyticsService
+		self.statisticsService = dep.statisticsIn
 
 		self.conditions = TrackerConditions(
 			date: Date(),
@@ -68,6 +71,25 @@ final class TrackersInteractor: ITrackersInteractor {
 			) else { return }
 
 			log(.click(.track))
+
+			// FIXME: - пока не совсем согласованные действия между CoreData и статистикой
+			// приходится повторяться и помнить что работаем со старыми данными
+			let trackerID = categoriesProvider.getTrackerID(section: section, row: row)
+			guard let (_, completed, _) = categoriesProvider.getTrackerBoxByID(trackerID) else { return }
+
+			if completed {
+				// трекер был завершенный, значит отменяем
+				statisticsService.uncompleteTracker(
+					on: conditions.date
+				)
+			} else {
+				// трекер был незавершенный, значит завершаем
+				statisticsService.completeTracker(
+					on: conditions.date,
+					with: trackersCount
+				)
+			}
+
 		case let .editTracker(section, row):
 			let trackerID = categoriesProvider.getTrackerID(
 				section: section,
@@ -109,6 +131,7 @@ final class TrackersInteractor: ITrackersInteractor {
 
 private extension TrackersInteractor {
 	func updateTrackers() {
+		trackersCount = 0
 		let categories: [TrackerCategory]
 
 		conditions.hasAnyTrackers = categoriesProvider.hasAnyTrakers
@@ -141,6 +164,7 @@ private extension TrackersInteractor {
 				sectionName: category.title,
 				trackers: category.trackers.compactMap { categoriesProvider.getTrackerBoxByID($0) }
 			)
+			trackersCount += sectionWithTrackers.trackers.count
 			sectionsWithTrackers.append(sectionWithTrackers)
 		}
 
