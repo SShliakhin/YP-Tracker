@@ -46,20 +46,15 @@ private extension EmptyView {
 		stackContainer.alignment = .center
 		stackContainer.spacing = Theme.spacing(usage: .standard)
 
-		let insets = UIEdgeInsets(
-			top: Theme.spacing(usage: .standard),
-			left: Theme.spacing(usage: .standard),
-			bottom: Theme.spacing(usage: .standard),
-			right: Theme.spacing(usage: .standard)
-		)
-
 		[
 			emptyImageView,
 			emptyMessageLabel
 		].forEach { stackContainer.addArrangedSubview($0) }
 
 		backgroundView.addSubview(stackContainer)
-		stackContainer.makeEqualToSuperview(insets: insets)
+		stackContainer.makeEqualToSuperview(
+			insets: .init(all: Theme.spacing(usage: .standard))
+		)
 	}
 }
 

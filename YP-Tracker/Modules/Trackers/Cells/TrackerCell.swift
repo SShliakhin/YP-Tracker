@@ -75,15 +75,16 @@ extension TrackerCellModel: ICellViewModel {
 // MARK: - UI
 private extension TrackerCell {
 	func setConstraints() {
-		let localSpacing = Theme.spacing(usage: .constant12)
-
 		let topStack = UIStackView()
 		[
 			emojiLabel,
 			UIView(),
 			pinnedImageView
 		].forEach { topStack.addArrangedSubview($0) }
-		[emojiLabel, pinnedImageView].forEach { $0.makeConstraints { $0.size(Theme.size(kind: .small)) } }
+		[
+			emojiLabel,
+			pinnedImageView
+		].forEach { $0.makeConstraints { $0.size(Theme.size(kind: .small)) } }
 
 		let vStack = UIStackView()
 		vStack.axis = .vertical
@@ -96,12 +97,9 @@ private extension TrackerCell {
 		topStack.makeConstraints { [$0.trailingAnchor.constraint(equalTo: vStack.trailingAnchor)] }
 
 		colorBackgroudnView.addSubview(vStack)
-		vStack.makeEqualToSuperview(insets: .init(
-			top: localSpacing,
-			left: localSpacing,
-			bottom: localSpacing,
-			right: localSpacing
-		))
+		vStack.makeEqualToSuperview(
+			insets: .init(all: Theme.spacing(usage: .constant12))
+		)
 
 		let bottomStack = UIStackView()
 		bottomStack.spacing = Theme.spacing(usage: .standard)
@@ -127,8 +125,8 @@ private extension TrackerCell {
 		bottomStack.makeConstraints { make in
 			[
 				make.topAnchor.constraint(equalTo: colorBackgroudnView.bottomAnchor, constant: Theme.spacing(usage: .standard)),
-				make.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: localSpacing),
-				make.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -localSpacing),
+				make.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Theme.spacing(usage: .constant12)),
+				make.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Theme.spacing(usage: .constant12)),
 				make.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
 			]
 		}

@@ -162,12 +162,7 @@ private extension CreateEditCategoryViewController {
 
 		textFieldView.addSubview(titleTextField)
 		titleTextField.makeEqualToSuperview(
-			insets: .init(
-				top: .zero,
-				left: Theme.spacing(usage: .standard2),
-				bottom: .zero,
-				right: Theme.spacing(usage: .standard2)
-			)
+			insets: .init(horizontal: Theme.spacing(usage: .standard2))
 		)
 		titleTextField.makeConstraints { make in
 			[

@@ -43,12 +43,7 @@ private extension OnboardingPageViewController {
 
 		imageView.makeEqualToSuperview()
 		textLabel.makeEqualToSuperviewCenter(
-			insets: .init(
-				top: Appearance.centerIndent,
-				left: .zero,
-				bottom: .zero,
-				right: .zero
-			)
+			insets: .init(top: Appearance.centerIndent)
 		)
 	}
 }

@@ -184,10 +184,8 @@ private extension SelectCategoryViewController {
 
 		stack.makeEqualToSuperviewToSafeArea(
 			insets: .init(
-				top: Theme.spacing(usage: .standard3),
-				left: Theme.spacing(usage: .standard2),
-				bottom: Theme.spacing(usage: .standard3),
-				right: Theme.spacing(usage: .standard2)
+				horizontal: Theme.spacing(usage: .standard2),
+				vertical: Theme.spacing(usage: .standard3)
 			)
 		)
 		emptyView.makeEqualToSuperviewCenterToSafeArea()

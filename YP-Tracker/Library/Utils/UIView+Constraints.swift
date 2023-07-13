@@ -85,7 +85,7 @@ extension UIView {
 	}
 }
 
-public extension UIEdgeInsets {
+extension UIEdgeInsets {
 	init(all: CGFloat) {
 		self.init(top: all, left: all, bottom: all, right: all)
 	}
@@ -96,5 +96,9 @@ public extension UIEdgeInsets {
 
 	init(bottom: CGFloat) {
 		self.init(top: 0, left: 0, bottom: bottom, right: 0)
+	}
+
+	init(top: CGFloat) {
+		self.init(top: top, left: 0, bottom: 0, right: 0)
 	}
 }

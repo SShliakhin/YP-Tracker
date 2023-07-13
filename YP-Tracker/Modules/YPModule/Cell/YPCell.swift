@@ -120,12 +120,9 @@ private extension YPCell {
 			dividerView
 		].forEach { contentView.addSubview($0) }
 
-		hStack.makeEqualToSuperview(insets: .init(
-			top: .zero,
-			left: Theme.spacing(usage: .standard2),
-			bottom: .zero,
-			right: Theme.spacing(usage: .standard2)
-		))
+		hStack.makeEqualToSuperview(
+			insets: .init(horizontal: Theme.spacing(usage: .standard2))
+		)
 
 		dividerView.makeConstraints { make in
 			[
