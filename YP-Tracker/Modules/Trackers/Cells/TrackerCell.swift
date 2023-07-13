@@ -45,6 +45,7 @@ struct TrackerCellModel {
 	let isButtonEnabled: Bool
 	let isPinned: Bool
 	let event: (() -> Void)?
+	var userInteraction: UIContextMenuInteraction?
 }
 
 // MARK: - ICellViewModel
@@ -69,6 +70,10 @@ extension TrackerCellModel: ICellViewModel {
 		cell.completeButton.isEnabled = isButtonEnabled
 
 		cell.pinnedImageView.isHidden = !isPinned
+
+		if let userInteraction = userInteraction {
+			cell.colorBackgroudnView.addInteraction(userInteraction)
+		}
 	}
 }
 

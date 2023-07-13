@@ -77,6 +77,61 @@ private extension TrackersViewController {
 		searchController.searchBar.searchTextField.text = text
 		interactor.didUserDo(request: .newSearchText(text))
 	}
+
+	func makeContextMenuByPlace(section: Int, row: Int) -> UIContextMenuConfiguration {
+		let pinUnpinTitle = dataSource[section].trackers[row].isPinned
+		? Appearance.menuTrackerUnpin
+		: Appearance.menuTrackerPin
+
+		let pinUnpinAction = UIAction(title: pinUnpinTitle) { [weak self] _ in
+			self?.interactor.didUserDo(request: .pinUnpin(section, row))
+		}
+
+		let editAction = UIAction(title: Appearance.menuTrackerEdit) { [weak self] _ in
+			self?.interactor.didUserDo(request: .editTracker(section, row))
+		}
+
+		let deleteAction = UIAction(
+			title: Appearance.menuTrackerDelete,
+			attributes: .destructive
+		) { [weak self] _ in
+			self?.deleteRequestByPlace(section: section, row: row)
+		}
+
+		return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
+			UIMenu(
+				children:
+					[
+						pinUnpinAction,
+						editAction,
+						deleteAction
+					]
+			)
+		}
+	}
+
+	func deleteRequestByPlace(section: Int, row: Int) {
+		let alert = UIAlertController(
+			title: nil,
+			message: Appearance.deleteRequestMessage,
+			preferredStyle: .actionSheet
+		)
+		alert.addAction(
+			.init(
+				title: Appearance.deleteRequestDeleteTitle,
+				style: .destructive
+			) { [weak self] _ in
+				self?.interactor.didUserDo(request: .deleteTracker(section, row))
+			}
+		)
+		alert.addAction(
+			.init(
+				title: Appearance.deleteRequestCancelTitle,
+				style: .cancel
+			)
+		)
+		present(alert, animated: true)
+	}
 }
 
 // MARK: - ITrackersViewController
@@ -100,6 +155,22 @@ extension TrackersViewController: ITrackersViewController {
 	}
 }
 
+// MARK: UIContextMenuInteractionDelegate
+
+extension TrackersViewController: UIContextMenuInteractionDelegate {
+	func contextMenuInteraction(
+		_ interaction: UIContextMenuInteraction,
+		configurationForMenuAtLocation location: CGPoint
+	) -> UIContextMenuConfiguration? {
+		guard
+			let location = interaction.view?.convert(location, to: collectionView),
+			let indexPath = collectionView.indexPathForItem(at: location)
+		else { return nil }
+
+		return makeContextMenuByPlace(section: indexPath.section, row: indexPath.row)
+	}
+}
+
 // MARK: - UICollectionViewDataSource
 
 extension TrackersViewController: UICollectionViewDataSource {
@@ -116,7 +187,8 @@ extension TrackersViewController: UICollectionViewDataSource {
 		cellForItemAt indexPath: IndexPath
 	) -> UICollectionViewCell {
 
-		let model = dataSource[indexPath.section].trackers[indexPath.row]
+		var model = dataSource[indexPath.section].trackers[indexPath.row]
+		model.userInteraction = UIContextMenuInteraction(delegate: self) // интересно, так норм? перехват модели и вставка UI
 		return collectionView.dequeueReusableCell(withModel: model, for: indexPath)
 	}
 
@@ -137,77 +209,7 @@ extension TrackersViewController: UICollectionViewDataSource {
 
 // MARK: - UICollectionViewDelegate
 
-extension TrackersViewController: UICollectionViewDelegate {
-	func collectionView(
-		_ collectionView: UICollectionView,
-		contextMenuConfigurationForItemAt indexPaths: IndexPath,
-		point: CGPoint
-	) -> UIContextMenuConfiguration? {
-		guard !indexPaths.isEmpty else { return nil }
-
-		return makeContextMenuByPlace(section: indexPaths.section, row: indexPaths.row)
-	}
-
-	private func makeContextMenuByPlace(
-		section: Int,
-		row: Int
-	) -> UIContextMenuConfiguration {
-		let pinUnpinTitle = dataSource[section].trackers[row].isPinned
-		? Appearance.menuTrackerUnpin
-		: Appearance.menuTrackerPin
-
-		return UIContextMenuConfiguration(
-			identifier: nil,
-			previewProvider: nil,
-			actionProvider: { _ in
-				UIMenu(
-					children:
-						[
-							UIAction(
-								title: pinUnpinTitle
-							) { [weak self] _ in
-								self?.interactor.didUserDo(request: .pinUnpin(section, row))
-							},
-							UIAction(
-								title: Appearance.menuTrackerEdit
-							) { [weak self] _ in
-								self?.interactor.didUserDo(request: .editTracker(section, row))
-							},
-							UIAction(
-								title: Appearance.menuTrackerDelete,
-								attributes: .destructive
-							) { [weak self] _ in
-								self?.deleteRequestByPlace(section: section, row: row)
-							}
-						]
-				)
-			}
-		)
-	}
-
-	private func deleteRequestByPlace(section: Int, row: Int) {
-		let alert = UIAlertController(
-			title: nil,
-			message: Appearance.deleteRequestMessage,
-			preferredStyle: .actionSheet
-		)
-		alert.addAction(
-			.init(
-				title: Appearance.deleteRequestDeleteTitle,
-				style: .destructive
-			) { [weak self] _ in
-				self?.interactor.didUserDo(request: .deleteTracker(section, row))
-			}
-		)
-		alert.addAction(
-			.init(
-				title: Appearance.deleteRequestCancelTitle,
-				style: .cancel
-			)
-		)
-		present(alert, animated: true)
-	}
-}
+extension TrackersViewController: UICollectionViewDelegate {}
 
 // MARK: - UISearchResultsUpdating
 
