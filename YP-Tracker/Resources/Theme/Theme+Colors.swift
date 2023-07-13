@@ -62,6 +62,14 @@ extension Theme {
 		]
 	}
 
+	static func getGradientBorderColors() -> [UIColor] {
+		[
+			FlatColor.Tracker.blue,
+			FlatColor.Tracker.lightGreen,
+			FlatColor.Tracker.red
+		]
+	}
+
 	enum Color {
 		case main
 		case accent

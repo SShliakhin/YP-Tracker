@@ -21,6 +21,9 @@
 		5A2CFF6D2A5E7366009CBDA5 /* UserDefaultsBacked.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2CFF6C2A5E7366009CBDA5 /* UserDefaultsBacked.swift */; };
 		5A2CFF6F2A5E743C009CBDA5 /* StatisticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2CFF6E2A5E743C009CBDA5 /* StatisticsService.swift */; };
 		5A2CFF712A5E78F7009CBDA5 /* Statistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2CFF702A5E78F7009CBDA5 /* Statistics.swift */; };
+		5A2CFF732A602B9F009CBDA5 /* StatisticsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2CFF722A602B9F009CBDA5 /* StatisticsCell.swift */; };
+		5A2CFF8E2A607709009CBDA5 /* UIImage+Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2CFF8D2A607706009CBDA5 /* UIImage+Gradient.swift */; };
+		5A2CFF902A6079F2009CBDA5 /* GradientDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2CFF8F2A6079F2009CBDA5 /* GradientDirection.swift */; };
 		5A45EA5D2A0CD9BC003269D3 /* StatisticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A45EA5C2A0CD9BC003269D3 /* StatisticsViewController.swift */; };
 		5A45EA602A0CE96D003269D3 /* TrackersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A45EA5F2A0CE96D003269D3 /* TrackersViewController.swift */; };
 		5A45EA672A0D22CE003269D3 /* EmptyInputData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A45EA632A0D22CE003269D3 /* EmptyInputData.swift */; };
@@ -148,6 +151,9 @@
 		5A2CFF6C2A5E7366009CBDA5 /* UserDefaultsBacked.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsBacked.swift; sourceTree = "<group>"; };
 		5A2CFF6E2A5E743C009CBDA5 /* StatisticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsService.swift; sourceTree = "<group>"; };
 		5A2CFF702A5E78F7009CBDA5 /* Statistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Statistics.swift; sourceTree = "<group>"; };
+		5A2CFF722A602B9F009CBDA5 /* StatisticsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsCell.swift; sourceTree = "<group>"; };
+		5A2CFF8D2A607706009CBDA5 /* UIImage+Gradient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Gradient.swift"; sourceTree = "<group>"; };
+		5A2CFF8F2A6079F2009CBDA5 /* GradientDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientDirection.swift; sourceTree = "<group>"; };
 		5A45EA5C2A0CD9BC003269D3 /* StatisticsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsViewController.swift; sourceTree = "<group>"; };
 		5A45EA5F2A0CE96D003269D3 /* TrackersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersViewController.swift; sourceTree = "<group>"; };
 		5A45EA632A0D22CE003269D3 /* EmptyInputData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptyInputData.swift; sourceTree = "<group>"; };
@@ -309,10 +315,20 @@
 			path = CreateEditCategory;
 			sourceTree = "<group>";
 		};
+		5A2CFF912A607A59009CBDA5 /* Gradient */ = {
+			isa = PBXGroup;
+			children = (
+				5A2CFF8D2A607706009CBDA5 /* UIImage+Gradient.swift */,
+				5A2CFF8F2A6079F2009CBDA5 /* GradientDirection.swift */,
+			);
+			path = Gradient;
+			sourceTree = "<group>";
+		};
 		5A45EA5E2A0CE7AB003269D3 /* Statistics */ = {
 			isa = PBXGroup;
 			children = (
 				5A45EA5C2A0CD9BC003269D3 /* StatisticsViewController.swift */,
+				5A2CFF722A602B9F009CBDA5 /* StatisticsCell.swift */,
 			);
 			path = Statistics;
 			sourceTree = "<group>";
@@ -502,6 +518,7 @@
 				5AE6BDE62A18187A0068CB53 /* CellCorner.swift */,
 				5A9CFECC2A4F7BA70044A189 /* Observable.swift */,
 				5A2CFF6C2A5E7366009CBDA5 /* UserDefaultsBacked.swift */,
+				5A2CFF912A607A59009CBDA5 /* Gradient */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -930,8 +947,10 @@
 				5AA7AD102A16AA590022C334 /* HeaderSupplementaryView.swift in Sources */,
 				5ACDBE1F2A4B8C6E00F86895 /* PageViewController.swift in Sources */,
 				5AE12A322A0BC70F0054D782 /* TrackersCoordinator.swift in Sources */,
+				5A2CFF732A602B9F009CBDA5 /* StatisticsCell.swift in Sources */,
 				5A84742B2A0E91BC00C2F93E /* CreateEditTrackerCoordinator.swift in Sources */,
 				5A2CFF6F2A5E743C009CBDA5 /* StatisticsService.swift in Sources */,
+				5A2CFF8E2A607709009CBDA5 /* UIImage+Gradient.swift in Sources */,
 				5A9CFECD2A4F7BA70044A189 /* Observable.swift in Sources */,
 				5AE1F00C2A0944D400103F08 /* IRouter.swift in Sources */,
 				5A46689F2A1AA55300FEBD9B /* CreateEditTrackerModels.swift in Sources */,
@@ -945,6 +964,7 @@
 				5A48061F29DBA73B0096B7D8 /* SceneDelegate.swift in Sources */,
 				5A930CF22A56FDC6005094E7 /* TrackerCD+CoreDataProperties.swift in Sources */,
 				5AE1F00D2A0944D400103F08 /* ICoordinator.swift in Sources */,
+				5A2CFF902A6079F2009CBDA5 /* GradientDirection.swift in Sources */,
 				5AE12A292A0B931F0054D782 /* Theme+Sizes+Spacing.swift in Sources */,
 				5AFC98B72A37CB1E005E3C4D /* CoreDataStack.swift in Sources */,
 				5A8D1DB42A0DAFAB00A2924F /* Tracker.swift in Sources */,
