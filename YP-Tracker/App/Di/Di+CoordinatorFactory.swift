@@ -7,6 +7,7 @@ protocol ICoordinatorFactory {
 	func makeOnboardingCoordinator(router: Router) -> OnboardingCoordinator
 	func makeTabbarCoordinator(router: Router) -> TabbarCoordinator
 	func makeTrackersCoordinator(navController: UINavigationController) -> TrackersCoordinator
+	func makeStatisticsCoordinator(navController: UINavigationController) -> StatisticsCoordinator
 	func makeCreateEditTrackerCoordinator(router: Router, trackerAction: Tracker.Action) -> CreateEditTrackerCoordinator
 }
 

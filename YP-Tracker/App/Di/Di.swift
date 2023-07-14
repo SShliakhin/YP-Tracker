@@ -98,6 +98,12 @@ extension Di: ICoordinatorFactory {
 			coordinatorFactory: self
 		)
 	}
+	func makeStatisticsCoordinator(navController: UINavigationController) -> StatisticsCoordinator {
+		StatisticsCoordinator(
+			router: Router(rootController: navController),
+			factory: self
+		)
+	}
 	func makeCreateEditTrackerCoordinator(router: Router, trackerAction: Tracker.Action) -> CreateEditTrackerCoordinator {
 		CreateEditTrackerCoordinator(router: router, factory: self, trackerAction: trackerAction)
 	}

@@ -1,8 +1,6 @@
 import UIKit
 
 final class StatisticsViewController: UIViewController {
-	var didSendEventClosure: ((StatisticsViewController.Event) -> Void)?
-
 	private lazy var emptyView: UIView = makeEmptyView()
 
 	// MARK: - Inits
@@ -32,7 +30,6 @@ extension StatisticsViewController {
 private extension StatisticsViewController {
 	func setup() {}
 	func applyStyle() {
-		title = Appearance.title
 		view.backgroundColor = Theme.color(usage: .white)
 	}
 	func setConstraints() {
@@ -57,12 +54,5 @@ private extension StatisticsViewController {
 		let view = EmptyView()
 		view.update(with: EmptyInputData.emptyStatistics)
 		return view
-	}
-}
-
-// MARK: - Appearance
-private extension StatisticsViewController {
-	enum Appearance {
-		static let title = "Статистика"
 	}
 }

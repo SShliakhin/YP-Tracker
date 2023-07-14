@@ -9,7 +9,9 @@ final class StatisticsCoordinator: BaseCoordinator {
 		self.factory = factory
 	}
 
-	override func start() {}
+	override func start() {
+		showStatisticsModule()
+	}
 
 	deinit {
 		print("TrackersCoordinator deinit")
@@ -17,4 +19,16 @@ final class StatisticsCoordinator: BaseCoordinator {
 }
 
 // MARK: - show Modules
-private extension StatisticsCoordinator {}
+private extension StatisticsCoordinator {
+	func showStatisticsModule() {
+		let module = factory.makeStatisticsModule()
+		module.title = Appearance.titleStatisticsVC
+		router.setRootModule(module)
+	}
+}
+
+private extension StatisticsCoordinator {
+	enum Appearance {
+		static let titleStatisticsVC = "Статистика"
+	}
+}

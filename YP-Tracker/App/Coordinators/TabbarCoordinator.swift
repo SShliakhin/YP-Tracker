@@ -35,6 +35,17 @@ private extension TabbarCoordinator {
 		addDependency(coordinator)
 		coordinator.start()
 	}
+
+	func runStatisticsFlowInTab(navCotroller: UINavigationController) {
+		let coordinator = coordinatorFactory.makeStatisticsCoordinator(navController: navCotroller)
+		coordinator.finishFlow = { [weak self, weak coordinator] in
+			self?.router.dismissModule()
+			self?.removeDependency(coordinator)
+			self?.finishFlow?()
+		}
+		addDependency(coordinator)
+		coordinator.start()
+	}
 }
 
 // MARK: - show Modules
@@ -54,7 +65,8 @@ private extension TabbarCoordinator {
 			case let .statistics(navController):
 				action = { [unowned self] in
 					if navController.viewControllers.isEmpty {
-						self?.showStatisticsModuleInTab(router: navController)
+						// self?.showStatisticsModuleInTab(router: navController)
+						self?.runStatisticsFlowInTab(navCotroller: navController)
 					}
 				}
 			case let .viewDidLoad(navController):
@@ -76,6 +88,13 @@ private extension TabbarCoordinator {
 
 	func showStatisticsModuleInTab(router: UINavigationController) {
 		let module = factory.makeStatisticsModule()
+		module.title = Appearance.titleStatisticsVC
 		router.pushViewController(module, animated: true)
+	}
+}
+
+private extension TabbarCoordinator {
+	enum Appearance {
+		static let titleStatisticsVC = "Статистика"
 	}
 }

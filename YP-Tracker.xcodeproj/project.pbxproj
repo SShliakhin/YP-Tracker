@@ -324,11 +324,19 @@
 			path = Gradient;
 			sourceTree = "<group>";
 		};
+		5A2CFF922A614D8B009CBDA5 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				5A2CFF722A602B9F009CBDA5 /* StatisticsCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 		5A45EA5E2A0CE7AB003269D3 /* Statistics */ = {
 			isa = PBXGroup;
 			children = (
+				5A2CFF922A614D8B009CBDA5 /* Cell */,
 				5A45EA5C2A0CD9BC003269D3 /* StatisticsViewController.swift */,
-				5A2CFF722A602B9F009CBDA5 /* StatisticsCell.swift */,
 			);
 			path = Statistics;
 			sourceTree = "<group>";
