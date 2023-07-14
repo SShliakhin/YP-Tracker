@@ -78,7 +78,6 @@ extension SelectCategoryViewController: UICollectionViewDelegate {
 		didSelectItemAt indexPath: IndexPath
 	) {
 		collectionView.deselectItem(at: indexPath, animated: true)
-		// viewModel.didSelectItemAtIndex(indexPath.row)
 		viewModel.didUserDo(request: .selectItemAtIndex(indexPath.row))
 	}
 
@@ -210,7 +209,7 @@ private extension SelectCategoryViewController {
 		collectionView.delegate = self
 
 		collectionView.backgroundColor = .clear
-		collectionView.bounces = false // чтобы не скролилось никуда
+		collectionView.bounces = false
 
 		collectionView.layer.cornerRadius = Theme.dimension(kind: .cornerRadius)
 		collectionView.clipsToBounds = true
@@ -234,7 +233,6 @@ private extension SelectCategoryViewController {
 		button.layer.cornerRadius = Theme.dimension(kind: .cornerRadius)
 
 		button.event = { [weak self] in
-			// self?.viewModel.didTapAddCategoryButton()
 			self?.viewModel.didUserDo(request: .tapActionButton)
 		}
 
@@ -249,20 +247,6 @@ private extension SelectCategoryViewController {
 			guard let self = self else { return nil }
 			return self.createItemLayout()
 		}
-	}
-
-	func createLayoutSection(
-		group: NSCollectionLayoutGroup,
-		behavior: UICollectionLayoutSectionOrthogonalScrollingBehavior,
-		interGroupSpacing: CGFloat,
-		supplementaryItem: [NSCollectionLayoutBoundarySupplementaryItem]
-	) -> NSCollectionLayoutSection {
-		let section = NSCollectionLayoutSection(group: group)
-		section.orthogonalScrollingBehavior = behavior
-		section.interGroupSpacing = interGroupSpacing
-		section.boundarySupplementaryItems = supplementaryItem
-
-		return section
 	}
 
 	func createItemLayout() -> NSCollectionLayoutSection {
@@ -288,6 +272,20 @@ private extension SelectCategoryViewController {
 			interGroupSpacing: .zero, // по вертикали между группами
 			supplementaryItem: [] // нет доп вьюх
 		)
+
+		return section
+	}
+
+	func createLayoutSection(
+		group: NSCollectionLayoutGroup,
+		behavior: UICollectionLayoutSectionOrthogonalScrollingBehavior,
+		interGroupSpacing: CGFloat,
+		supplementaryItem: [NSCollectionLayoutBoundarySupplementaryItem]
+	) -> NSCollectionLayoutSection {
+		let section = NSCollectionLayoutSection(group: group)
+		section.orthogonalScrollingBehavior = behavior
+		section.interGroupSpacing = interGroupSpacing
+		section.boundarySupplementaryItems = supplementaryItem
 
 		return section
 	}

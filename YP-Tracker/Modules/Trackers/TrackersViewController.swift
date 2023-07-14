@@ -207,10 +207,6 @@ extension TrackersViewController: UICollectionViewDataSource {
 	}
 }
 
-// MARK: - UICollectionViewDelegate
-
-extension TrackersViewController: UICollectionViewDelegate {}
-
 // MARK: - UISearchResultsUpdating
 
 extension TrackersViewController: UISearchResultsUpdating {
@@ -329,7 +325,6 @@ private extension TrackersViewController {
 		])
 
 		collectionView.dataSource = self
-		collectionView.delegate = self
 
 		collectionView.backgroundColor = .clear
 
@@ -344,20 +339,6 @@ private extension TrackersViewController {
 			guard let self = self else { return nil }
 			return self.createTrackerItemLayout()
 		}
-	}
-
-	func createLayoutSection(
-		group: NSCollectionLayoutGroup,
-		behavior: UICollectionLayoutSectionOrthogonalScrollingBehavior,
-		interGroupSpacing: CGFloat,
-		supplementaryItem: [NSCollectionLayoutBoundarySupplementaryItem]
-	) -> NSCollectionLayoutSection {
-		let section = NSCollectionLayoutSection(group: group)
-		section.orthogonalScrollingBehavior = behavior
-		section.interGroupSpacing = interGroupSpacing
-		section.boundarySupplementaryItems = supplementaryItem
-
-		return section
 	}
 
 	func createTrackerItemLayout() -> NSCollectionLayoutSection {
@@ -391,6 +372,20 @@ private extension TrackersViewController {
 			bottom: 32,
 			trailing: 16
 		)
+
+		return section
+	}
+
+	func createLayoutSection(
+		group: NSCollectionLayoutGroup,
+		behavior: UICollectionLayoutSectionOrthogonalScrollingBehavior,
+		interGroupSpacing: CGFloat,
+		supplementaryItem: [NSCollectionLayoutBoundarySupplementaryItem]
+	) -> NSCollectionLayoutSection {
+		let section = NSCollectionLayoutSection(group: group)
+		section.orthogonalScrollingBehavior = behavior
+		section.interGroupSpacing = interGroupSpacing
+		section.boundarySupplementaryItems = supplementaryItem
 
 		return section
 	}
