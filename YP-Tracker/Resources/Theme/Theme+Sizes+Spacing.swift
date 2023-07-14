@@ -11,6 +11,7 @@ extension Theme {
 		case standard5
 		case constant20
 		case constant12
+		case constant77
 	}
 
 	static func spacing(usage: Spacing) -> CGFloat {
@@ -33,6 +34,8 @@ extension Theme {
 			customSpacing = 20
 		case .constant12:
 			customSpacing = 12
+		case .constant77:
+			customSpacing = 77
 		}
 
 		return customSpacing
@@ -45,8 +48,8 @@ extension Theme {
 		case mediumRadius
 		case smallRadius
 		case largeHeight
-		case mediumHeight // textFieldHeight
-		case smallHeight // buttonHeight
+		case mediumHeight
+		case smallHeight
 		case largeBorder
 		case smallBorder
 	}

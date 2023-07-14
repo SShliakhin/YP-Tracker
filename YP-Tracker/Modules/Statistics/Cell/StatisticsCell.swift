@@ -65,6 +65,7 @@ private extension StatisticsCell {
 		let stackView = UIStackView()
 		stackView.axis = .vertical
 		stackView.spacing = Theme.spacing(usage: .standard)
+		stackView.distribution = .fillProportionally
 		[
 			titleLabel,
 			descriptionLabel
@@ -74,8 +75,6 @@ private extension StatisticsCell {
 		stackView.makeEqualToSuperview(
 			insets: .init(all: Theme.spacing(usage: .constant12))
 		)
-
-		stackView.backgroundColor = Theme.color(usage: .white)
 	}
 }
 

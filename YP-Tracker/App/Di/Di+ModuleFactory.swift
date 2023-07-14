@@ -6,16 +6,15 @@ protocol IModuleFactory: AnyObject {
 	func makeStartModule() -> UIViewController
 	func makeOnboardingModule() -> (UIViewController, IOnboardingInteractor)
 	func makeTabbarModule() -> UIViewController
-	func makeStatisticsModule() -> UIViewController
+	func makeStatisticsModule() -> (UIViewController, StatisticsListViewModel)
 	func makeTrackersModule() -> (UIViewController, ITrackersInteractor)
 	func makeSelectTypeTrackerModule() -> (UIViewController, ISelectTypeTrackerInteractor)
 	func makeYPModule(trackerAction: Tracker.Action) -> (UIViewController, IYPInteractor)
 	func makeCreateEditTrackerModule(trackerAction: Tracker.Action) -> (UIViewController, ICreateEditTrackerInteractor)
 	func makeCreateEditCategoryModule(trackerAction: Tracker.Action) -> (UIViewController, ICreateEditCategoryInteractor)
-	func makeCoreDataTrainerModule() -> UIViewController
-
-	// Study MVVM
 	func makeCategoriesListModuleMVVM(trackerAction: Tracker.Action) -> (UIViewController, CategoriesListViewModel)
+
+	func makeCoreDataTrainerModule() -> UIViewController
 }
 
 extension Di {
@@ -38,8 +37,13 @@ extension Di {
 		return TabbarViewController()
 	}
 
-	func makeStatisticsModule(dep: AllDependencies) -> UIViewController {
-		return StatisticsViewController()
+	func makeStatisticsModule(dep: AllDependencies) -> (UIViewController, StatisticsListViewModel) {
+		let viewModel = DefaultStatisticsListViewModel(
+			dep: dep
+		)
+		let view = StatisticsViewController(viewModel: viewModel)
+
+		return (view, viewModel)
 	}
 
 	func makeTrackersModule(

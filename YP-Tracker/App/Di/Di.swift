@@ -126,7 +126,7 @@ extension Di: IModuleFactory {
 	func makeTabbarModule() -> UIViewController {
 		makeTabbarModule(dep: dependencies)
 	}
-	func makeStatisticsModule() -> UIViewController {
+	func makeStatisticsModule() -> (UIViewController, StatisticsListViewModel) {
 		makeStatisticsModule(dep: dependencies)
 	}
 	func makeTrackersModule() -> (UIViewController, ITrackersInteractor) {

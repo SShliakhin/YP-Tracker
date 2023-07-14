@@ -21,7 +21,7 @@ final class StatisticsCoordinator: BaseCoordinator {
 // MARK: - show Modules
 private extension StatisticsCoordinator {
 	func showStatisticsModule() {
-		let module = factory.makeStatisticsModule()
+		let (module, _) = factory.makeStatisticsModule()
 		module.title = Appearance.titleStatisticsVC
 		router.setRootModule(module)
 	}

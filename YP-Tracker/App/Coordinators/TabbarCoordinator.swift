@@ -87,7 +87,7 @@ private extension TabbarCoordinator {
 	}
 
 	func showStatisticsModuleInTab(router: UINavigationController) {
-		let module = factory.makeStatisticsModule()
+		let (module, _) = factory.makeStatisticsModule()
 		module.title = Appearance.titleStatisticsVC
 		router.pushViewController(module, animated: true)
 	}

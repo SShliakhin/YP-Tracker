@@ -24,6 +24,8 @@
 		5A2CFF732A602B9F009CBDA5 /* StatisticsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2CFF722A602B9F009CBDA5 /* StatisticsCell.swift */; };
 		5A2CFF8E2A607709009CBDA5 /* UIImage+Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2CFF8D2A607706009CBDA5 /* UIImage+Gradient.swift */; };
 		5A2CFF902A6079F2009CBDA5 /* GradientDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2CFF8F2A6079F2009CBDA5 /* GradientDirection.swift */; };
+		5A2CFF942A615E12009CBDA5 /* StatisticsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2CFF932A615E12009CBDA5 /* StatisticsListViewModel.swift */; };
+		5A2CFF962A6164D8009CBDA5 /* StatisticsListItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2CFF952A6164D8009CBDA5 /* StatisticsListItemViewModel.swift */; };
 		5A45EA5D2A0CD9BC003269D3 /* StatisticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A45EA5C2A0CD9BC003269D3 /* StatisticsViewController.swift */; };
 		5A45EA602A0CE96D003269D3 /* TrackersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A45EA5F2A0CE96D003269D3 /* TrackersViewController.swift */; };
 		5A45EA672A0D22CE003269D3 /* EmptyInputData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A45EA632A0D22CE003269D3 /* EmptyInputData.swift */; };
@@ -154,6 +156,8 @@
 		5A2CFF722A602B9F009CBDA5 /* StatisticsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsCell.swift; sourceTree = "<group>"; };
 		5A2CFF8D2A607706009CBDA5 /* UIImage+Gradient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Gradient.swift"; sourceTree = "<group>"; };
 		5A2CFF8F2A6079F2009CBDA5 /* GradientDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientDirection.swift; sourceTree = "<group>"; };
+		5A2CFF932A615E12009CBDA5 /* StatisticsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsListViewModel.swift; sourceTree = "<group>"; };
+		5A2CFF952A6164D8009CBDA5 /* StatisticsListItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsListItemViewModel.swift; sourceTree = "<group>"; };
 		5A45EA5C2A0CD9BC003269D3 /* StatisticsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsViewController.swift; sourceTree = "<group>"; };
 		5A45EA5F2A0CE96D003269D3 /* TrackersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersViewController.swift; sourceTree = "<group>"; };
 		5A45EA632A0D22CE003269D3 /* EmptyInputData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptyInputData.swift; sourceTree = "<group>"; };
@@ -332,10 +336,20 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
+		5A2CFF972A6169B9009CBDA5 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				5A2CFF932A615E12009CBDA5 /* StatisticsListViewModel.swift */,
+				5A2CFF952A6164D8009CBDA5 /* StatisticsListItemViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		5A45EA5E2A0CE7AB003269D3 /* Statistics */ = {
 			isa = PBXGroup;
 			children = (
 				5A2CFF922A614D8B009CBDA5 /* Cell */,
+				5A2CFF972A6169B9009CBDA5 /* ViewModel */,
 				5A45EA5C2A0CD9BC003269D3 /* StatisticsViewController.swift */,
 			);
 			path = Statistics;
@@ -895,6 +909,7 @@
 				5AE12A2B2A0B936B0054D782 /* Theme+DateFormatter.swift in Sources */,
 				5AE6BDEF2A197BCD0068CB53 /* YPModels.swift in Sources */,
 				5A930CF42A58A728005094E7 /* LocalState.swift in Sources */,
+				5A2CFF962A6164D8009CBDA5 /* StatisticsListItemViewModel.swift in Sources */,
 				5A45EA5D2A0CD9BC003269D3 /* StatisticsViewController.swift in Sources */,
 				5ADD1F0929E38E6E0072EE78 /* UIColor+Hex.swift in Sources */,
 				5A8D1DB52A0DAFAB00A2924F /* TrackerCategory.swift in Sources */,
@@ -950,6 +965,7 @@
 				5AA5FA2B2A13CDCC0056633B /* ICellViewModel.swift in Sources */,
 				5AE12A272A0B926D0054D782 /* Theme+Images.swift in Sources */,
 				5A2837672A3EF12B00513B91 /* UIViewController+hideKeyboard.swift in Sources */,
+				5A2CFF942A615E12009CBDA5 /* StatisticsListViewModel.swift in Sources */,
 				5A45EA682A0D22CE003269D3 /* EmptyView.swift in Sources */,
 				5A91DEDA29E12F82001A23C3 /* UIViewController+Preview.swift in Sources */,
 				5AA7AD102A16AA590022C334 /* HeaderSupplementaryView.swift in Sources */,

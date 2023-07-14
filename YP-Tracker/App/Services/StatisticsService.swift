@@ -90,3 +90,20 @@ extension StatisticsService: StatisticsOut {
 		}
 	}
 }
+
+final class StatisticsMockOut: StatisticsOut {
+	var statistics: [StatisticsItem] {
+		let array: [StatisticsType] = [
+			.bestPeriod([:]),
+			.idealDays([]),
+			.completedTrackers(1),
+			.averageValue([:])
+		]
+		return array.map {
+			.init(
+				description: $0.description,
+				value: $0.value
+			)
+		}
+	}
+}
