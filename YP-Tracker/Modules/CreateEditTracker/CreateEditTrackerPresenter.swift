@@ -29,7 +29,7 @@ final class CreateEditTrackerPresenter: ICreateEditTrackerPresenter {
 
 			let totalCompletionsString = updateBox.totalCompletions == 0
 			? ""
-			: "\(updateBox.totalCompletions) дн./дней"
+			: Theme.Localizable.daysCount(count: updateBox.totalCompletions)
 
 			let update = CreateEditTrackerModels.ViewModel.UpdateBox(
 				hasSchedule: updateBox.hasSchedule,
