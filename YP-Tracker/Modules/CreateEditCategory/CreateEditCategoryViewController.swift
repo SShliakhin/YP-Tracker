@@ -187,7 +187,7 @@ private extension CreateEditCategoryViewController {
 	func makeTitleTextField() -> UITextField {
 		let textField = UITextField()
 
-		textField.placeholder = Appearance.textFieldPlaceholder
+		textField.placeholder = CategoryNames.textFieldPlaceholder
 		textField.backgroundColor = .clear
 		textField.textColor = Theme.color(usage: .main)
 		textField.font = Theme.font(style: .body)
@@ -201,7 +201,7 @@ private extension CreateEditCategoryViewController {
 	}
 	func makeTitleCharactersLimitLabel() -> UILabel {
 		let label = UILabel()
-		label.text = Appearance.titleLimitMessage
+		label.text = CategoryNames.titleLimitMessage
 		label.textAlignment = .center
 		label.textColor = Theme.color(usage: .attention)
 		label.font = Theme.font(style: .body)
@@ -234,7 +234,7 @@ private extension CreateEditCategoryViewController {
 			button.titleLabel?.font = Theme.font(style: .callout)
 			switch self {
 			case .save:
-				button.setTitle(Appearance.titleEventButton, for: .normal)
+				button.setTitle(ActionsNames.readyButtonTitle, for: .normal)
 				button.setTitleColor(Theme.color(usage: .white), for: .normal)
 			}
 		}
@@ -256,18 +256,5 @@ private extension CreateEditCategoryViewController {
 private extension CreateEditCategoryViewController {
 	enum Appearance {
 		static let textFieldLimit = 24
-
-		static let textFieldPlaceholder = NSLocalizedString(
-			"category.inputTitle.placeholder",
-			comment: "Плейсхолдер для ввода заголовка категории"
-		)
-		static let titleLimitMessage = NSLocalizedString(
-			"category.errorTitle.overLimit24Characters",
-			comment: "Превышение лимита в 24 символа при вводе заголовка категории"
-		)
-		static let titleEventButton = NSLocalizedString(
-			"button.commonTitle.ready",
-			comment: "Заголовок для кнопки: Готово"
-		)
 	}
 }

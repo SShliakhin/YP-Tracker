@@ -24,12 +24,12 @@ final class CreateEditTrackerPresenter: ICreateEditTrackerPresenter {
 			)
 
 			let saveTitle = updateBox.isNewTracker
-			? Appearance.titleCreate
-			: Appearance.titleSave
+			? ActionsNames.createButtonTitle
+			: ActionsNames.saveButtonTitle
 
 			let totalCompletionsString = updateBox.totalCompletions == 0
 			? ""
-			: Theme.Localizable.daysCount(count: updateBox.totalCompletions)
+			: Theme.DynamicText.daysCount(count: updateBox.totalCompletions)
 
 			let update = CreateEditTrackerModels.ViewModel.UpdateBox(
 				hasSchedule: updateBox.hasSchedule,
@@ -156,20 +156,6 @@ private extension CreateEditTrackerPresenter {
 				isSelected: false,
 				event: nil
 			)
-		)
-	}
-}
-
-// MARK: - Appearance
-private extension CreateEditTrackerPresenter {
-	enum Appearance {
-		static let titleCreate = NSLocalizedString(
-			"button.commonTitle.create",
-			comment: "Заголовок для кнопки: Создать"
-		)
-		static let titleSave = NSLocalizedString(
-			"button.commonTitle.save",
-			comment: "Заголовок для кнопки: Сохранить"
 		)
 	}
 }

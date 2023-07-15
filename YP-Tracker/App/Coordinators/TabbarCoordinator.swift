@@ -88,16 +88,7 @@ private extension TabbarCoordinator {
 
 	func showStatisticsModuleInTab(router: UINavigationController) {
 		let (module, _) = factory.makeStatisticsModule()
-		module.title = Appearance.titleStatisticsVC
+		module.title = ScreensTitles.titleStatisticsVC
 		router.pushViewController(module, animated: true)
-	}
-}
-
-private extension TabbarCoordinator {
-	enum Appearance {
-		static let titleStatisticsVC = NSLocalizedString(
-			"vc.statistics.title",
-			comment: "Заголовок экрана Статистика"
-		)
 	}
 }

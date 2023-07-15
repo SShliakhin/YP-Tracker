@@ -78,7 +78,7 @@ private extension YPPresenter {
 		return .showSchedule(
 			.init(
 				dataSource: dataSource,
-				titleButtonAction: Appearance.readyButtonTitle
+				titleButtonAction: ActionsNames.readyButtonTitle
 			)
 		)
 	}
@@ -106,7 +106,7 @@ private extension YPPresenter {
 		return .showCategories(
 			.init(
 				dataSource: dataSource,
-				titleButtonAction: Appearance.addCategoryButtonTitle
+				titleButtonAction: CategoryNames.addCategoryButtonTitle
 			)
 		)
 	}
@@ -122,18 +122,5 @@ private extension YPPresenter {
 			outCorner = [.bottom]
 		}
 		return (hasDivider, outCorner)
-	}
-}
-
-private extension YPPresenter {
-	enum Appearance {
-		static let readyButtonTitle = NSLocalizedString(
-			"button.commonTitle.ready",
-			comment: "Заголовок для кнопки: Готово"
-		)
-		static let addCategoryButtonTitle = NSLocalizedString(
-			"category.add.buttonTitle",
-			comment: "Заголовок для кнопки: Добавить категорию"
-		)
 	}
 }

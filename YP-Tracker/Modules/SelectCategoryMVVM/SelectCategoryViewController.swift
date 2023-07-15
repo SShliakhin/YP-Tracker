@@ -96,12 +96,12 @@ extension SelectCategoryViewController: UICollectionViewDelegate {
 					children:
 						[
 							UIAction(
-								title: Appearance.menuEdit
+								title: ActionsNames.menuEdit
 							) { [weak self] _ in
 								self?.viewModel.didUserDo(request: .editCategory(indexPaths.row))
 							},
 							UIAction(
-								title: Appearance.menuDelete,
+								title: ActionsNames.menuDelete,
 								attributes: .destructive
 							) { [weak self] _ in
 								self?.deleteRequest(indexPaths)
@@ -115,12 +115,12 @@ extension SelectCategoryViewController: UICollectionViewDelegate {
 	private func deleteRequest(_ indexPath: IndexPath) {
 		let alert = UIAlertController(
 			title: nil,
-			message: Appearance.deleteRequestMessage,
+			message: TrackerNames.deleteRequestMessage,
 			preferredStyle: .actionSheet
 		)
 		alert.addAction(
 			.init(
-				title: Appearance.deleteRequestDeleteTitle,
+				title: ActionsNames.deleteButtonTitle,
 				style: .destructive
 			) { [weak self] _ in
 				self?.viewModel.didUserDo(request: .deleteCategory(indexPath.row))
@@ -128,7 +128,7 @@ extension SelectCategoryViewController: UICollectionViewDelegate {
 		)
 		alert.addAction(
 			.init(
-				title: Appearance.deleteRequestCancelTitle,
+				title: ActionsNames.cancelButtonTitle,
 				style: .cancel
 			)
 		)
@@ -226,7 +226,7 @@ private extension SelectCategoryViewController {
 	func makeActionButton() -> UIButton {
 		let button = UIButton()
 
-		button.setTitle(Appearance.actionButtonTitle, for: .normal)
+		button.setTitle(CategoryNames.addCategoryButtonTitle, for: .normal)
 		button.setTitleColor(Theme.color(usage: .white), for: .normal)
 		button.titleLabel?.font = Theme.font(style: .callout)
 		button.backgroundColor = Theme.color(usage: .black)
@@ -288,35 +288,5 @@ private extension SelectCategoryViewController {
 		section.boundarySupplementaryItems = supplementaryItem
 
 		return section
-	}
-}
-
-// MARK: - Appearance
-private extension SelectCategoryViewController {
-	enum Appearance {
-		static let actionButtonTitle = NSLocalizedString(
-			"category.add.buttonTitle",
-			comment: "Заголовок для кнопки: Добавить категорию"
-		)
-		static let menuEdit = NSLocalizedString(
-			"menu.commonTitle.edit",
-			comment: "Заголовок для меню: Редактировать"
-		)
-		static let menuDelete = NSLocalizedString(
-			"menu.commonTitle.delete",
-			comment: "Заголовок для меню: Удалить"
-		)
-		static let deleteRequestMessage = NSLocalizedString(
-			"category.requestDelete.message",
-			comment: "Запрос-сообщение на удаление категории"
-		)
-		static let deleteRequestDeleteTitle = NSLocalizedString(
-			"button.commonTitle.delete",
-			comment: "Заголовок для кнопки: Удалить"
-		)
-		static let deleteRequestCancelTitle = NSLocalizedString(
-			"button.commonTitle.cancel",
-			comment: "Заголовок для кнопки: Отменить"
-		)
 	}
 }

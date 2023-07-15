@@ -330,7 +330,7 @@ private extension CreateEditTrackerViewController {
 	func makeTitleTextField() -> UITextField {
 		let textField = UITextField()
 
-		textField.placeholder = Appearance.textFieldPlaceholder
+		textField.placeholder = TrackerNames.textFieldPlaceholder
 		textField.backgroundColor = .clear
 		textField.textColor = Theme.color(usage: .main)
 		textField.font = Theme.font(style: .body)
@@ -344,7 +344,7 @@ private extension CreateEditTrackerViewController {
 	}
 	func makeTitleCharactersLimitLabel() -> UILabel {
 		let label = UILabel()
-		label.text = Appearance.titleLimitMessage
+		label.text = TrackerNames.titleLimitMessage
 		label.textAlignment = .center
 		label.textColor = Theme.color(usage: .attention)
 		label.font = Theme.font(style: .body)
@@ -518,10 +518,10 @@ private extension CreateEditTrackerViewController {
 			button.titleLabel?.font = Theme.font(style: .callout)
 			switch self {
 			case .save:
-				button.setTitle(Appearance.titleCreateButton, for: .normal)
+				button.setTitle(ActionsNames.createButtonTitle, for: .normal)
 				button.setTitleColor(Theme.color(usage: .white), for: .normal)
 			case .cancel:
-				button.setTitle(Appearance.titleCancelButton, for: .normal)
+				button.setTitle(ActionsNames.cancelButtonTitle, for: .normal)
 				button.setTitleColor(Theme.color(usage: .attention), for: .normal)
 			}
 		}
@@ -551,22 +551,5 @@ private extension CreateEditTrackerViewController {
 		static let colllectionViewHeight: CGFloat = 543.0
 		static let itemHeight = 52.0
 		static let itemCount = 6
-
-		static let textFieldPlaceholder = NSLocalizedString(
-			"tracker.inputTitle.placeholder",
-			comment: "Плейсхолдер для ввода заголовка трекера"
-		)
-		static let titleLimitMessage = NSLocalizedString(
-			"tracker.errorTitle.overLimit38Characters",
-			comment: "Превышение лимита в 38 символов при вводе заголовка трекера"
-		)
-		static let titleCreateButton = NSLocalizedString(
-			"button.commonTitle.create",
-			comment: "Заголовок для кнопки: Создать"
-		)
-		static let titleCancelButton = NSLocalizedString(
-			"button.commonTitle.cancel",
-			comment: "Заголовок для кнопки: Отменить"
-		)
 	}
 }

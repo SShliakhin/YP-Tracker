@@ -80,19 +80,19 @@ private extension TrackersViewController {
 
 	func makeContextMenuByPlace(section: Int, row: Int) -> UIContextMenuConfiguration {
 		let pinUnpinTitle = dataSource[section].trackers[row].isPinned
-		? Appearance.menuTrackerUnpin
-		: Appearance.menuTrackerPin
+		? ActionsNames.menuTrackerUnpin
+		: ActionsNames.menuTrackerPin
 
 		let pinUnpinAction = UIAction(title: pinUnpinTitle) { [weak self] _ in
 			self?.interactor.didUserDo(request: .pinUnpin(section, row))
 		}
 
-		let editAction = UIAction(title: Appearance.menuTrackerEdit) { [weak self] _ in
+		let editAction = UIAction(title: ActionsNames.menuEdit) { [weak self] _ in
 			self?.interactor.didUserDo(request: .editTracker(section, row))
 		}
 
 		let deleteAction = UIAction(
-			title: Appearance.menuTrackerDelete,
+			title: ActionsNames.menuDelete,
 			attributes: .destructive
 		) { [weak self] _ in
 			self?.deleteRequestByPlace(section: section, row: row)
@@ -113,12 +113,12 @@ private extension TrackersViewController {
 	func deleteRequestByPlace(section: Int, row: Int) {
 		let alert = UIAlertController(
 			title: nil,
-			message: Appearance.deleteRequestMessage,
+			message: TrackerNames.deleteRequestMessage,
 			preferredStyle: .actionSheet
 		)
 		alert.addAction(
 			.init(
-				title: Appearance.deleteRequestDeleteTitle,
+				title: ActionsNames.deleteButtonTitle,
 				style: .destructive
 			) { [weak self] _ in
 				self?.interactor.didUserDo(request: .deleteTracker(section, row))
@@ -126,7 +126,7 @@ private extension TrackersViewController {
 		)
 		alert.addAction(
 			.init(
-				title: Appearance.deleteRequestCancelTitle,
+				title: ActionsNames.cancelButtonTitle,
 				style: .cancel
 			)
 		)
@@ -280,7 +280,7 @@ private extension TrackersViewController {
 		]
 
 		search.searchBar.searchTextField.attributedPlaceholder = NSAttributedString(
-			string: Appearance.searchPlaceholder,
+			string: TrackerNames.searchPlaceholder,
 			attributes: attributes
 		)
 
@@ -293,7 +293,7 @@ private extension TrackersViewController {
 	func makeFiltersButton() -> UIButton {
 		let button = UIButton()
 
-		button.setTitle(Appearance.filtersButtonTitle, for: .normal)
+		button.setTitle(TrackerNames.filtersButtonTitle, for: .normal)
 		button.setTitleColor(Theme.color(usage: .allDayWhite), for: .normal)
 		button.titleLabel?.font = Theme.font(style: .body)
 		button.backgroundColor = Theme.color(usage: .accent)
@@ -412,42 +412,5 @@ private extension TrackersViewController {
 private extension TrackersViewController {
 	enum Appearance {
 		static let datePickerWidth: CGFloat = 77
-
-		static let filtersButtonTitle = NSLocalizedString(
-			"tracker.filters.buttonTitle",
-			comment: "Заголовок для кнопки: Фильтры"
-		)
-		static let searchPlaceholder = NSLocalizedString(
-			"tracker.search.placeholder",
-			comment: "Плейсхолдер для ввода строки поиска"
-		)
-		static let menuTrackerPin = NSLocalizedString(
-			"menu.commonTitle.pin",
-			comment: "Заголовок для меню: Закрепить"
-		)
-		static let menuTrackerUnpin = NSLocalizedString(
-			"menu.commonTitle.unpin",
-			comment: "Заголовок для меню: Открепить"
-		)
-		static let menuTrackerEdit = NSLocalizedString(
-			"menu.commonTitle.edit",
-			comment: "Заголовок для меню: Редактировать"
-		)
-		static let menuTrackerDelete = NSLocalizedString(
-			"menu.commonTitle.delete",
-			comment: "Заголовок для меню: Удалить"
-		)
-		static let deleteRequestMessage = NSLocalizedString(
-			"tracker.requestDelete.message",
-			comment: "Запрос-сообщение на удаление трекера"
-		)
-		static let deleteRequestDeleteTitle = NSLocalizedString(
-			"button.commonTitle.delete",
-			comment: "Заголовок для кнопки: Удалить"
-		)
-		static let deleteRequestCancelTitle = NSLocalizedString(
-			"button.commonTitle.cancel",
-			comment: "Заголовок для кнопки: Отменить"
-		)
 	}
 }

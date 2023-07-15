@@ -163,7 +163,7 @@ private extension CategoriesProvider {
 		if !pinnedUUID.isEmpty {
 			let pinnedTrackersCategory = TrackerCategory(
 				id: UUID(),
-				title: Appearance.pinnedCategoryTitle,
+				title: CategoryNames.pinnedCategoryTitle,
 				trackers: pinnedUUID
 			)
 			categories.append(pinnedTrackersCategory)
@@ -188,14 +188,5 @@ private extension CategoriesProvider {
 		)
 
 		return categories
-	}
-}
-
-private extension CategoriesProvider {
-	enum Appearance {
-		static let pinnedCategoryTitle = NSLocalizedString(
-			"category.pinnedTrackers.title",
-			comment: "Название категории с закрепленными трекерами"
-		)
 	}
 }

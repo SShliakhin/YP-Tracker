@@ -75,7 +75,7 @@ private extension TrackersCoordinator {
 				self?.showSelectFilterModule(currentFilter: filter)
 			}
 		}
-		module.title = Appearance.titleTrackersVC
+		module.title = ScreensTitles.titleTrackersVC
 		router.setRootModule(module)
 	}
 
@@ -89,7 +89,7 @@ private extension TrackersCoordinator {
 				self?.onUpdateFilter?(filter)
 			}
 		}
-		module.title = Appearance.titleFiltersVC
+		module.title = ScreensTitles.titleFiltersVC
 		router.present(UINavigationController(rootViewController: module))
 	}
 
@@ -102,24 +102,7 @@ private extension TrackersCoordinator {
 				self?.runCreateNewTrackerFlow(trackerType: type)
 			}
 		}
-		module.title = Appearance.titleSelectTrackerTypeVC
+		module.title = ScreensTitles.titleSelectTrackerTypeVC
 		router.present(UINavigationController(rootViewController: module))
-	}
-}
-
-private extension TrackersCoordinator {
-	enum Appearance {
-		static let titleTrackersVC = NSLocalizedString(
-			"vc.trackers.title",
-			comment: "Заголовок экрана Трекеры"
-		)
-		static let titleFiltersVC = NSLocalizedString(
-			"vc.filters.title",
-			comment: "Заголовок экрана Фильтры"
-		)
-		static let titleSelectTrackerTypeVC = NSLocalizedString(
-			"vc.selectTrackerType.title",
-			comment: "Заголовок экрана Создание трекера"
-		)
 	}
 }

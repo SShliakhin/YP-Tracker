@@ -14,13 +14,13 @@ enum StatisticsType: CustomStringConvertible {
 	var description: String {
 		switch self {
 		case .bestPeriod:
-			return Appearance.bestPeriodTitle
+			return Theme.Texts.StatisticsTypes.bestPeriodTitle
 		case .idealDays:
-			return Appearance.idealDaysTitle
+			return Theme.Texts.StatisticsTypes.idealDaysTitle
 		case .completedTrackers:
-			return Appearance.completedTrackersTitle
+			return Theme.Texts.StatisticsTypes.completedTrackersTitle
 		case .averageValue:
-			return Appearance.averageValueTitle
+			return Theme.Texts.StatisticsTypes.averageValueTitle
 		}
 	}
 
@@ -69,26 +69,5 @@ enum StatisticsType: CustomStringConvertible {
 		}
 
 		return maxDays
-	}
-}
-
-private extension StatisticsType {
-	enum Appearance {
-		static let bestPeriodTitle = NSLocalizedString(
-			"statistics.bestPeriod.title",
-			comment: "Заголовок статистики: Лучший период"
-		)
-		static let idealDaysTitle = NSLocalizedString(
-			"statistics.idealDays.title",
-			comment: "Заголовок статистики: Идеальные дни"
-		)
-		static let completedTrackersTitle = NSLocalizedString(
-			"statistics.completedTrackers.title",
-			comment: "Заголовок статистики: Трекеров завершено"
-		)
-		static let averageValueTitle = NSLocalizedString(
-			"statistics.averageValue.title",
-			comment: "Заголовок статистики: Среднее значение"
-		)
 	}
 }

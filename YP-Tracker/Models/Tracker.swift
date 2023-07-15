@@ -11,7 +11,7 @@ struct Tracker: Identifiable, Hashable {
 	var scheduleString: String {
 		let allSelectedDays = schedule.filter { $0.value }
 		if allSelectedDays.count == 7 {
-			return Appearance.everyDay
+			return Theme.Texts.ScheduleNames.everyDay
 		} else {
 			return allSelectedDays
 				.sorted { $0.key < $1.key }
@@ -46,9 +46,9 @@ extension Tracker {
 		var description: String {
 			switch self {
 			case .habit:
-				return Appearance.habit
+				return TrackerNames.habit
 			case .event:
-				return Appearance.event
+				return TrackerNames.event
 			}
 		}
 	}
@@ -60,23 +60,5 @@ extension Tracker {
 		case selectFilter(TrackerFilter)
 		case addCategory
 		case editCategory(UUID)
-	}
-}
-
-// MARK: - Appearance
-private extension Tracker {
-	enum Appearance {
-		static let habit = NSLocalizedString(
-			"tracker.type.habit",
-			comment: "Тип трекера: Привычка"
-		)
-		static let event = NSLocalizedString(
-			"tracker.type.event",
-			comment: "Тип трекера: Нерегулярное событие"
-		)
-		static let everyDay = NSLocalizedString(
-			"schedule.everyDay.description",
-			comment: "Вариант описания расписания: Каждый день"
-		)
 	}
 }

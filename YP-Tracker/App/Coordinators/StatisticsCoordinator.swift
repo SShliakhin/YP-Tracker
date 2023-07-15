@@ -24,16 +24,7 @@ final class StatisticsCoordinator: BaseCoordinator {
 private extension StatisticsCoordinator {
 	func showStatisticsModule() {
 		let (module, _) = factory.makeStatisticsModule()
-		module.title = Appearance.titleStatisticsVC
+		module.title = ScreensTitles.titleStatisticsVC
 		router.setRootModule(module)
-	}
-}
-
-private extension StatisticsCoordinator {
-	enum Appearance {
-		static let titleStatisticsVC = NSLocalizedString(
-			"vc.statistics.title",
-			comment: "Заголовок экрана Статистика"
-		)
 	}
 }

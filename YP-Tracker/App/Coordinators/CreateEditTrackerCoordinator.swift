@@ -83,13 +83,13 @@ private extension CreateEditTrackerCoordinator {
 			if case .addCategory = event {
 				self?.showCreateEditCategoryModule(
 					trackerAction: .addCategory,
-					titleVC: Appearance.titleAddCategoryVC,
+					titleVC: ScreensTitles.titleAddCategoryVC,
 					router: module
 				)
 			}
 			// внедрить новый функционал по категориям в общий YPModule сложно
 		}
-		module.title = Appearance.titleCategoryVC
+		module.title = ScreensTitles.titleCategoryVC
 		router?.present(UINavigationController(rootViewController: module), animated: true)
 	}
 
@@ -109,19 +109,19 @@ private extension CreateEditTrackerCoordinator {
 			if case .addCategory = event {
 				self?.showCreateEditCategoryModule(
 					trackerAction: .addCategory,
-					titleVC: Appearance.titleAddCategoryVC,
+					titleVC: ScreensTitles.titleAddCategoryVC,
 					router: module
 				)
 			}
 			if case let .editCategory(categoryID) = event {
 				self?.showCreateEditCategoryModule(
 					trackerAction: .editCategory(categoryID),
-					titleVC: Appearance.titleEditTrackerVC,
+					titleVC: ScreensTitles.titleEditCategoryVC,
 					router: module
 				)
 			}
 		}
-		module.title = Appearance.titleCategoryVC
+		module.title = ScreensTitles.titleCategoryVC
 		router?.present(UINavigationController(rootViewController: module), animated: true)
 	}
 
@@ -135,7 +135,7 @@ private extension CreateEditTrackerCoordinator {
 				self?.onUpdateSchedule?(schedule)
 			}
 		}
-		module.title = Appearance.titleScheduleVC
+		module.title = ScreensTitles.titleScheduleVC
 		router?.present(UINavigationController(rootViewController: module), animated: true)
 	}
 
@@ -157,52 +157,17 @@ private extension CreateEditTrackerCoordinator {
 }
 
 private extension CreateEditTrackerCoordinator {
-	enum Appearance {
-		static let titleHabitVC = NSLocalizedString(
-			"vc.newHabit.title",
-			comment: "Заголовок экрана Новая привычка"
-		)
-		static let titleEventVC = NSLocalizedString(
-			"vc.newEvent.title",
-			comment: "Заголовок экрана Новое нерегулярное событие"
-		)
-		static let titleCategoryVC = NSLocalizedString(
-			"vc.selectCategory.title",
-			comment: "Заголовок экрана Категория"
-		)
-		static let titleScheduleVC = NSLocalizedString(
-			"vc.selectSchedule.title",
-			comment: "Заголовок экрана Расписание"
-		)
-		static let titleAddCategoryVC = NSLocalizedString(
-			"vc.newCategory.title",
-			comment: "Заголовок экрана Новая категория"
-		)
-		static let titleEditCategoryVC = NSLocalizedString(
-			"vc.editCategory.title",
-			comment: "Заголовок экрана Редактирование категории"
-		)
-		static let titleEditTrackerVC = NSLocalizedString(
-			"vc.editTracker.title",
-			comment: "Заголовок экрана Редактирование привычки"
-		)
-		static let defaultTitle = NSLocalizedString(
-			"vc.default.title",
-			comment: "Заголовок экрана по умолчанию"
-		)
-	}
-
 	func makeTitle() -> String {
 		if case let Tracker.Action.new(trackerType) = trackerAction {
 			if trackerType == .habit {
-				return Appearance.titleHabitVC
+				return ScreensTitles.titleHabitVC
 			} else {
-				return Appearance.titleEventVC
+				return ScreensTitles.titleEventVC
 			}
 		}
 		if case Tracker.Action.edit = trackerAction {
-			return Appearance.titleEditTrackerVC
+			return ScreensTitles.titleEditTrackerVC
 		}
-		return Appearance.defaultTitle
+		return ScreensTitles.defaultTitle
 	}
 }

@@ -74,7 +74,10 @@ private extension OnboardingViewController {
 	func makeActionButton() -> UIButton {
 		let button = UIButton()
 
-		button.setTitle(Appearance.buttonTitle, for: .normal)
+		button.setTitle(
+			Theme.Texts.OnboardingPages.buttonTitle,
+			for: .normal
+		)
 		button.setTitleColor(Theme.color(usage: .white), for: .normal)
 		button.titleLabel?.font = Theme.font(style: .callout)
 		button.backgroundColor = Theme.color(usage: .black)
@@ -92,10 +95,5 @@ private extension OnboardingViewController {
 private extension OnboardingViewController {
 	enum Appearance {
 		static let buttonBottomAnchorConstant: CGFloat = 50
-
-		static let buttonTitle = NSLocalizedString(
-			"onboarding.button.title",
-			comment: "Заголовок для кнопки прекращения онбординга"
-		)
 	}
 }

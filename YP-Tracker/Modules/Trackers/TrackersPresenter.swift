@@ -29,7 +29,7 @@ final class TrackersPresenter: ITrackersPresenter {
 							colorString: val.tracker.color,
 							emoji: val.tracker.emoji,
 							title: val.tracker.title,
-							dayTime: Theme.Localizable.daysCount(count: val.allTimes),
+							dayTime: Theme.DynamicText.daysCount(count: val.allTimes),
 							isCompleted: val.completed,
 							isButtonEnabled: isActionEnabled,
 							isPinned: val.tracker.pinned,
