@@ -25,7 +25,13 @@ enum OnboardingPage: CaseIterable {
 
 private extension OnboardingPage {
 	enum Appearance {
-		static let blueTextValue = "Отслеживайте только\nто, что хотите"
-		static let redTextValue = "Даже если это\nне литры воды и йога"
+		static let blueTextValue = NSLocalizedString(
+			"onboarding.bluePage.text",
+			comment: "Текст на голубой странице онбординга"
+		)
+		static let redTextValue = NSLocalizedString(
+			"onboarding.redPage.text",
+			comment: "Текст на красной странице онбординга"
+		)
 	}
 }

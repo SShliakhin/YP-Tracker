@@ -1,3 +1,5 @@
+import Foundation
+
 final class StatisticsCoordinator: BaseCoordinator {
 	private let factory: IModuleFactory
 	private let router: Router
@@ -29,6 +31,9 @@ private extension StatisticsCoordinator {
 
 private extension StatisticsCoordinator {
 	enum Appearance {
-		static let titleStatisticsVC = "Статистика"
+		static let titleStatisticsVC = NSLocalizedString(
+			"vc.statistics.title",
+			comment: "Заголовок экрана Статистика"
+		)
 	}
 }

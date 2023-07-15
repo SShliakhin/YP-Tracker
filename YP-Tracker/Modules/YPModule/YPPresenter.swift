@@ -127,7 +127,13 @@ private extension YPPresenter {
 
 private extension YPPresenter {
 	enum Appearance {
-		static let readyButtonTitle = "Готово"
-		static let addCategoryButtonTitle = "Добавить категорию"
+		static let readyButtonTitle = NSLocalizedString(
+			"button.commonTitle.ready",
+			comment: "Заголовок для кнопки: Готово"
+		)
+		static let addCategoryButtonTitle = NSLocalizedString(
+			"category.add.buttonTitle",
+			comment: "Заголовок для кнопки: Добавить категорию"
+		)
 	}
 }

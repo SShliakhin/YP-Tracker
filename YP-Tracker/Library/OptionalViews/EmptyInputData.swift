@@ -26,9 +26,21 @@ extension EmptyInputData {
 
 private extension EmptyInputData {
 	enum Appearance {
-		static let emptySearchListMessage = "Ничего не найдено"
-		static let emptyTrackersListMessage = "Что будем отслеживать?"
-		static let emptyCategoriesListMessage = "Привычки и события можно\nобъединить по смыслу"
-		static let emptyStatisticsListMessage = "Анализировать пока нечего"
+		static let emptySearchListMessage = NSLocalizedString(
+			"empty.searchList.message",
+			comment: "Сообщение при неудачном поиске по текстовому шаблону"
+		)
+		static let emptyTrackersListMessage = NSLocalizedString(
+			"empty.trackersList.message",
+			comment: "Сообщение при отсутствие трекеров в базе"
+		)
+		static let emptyCategoriesListMessage = NSLocalizedString(
+			"empty.categoriesList.message",
+			comment: "Сообщение при отсутствие категорий в базе"
+		)
+		static let emptyStatisticsListMessage = NSLocalizedString(
+			"empty.statisticsList.message",
+			comment: "Сообщение при отсутствие статистики в базе"
+		)
 	}
 }

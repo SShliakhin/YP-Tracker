@@ -158,14 +158,38 @@ private extension CreateEditTrackerCoordinator {
 
 private extension CreateEditTrackerCoordinator {
 	enum Appearance {
-		static let titleHabitVC = "Новая привычка"
-		static let titleEventVC = "Новое нерегулярное событие"
-		static let titleCategoryVC = "Категория"
-		static let titleScheduleVC = "Расписание"
-		static let titleAddCategoryVC = "Новая категория"
-		static let titleEditCategoryVC = "Редактирование категории"
-		static let titleEditTrackerVC = "Редактирование привычки"
-		static let defaultTitle = "Создание/редактирование привычки"
+		static let titleHabitVC = NSLocalizedString(
+			"vc.newHabit.title",
+			comment: "Заголовок экрана Новая привычка"
+		)
+		static let titleEventVC = NSLocalizedString(
+			"vc.newEvent.title",
+			comment: "Заголовок экрана Новое нерегулярное событие"
+		)
+		static let titleCategoryVC = NSLocalizedString(
+			"vc.selectCategory.title",
+			comment: "Заголовок экрана Категория"
+		)
+		static let titleScheduleVC = NSLocalizedString(
+			"vc.selectSchedule.title",
+			comment: "Заголовок экрана Расписание"
+		)
+		static let titleAddCategoryVC = NSLocalizedString(
+			"vc.newCategory.title",
+			comment: "Заголовок экрана Новая категория"
+		)
+		static let titleEditCategoryVC = NSLocalizedString(
+			"vc.editCategory.title",
+			comment: "Заголовок экрана Редактирование категории"
+		)
+		static let titleEditTrackerVC = NSLocalizedString(
+			"vc.editTracker.title",
+			comment: "Заголовок экрана Редактирование привычки"
+		)
+		static let defaultTitle = NSLocalizedString(
+			"vc.default.title",
+			comment: "Заголовок экрана по умолчанию"
+		)
 	}
 
 	func makeTitle() -> String {

@@ -193,6 +193,9 @@ private extension CategoriesProvider {
 
 private extension CategoriesProvider {
 	enum Appearance {
-		static let pinnedCategoryTitle = "Закрепленные"
+		static let pinnedCategoryTitle = NSLocalizedString(
+			"category.pinnedTrackers.title",
+			comment: "Название категории с закрепленными трекерами"
+		)
 	}
 }

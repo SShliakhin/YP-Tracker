@@ -74,9 +74,21 @@ enum StatisticsType: CustomStringConvertible {
 
 private extension StatisticsType {
 	enum Appearance {
-		static let bestPeriodTitle = "Лучший период"
-		static let idealDaysTitle = "Идеальные дни"
-		static let completedTrackersTitle = "Трекеров завершено"
-		static let averageValueTitle = "Среднее значение"
+		static let bestPeriodTitle = NSLocalizedString(
+			"statistics.bestPeriod.title",
+			comment: "Заголовок статистики: Лучший период"
+		)
+		static let idealDaysTitle = NSLocalizedString(
+			"statistics.idealDays.title",
+			comment: "Заголовок статистики: Идеальные дни"
+		)
+		static let completedTrackersTitle = NSLocalizedString(
+			"statistics.completedTrackers.title",
+			comment: "Заголовок статистики: Трекеров завершено"
+		)
+		static let averageValueTitle = NSLocalizedString(
+			"statistics.averageValue.title",
+			comment: "Заголовок статистики: Среднее значение"
+		)
 	}
 }

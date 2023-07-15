@@ -255,9 +255,19 @@ private extension CreateEditCategoryViewController {
 // MARK: - Appearance
 private extension CreateEditCategoryViewController {
 	enum Appearance {
-		static let textFieldPlaceholder = "Введите название категории"
 		static let textFieldLimit = 24
-		static let titleLimitMessage = "Ограничение 24 символа"
-		static let titleEventButton = "Готово"
+
+		static let textFieldPlaceholder = NSLocalizedString(
+			"category.inputTitle.placeholder",
+			comment: "Плейсхолдер для ввода заголовка категории"
+		)
+		static let titleLimitMessage = NSLocalizedString(
+			"category.errorTitle.overLimit24Characters",
+			comment: "Превышение лимита в 24 символа при вводе заголовка категории"
+		)
+		static let titleEventButton = NSLocalizedString(
+			"button.commonTitle.ready",
+			comment: "Заголовок для кнопки: Готово"
+		)
 	}
 }

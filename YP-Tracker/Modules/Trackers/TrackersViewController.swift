@@ -280,16 +280,13 @@ private extension TrackersViewController {
 		]
 
 		search.searchBar.searchTextField.attributedPlaceholder = NSAttributedString(
-			string: Appearance.searchPlacholder,
+			string: Appearance.searchPlaceholder,
 			attributes: attributes
 		)
 
 		search.searchBar.searchTextField.font = Theme.font(style: .body)
 		search.searchBar.searchTextField.textColor = Theme.color(usage: .main)
 		search.searchBar.searchTextField.backgroundColor = Theme.color(usage: .allDaySearchBase)
-
-		// хардкод для изменения надписи кнопки отмена, инетересно есть другой более правильный способ???
-		search.searchBar.setValue(Appearance.searchCancelButtonTitle, forKey: "cancelButtonText")
 
 		return search
 	}
@@ -414,16 +411,43 @@ private extension TrackersViewController {
 // MARK: - Appearance
 private extension TrackersViewController {
 	enum Appearance {
-		static let filtersButtonTitle = "Фильтры"
 		static let datePickerWidth: CGFloat = 77
-		static let searchPlacholder = "Поиск"
-		static let searchCancelButtonTitle = "Отмена"
-		static let menuTrackerPin = "Закрепить"
-		static let menuTrackerUnpin = "Открепить"
-		static let menuTrackerEdit = "Редактировать"
-		static let menuTrackerDelete = "Удалить"
-		static let deleteRequestMessage = "Уверены, что хотите удалить трекер?"
-		static let deleteRequestDeleteTitle = "Удалить"
-		static let deleteRequestCancelTitle = "Отменить"
+
+		static let filtersButtonTitle = NSLocalizedString(
+			"tracker.filters.buttonTitle",
+			comment: "Заголовок для кнопки: Фильтры"
+		)
+		static let searchPlaceholder = NSLocalizedString(
+			"tracker.search.placeholder",
+			comment: "Плейсхолдер для ввода строки поиска"
+		)
+		static let menuTrackerPin = NSLocalizedString(
+			"menu.commonTitle.pin",
+			comment: "Заголовок для меню: Закрепить"
+		)
+		static let menuTrackerUnpin = NSLocalizedString(
+			"menu.commonTitle.unpin",
+			comment: "Заголовок для меню: Открепить"
+		)
+		static let menuTrackerEdit = NSLocalizedString(
+			"menu.commonTitle.edit",
+			comment: "Заголовок для меню: Редактировать"
+		)
+		static let menuTrackerDelete = NSLocalizedString(
+			"menu.commonTitle.delete",
+			comment: "Заголовок для меню: Удалить"
+		)
+		static let deleteRequestMessage = NSLocalizedString(
+			"tracker.requestDelete.message",
+			comment: "Запрос-сообщение на удаление трекера"
+		)
+		static let deleteRequestDeleteTitle = NSLocalizedString(
+			"button.commonTitle.delete",
+			comment: "Заголовок для кнопки: Удалить"
+		)
+		static let deleteRequestCancelTitle = NSLocalizedString(
+			"button.commonTitle.cancel",
+			comment: "Заголовок для кнопки: Отменить"
+		)
 	}
 }

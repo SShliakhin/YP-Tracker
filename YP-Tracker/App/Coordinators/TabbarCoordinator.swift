@@ -95,6 +95,9 @@ private extension TabbarCoordinator {
 
 private extension TabbarCoordinator {
 	enum Appearance {
-		static let titleStatisticsVC = "Статистика"
+		static let titleStatisticsVC = NSLocalizedString(
+			"vc.statistics.title",
+			comment: "Заголовок экрана Статистика"
+		)
 	}
 }

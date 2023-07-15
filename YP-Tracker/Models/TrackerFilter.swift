@@ -1,3 +1,4 @@
+import Foundation
 enum TrackerFilter {
 	case all
 	case today
@@ -13,13 +14,35 @@ extension TrackerFilter: CustomStringConvertible {
 	var description: String {
 		switch self {
 		case .all:
-			return "Все трекеры"
+			return Appearance.all
 		case .today:
-			return "Трекеры на сегодня"
+			return Appearance.today
 		case .completed:
-			return "Завершенные"
+			return Appearance.completed
 		case .uncompleted:
-			return "Не завершенные"
+			return Appearance.uncompleted
 		}
+	}
+}
+
+// MARK: - Appearance
+private extension TrackerFilter {
+	enum Appearance {
+		static let all = NSLocalizedString(
+			"tracker.filterAll.title",
+			comment: "Название фильтра: Все"
+		)
+		static let today = NSLocalizedString(
+			"tracker.filterToday.title",
+			comment: "Название фильтра: Сегодня"
+		)
+		static let completed = NSLocalizedString(
+			"tracker.filterCompleted.title",
+			comment: "Название фильтра: Завершенные"
+		)
+		static let uncompleted = NSLocalizedString(
+			"tracker.filterUncompleted.title",
+			comment: "Название фильтра: Не завершенные"
+		)
 	}
 }

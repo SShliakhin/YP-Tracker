@@ -546,14 +546,27 @@ private extension CreateEditTrackerViewController {
 // MARK: - Appearance
 private extension CreateEditTrackerViewController {
 	enum Appearance {
-		static let textFieldPlaceholder = "Введите название трекера"
 		static let textFieldLimit = 38
-		static let titleLimitMessage = "Ограничение 38 символов"
-		static let titleCreateButton = "Создать"
-		static let titleCancelButton = "Отменить"
 		static let colllectionViewHeightWithSchedule: CGFloat = 618.0
 		static let colllectionViewHeight: CGFloat = 543.0
 		static let itemHeight = 52.0
 		static let itemCount = 6
+
+		static let textFieldPlaceholder = NSLocalizedString(
+			"tracker.inputTitle.placeholder",
+			comment: "Плейсхолдер для ввода заголовка трекера"
+		)
+		static let titleLimitMessage = NSLocalizedString(
+			"tracker.errorTitle.overLimit38Characters",
+			comment: "Превышение лимита в 38 символов при вводе заголовка трекера"
+		)
+		static let titleCreateButton = NSLocalizedString(
+			"button.commonTitle.create",
+			comment: "Заголовок для кнопки: Создать"
+		)
+		static let titleCancelButton = NSLocalizedString(
+			"button.commonTitle.cancel",
+			comment: "Заголовок для кнопки: Отменить"
+		)
 	}
 }

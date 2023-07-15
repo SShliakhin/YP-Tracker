@@ -109,8 +109,17 @@ private extension TrackersCoordinator {
 
 private extension TrackersCoordinator {
 	enum Appearance {
-		static let titleTrackersVC = "Трекеры"
-		static let titleFiltersVC = "Фильтры"
-		static let titleSelectTrackerTypeVC = "Создание трекера"
+		static let titleTrackersVC = NSLocalizedString(
+			"vc.trackers.title",
+			comment: "Заголовок экрана Трекеры"
+		)
+		static let titleFiltersVC = NSLocalizedString(
+			"vc.filters.title",
+			comment: "Заголовок экрана Фильтры"
+		)
+		static let titleSelectTrackerTypeVC = NSLocalizedString(
+			"vc.selectTrackerType.title",
+			comment: "Заголовок экрана Создание трекера"
+		)
 	}
 }

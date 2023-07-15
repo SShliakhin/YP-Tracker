@@ -91,7 +91,11 @@ private extension OnboardingViewController {
 // MARK: - Appearance
 private extension OnboardingViewController {
 	enum Appearance {
-		static let buttonTitle = "Вот это технологии!"
 		static let buttonBottomAnchorConstant: CGFloat = 50
+
+		static let buttonTitle = NSLocalizedString(
+			"onboarding.button.title",
+			comment: "Заголовок для кнопки прекращения онбординга"
+		)
 	}
 }

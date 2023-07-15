@@ -107,8 +107,14 @@ private extension TabbarViewController {
 // MARK: - Appearance
 private extension TabbarViewController {
 	enum Appearance {
-		static let trackersTabTitle = "Трекеры"
-		static let statisticsTabTitle = "Статистика"
+		static let trackersTabTitle = NSLocalizedString(
+			"trackers.tabbarItem.title",
+			comment: "Заголовок для элемента таббар: Трекеры"
+		)
+		static let statisticsTabTitle = NSLocalizedString(
+			"statistics.tabbarItem.title",
+			comment: "Заголовок для элемента таббар: Статистика"
+		)
 	}
 
 	// swiftlint:disable numbers_smell

@@ -11,7 +11,7 @@ struct Tracker: Identifiable, Hashable {
 	var scheduleString: String {
 		let allSelectedDays = schedule.filter { $0.value }
 		if allSelectedDays.count == 7 {
-			return "Каждый день"
+			return Appearance.everyDay
 		} else {
 			return allSelectedDays
 				.sorted { $0.key < $1.key }
@@ -66,7 +66,17 @@ extension Tracker {
 // MARK: - Appearance
 private extension Tracker {
 	enum Appearance {
-		static let habit = "Привычка"
-		static let event = "Нерегулярное событие"
+		static let habit = NSLocalizedString(
+			"tracker.type.habit",
+			comment: "Тип трекера: Привычка"
+		)
+		static let event = NSLocalizedString(
+			"tracker.type.event",
+			comment: "Тип трекера: Нерегулярное событие"
+		)
+		static let everyDay = NSLocalizedString(
+			"schedule.everyDay.description",
+			comment: "Вариант описания расписания: Каждый день"
+		)
 	}
 }

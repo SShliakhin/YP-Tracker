@@ -258,7 +258,7 @@ private extension SelectCategoryViewController {
 
 		let groupSize = NSCollectionLayoutSize(
 			widthDimension: .fractionalWidth(1.0),
-			heightDimension: .absolute(Theme.dimension(kind: .largeHeight)) // высота
+			heightDimension: .absolute(Theme.dimension(kind: .mediumHeight)) // высота
 		)
 		let group = NSCollectionLayoutGroup.horizontal(
 			layoutSize: groupSize,
@@ -294,11 +294,29 @@ private extension SelectCategoryViewController {
 // MARK: - Appearance
 private extension SelectCategoryViewController {
 	enum Appearance {
-		static let actionButtonTitle = "Добавить категорию"
-		static let menuEdit = "Редактировать"
-		static let menuDelete = "Удалить"
-		static let deleteRequestMessage = "Эта категория точно не нужна?"
-		static let deleteRequestDeleteTitle = "Удалить"
-		static let deleteRequestCancelTitle = "Отменить"
+		static let actionButtonTitle = NSLocalizedString(
+			"category.add.buttonTitle",
+			comment: "Заголовок для кнопки: Добавить категорию"
+		)
+		static let menuEdit = NSLocalizedString(
+			"menu.commonTitle.edit",
+			comment: "Заголовок для меню: Редактировать"
+		)
+		static let menuDelete = NSLocalizedString(
+			"menu.commonTitle.delete",
+			comment: "Заголовок для меню: Удалить"
+		)
+		static let deleteRequestMessage = NSLocalizedString(
+			"category.requestDelete.message",
+			comment: "Запрос-сообщение на удаление категории"
+		)
+		static let deleteRequestDeleteTitle = NSLocalizedString(
+			"button.commonTitle.delete",
+			comment: "Заголовок для кнопки: Удалить"
+		)
+		static let deleteRequestCancelTitle = NSLocalizedString(
+			"button.commonTitle.cancel",
+			comment: "Заголовок для кнопки: Отменить"
+		)
 	}
 }

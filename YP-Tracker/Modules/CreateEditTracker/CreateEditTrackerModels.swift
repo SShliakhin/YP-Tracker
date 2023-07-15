@@ -87,9 +87,21 @@ enum CreateEditTrackerModels {
 
 private extension CreateEditTrackerModels {
 	enum Appearance {
-		static let categoryTitle = "Категория"
-		static let scheduleTitle = "Расписание"
-		static let emojiTitle = "Emoji"
-		static let colorTitle = "Цвет"
+		static let categoryTitle = NSLocalizedString(
+			"section.category.title",
+			comment: "Заголовок секции Категория"
+		)
+		static let scheduleTitle = NSLocalizedString(
+			"section.schedule.title",
+			comment: "Заголовок секции Расписание"
+		)
+		static let emojiTitle = NSLocalizedString(
+			"section.emoji.title",
+			comment: "Заголовок секции Emoji"
+		)
+		static let colorTitle = NSLocalizedString(
+			"section.color.title",
+			comment: "Заголовок секции Цвет"
+		)
 	}
 }

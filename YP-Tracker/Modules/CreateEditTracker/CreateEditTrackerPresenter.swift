@@ -25,7 +25,7 @@ final class CreateEditTrackerPresenter: ICreateEditTrackerPresenter {
 
 			let saveTitle = updateBox.isNewTracker
 			? Appearance.titleCreate
-			: Appearance.titleEdit
+			: Appearance.titleSave
 
 			let totalCompletionsString = updateBox.totalCompletions == 0
 			? ""
@@ -163,11 +163,13 @@ private extension CreateEditTrackerPresenter {
 // MARK: - Appearance
 private extension CreateEditTrackerPresenter {
 	enum Appearance {
-		static let titleCreate = "Создать"
-		static let titleEdit = "Сохранить"
+		static let titleCreate = NSLocalizedString(
+			"button.commonTitle.create",
+			comment: "Заголовок для кнопки: Создать"
+		)
+		static let titleSave = NSLocalizedString(
+			"button.commonTitle.save",
+			comment: "Заголовок для кнопки: Сохранить"
+		)
 	}
-
-	//	saveTitle: isNewTracker
-	//	? Appearance.titleCreate
-	//	: Appearance.titleEdit
 }
