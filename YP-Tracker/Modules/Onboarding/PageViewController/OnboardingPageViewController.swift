@@ -58,7 +58,7 @@ private extension OnboardingPageViewController {
 	func makeLabel() -> UILabel {
 		let label = UILabel()
 		label.text = page.textValue
-		label.textColor = Theme.color(usage: .main)
+		label.textColor = Theme.color(usage: .allDayBlack)
 		label.font = Theme.font(style: .title1)
 		label.textAlignment = .center
 		label.numberOfLines = .zero

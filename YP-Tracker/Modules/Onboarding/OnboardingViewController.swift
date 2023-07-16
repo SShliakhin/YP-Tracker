@@ -78,9 +78,9 @@ private extension OnboardingViewController {
 			Theme.Texts.OnboardingPages.buttonTitle,
 			for: .normal
 		)
-		button.setTitleColor(Theme.color(usage: .white), for: .normal)
+		button.setTitleColor(Theme.color(usage: .allDayWhite), for: .normal)
 		button.titleLabel?.font = Theme.font(style: .callout)
-		button.backgroundColor = Theme.color(usage: .black)
+		button.backgroundColor = Theme.color(usage: .allDayBlack)
 		button.layer.cornerRadius = Theme.dimension(kind: .cornerRadius)
 
 		button.event = { [weak self] in
