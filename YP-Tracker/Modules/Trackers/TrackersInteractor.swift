@@ -70,8 +70,6 @@ final class TrackersInteractor: ITrackersInteractor {
 				date: conditions.date
 			) else { return }
 
-			log(.click(.track))
-
 			// FIXME: - пока не совсем согласованные действия между CoreData и статистикой
 			// приходится повторяться и помнить что работаем со старыми данными
 			let trackerID = categoriesProvider.getTrackerID(section: section, row: row)
@@ -88,6 +86,8 @@ final class TrackersInteractor: ITrackersInteractor {
 					on: conditions.date,
 					with: trackersCount
 				)
+
+				log(.click(.track))
 			}
 
 		case let .editTracker(section, row):
