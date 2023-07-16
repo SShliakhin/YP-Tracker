@@ -39,31 +39,31 @@
 
 # Architecture
 
-[In progress]
-
-* Clean Swift / MVVM (SelectCategoryMVVM module)
+* Clean Swift & MVVM (SelectCategoryMVVM & Statistics modules)
 * Navigation: Coordinator
 * DI: на базе фабрик
-* Persistence storage: Core Data
+* Persistence storage: Core Data & UserDefaults
 * Layout: Anchors, CompositionalLayout
 * Animation: ScrollView animation (Onboarding module)
+* Snapshot Tests
 * Fonts: YSDisplay
 
 # Structure
 
-* "App": App и Scene delegates, глобальные объекты приложения: DI, навигация и др.
+* "App": App и Scene delegates, глобальные объекты приложения: DI, навигация и сервисы
 * "Models": Модели объектов
 * "Modules": Содержит модули приложения (UI + код)
 * "Library": Протоколы, расширения и утилиты
-* "Resources": Ресурсы приложения: картинки, шрифты и другие типы ресурсов. А также файлы: 
-    - Theme.swift - содержит статические методы по поддержке работы с ресурсами приложения и некоторые дополнительные сервисные методы.
+* "Resources": Ресурсы приложения: картинки, шрифты, локализация и другие типы ресурсов. А также файлы и группы файлов:
+    - Localization - строковые файлы и локализация info.plist 
+    - Theme+.swift - расширения, которые содержат статические методы по поддержке работы с ресурсами приложения, форматтеры, константы, ключи локализации и некоторые дополнительные сервисные методы.
     - LaunchScreen.storyboard
     - Info.plist
 
 # Dependencies
 
-[In progress]
-
+- [SnapshotTesting](https://github.com/pointfreeco/swift-snapshot-testing) - написание Snapshot тестов, добавляется к таргету для тестов
+- [YandexMobileMetrica](https://github.com/yandexmobile/metrica-sdk-ios) - набор библиотек для сбора статистики использования приложения
 
 # Workflow
 
@@ -120,6 +120,8 @@ docs: update description of run() method
 ```
 
 [Источник](https://docs.rs.school/#/git-convention?id=%d0%9f%d1%80%d0%b8%d0%bc%d0%b5%d1%80%d1%8b-%d0%b8%d0%bc%d0%b5%d0%bd-%d0%ba%d0%be%d0%bc%d0%bc%d0%b8%d1%82%d0%be%d0%b2)
+
+* `style: clean up` - корректирую/улучшаю стиль и читаемость кода, удаляю мертвый код 
 
 ## Tools
 
