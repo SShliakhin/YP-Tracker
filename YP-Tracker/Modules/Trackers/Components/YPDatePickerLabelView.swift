@@ -91,7 +91,6 @@ private extension YPDatePickerLabelView {
 
 		picker.datePickerMode = .date
 		picker.preferredDatePickerStyle = .compact
-		picker.locale = Locale(identifier: "ru-RU")
 
 		picker.addTarget(self, action: #selector(didDateSelect), for: .valueChanged)
 
@@ -100,6 +99,7 @@ private extension YPDatePickerLabelView {
 	func makeTitleLabel() -> UILabel {
 		let label = UILabel()
 		label.textAlignment = .center
+
 		return label
 	}
 }
