@@ -13,6 +13,7 @@ final class CreateEditTrackerViewController: UIViewController {
 	private var isSaveEnabled = false {
 		didSet {
 			createButton.isEnabled = isSaveEnabled
+			ButtonEvent.save.buttonTitleValue(createButton)
 			ButtonEvent.save.buttonLayerValue(createButton)
 		}
 	}
@@ -330,7 +331,16 @@ private extension CreateEditTrackerViewController {
 	func makeTitleTextField() -> UITextField {
 		let textField = UITextField()
 
-		textField.placeholder = TrackerNames.textFieldPlaceholder
+		let attributes: [NSAttributedString.Key: Any] = [
+			.foregroundColor: Theme.color(usage: .gray),
+			.font: Theme.font(style: .body)
+		]
+
+		textField.attributedPlaceholder = NSAttributedString(
+			string: TrackerNames.textFieldPlaceholder,
+			attributes: attributes
+		)
+
 		textField.backgroundColor = .clear
 		textField.textColor = Theme.color(usage: .main)
 		textField.font = Theme.font(style: .body)
@@ -518,8 +528,12 @@ private extension CreateEditTrackerViewController {
 			button.titleLabel?.font = Theme.font(style: .callout)
 			switch self {
 			case .save:
+				let titleColor = button.isEnabled
+				? Theme.color(usage: .white)
+				: Theme.color(usage: .allDayWhite)
+
 				button.setTitle(ActionsNames.createButtonTitle, for: .normal)
-				button.setTitleColor(Theme.color(usage: .white), for: .normal)
+				button.setTitleColor(titleColor, for: .normal)
 			case .cancel:
 				button.setTitle(ActionsNames.cancelButtonTitle, for: .normal)
 				button.setTitleColor(Theme.color(usage: .attention), for: .normal)

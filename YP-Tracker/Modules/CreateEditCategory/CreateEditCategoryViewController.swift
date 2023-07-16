@@ -11,6 +11,7 @@ final class CreateEditCategoryViewController: UIViewController {
 	private var isSaveEnabled = false {
 		didSet {
 			actionButton.isEnabled = isSaveEnabled
+			ButtonEvent.save.buttonTitleValue(actionButton)
 			ButtonEvent.save.buttonLayerValue(actionButton)
 		}
 	}
@@ -187,7 +188,16 @@ private extension CreateEditCategoryViewController {
 	func makeTitleTextField() -> UITextField {
 		let textField = UITextField()
 
-		textField.placeholder = CategoryNames.textFieldPlaceholder
+		let attributes: [NSAttributedString.Key: Any] = [
+			.foregroundColor: Theme.color(usage: .gray),
+			.font: Theme.font(style: .body)
+		]
+
+		textField.attributedPlaceholder = NSAttributedString(
+			string: CategoryNames.textFieldPlaceholder,
+			attributes: attributes
+		)
+
 		textField.backgroundColor = .clear
 		textField.textColor = Theme.color(usage: .main)
 		textField.font = Theme.font(style: .body)
@@ -234,8 +244,12 @@ private extension CreateEditCategoryViewController {
 			button.titleLabel?.font = Theme.font(style: .callout)
 			switch self {
 			case .save:
+				let titleColor = button.isEnabled
+				? Theme.color(usage: .white)
+				: Theme.color(usage: .allDayWhite)
+
 				button.setTitle(ActionsNames.readyButtonTitle, for: .normal)
-				button.setTitleColor(Theme.color(usage: .white), for: .normal)
+				button.setTitleColor(titleColor, for: .normal)
 			}
 		}
 
