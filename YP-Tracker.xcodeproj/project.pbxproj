@@ -44,6 +44,7 @@
 		5A5BB4762A6299D3005074DD /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5A5BB4782A6299D3005074DD /* Localizable.strings */; };
 		5A5BB47D2A6310D8005074DD /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 5A5BB47F2A6310D8005074DD /* Localizable.stringsdict */; };
 		5A5BB4832A63161F005074DD /* Theme+Localizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5BB4822A63161F005074DD /* Theme+Localizable.swift */; };
+		5A5BB4862A63E125005074DD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5A5BB4882A63E125005074DD /* InfoPlist.strings */; };
 		5A61DD3D29E13FF9001E8665 /* UIView+Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A61DD3C29E13FF9001E8665 /* UIView+Preview.swift */; };
 		5A77EF642A2891DE000CF24C /* SelectTypeTrackerModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A77EF632A2891DE000CF24C /* SelectTypeTrackerModels.swift */; };
 		5A77EF662A289304000CF24C /* SelectTypeTrackerInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A77EF652A289304000CF24C /* SelectTypeTrackerInteractor.swift */; };
@@ -188,6 +189,8 @@
 		5A5BB47E2A6310D8005074DD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		5A5BB4812A6311A8005074DD /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = ru; path = ru.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		5A5BB4822A63161F005074DD /* Theme+Localizable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Theme+Localizable.swift"; sourceTree = "<group>"; };
+		5A5BB4872A63E125005074DD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		5A5BB4892A63E14D005074DD /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		5A61DD3C29E13FF9001E8665 /* UIView+Preview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Preview.swift"; sourceTree = "<group>"; };
 		5A77EF632A2891DE000CF24C /* SelectTypeTrackerModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTypeTrackerModels.swift; sourceTree = "<group>"; };
 		5A77EF652A289304000CF24C /* SelectTypeTrackerInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTypeTrackerInteractor.swift; sourceTree = "<group>"; };
@@ -464,6 +467,7 @@
 		5A5BB4732A6298EB005074DD /* Localization */ = {
 			isa = PBXGroup;
 			children = (
+				5A5BB4882A63E125005074DD /* InfoPlist.strings */,
 				5A5BB4782A6299D3005074DD /* Localizable.strings */,
 				5A5BB47F2A6310D8005074DD /* Localizable.stringsdict */,
 			);
@@ -859,6 +863,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5ADD1F0629E358F50072EE78 /* YSDisplay-Medium.ttf in Resources */,
+				5A5BB4862A63E125005074DD /* InfoPlist.strings in Resources */,
 				5A5BB4762A6299D3005074DD /* Localizable.strings in Resources */,
 				5ADD1F0429E358F50072EE78 /* YSDisplay-Regular.ttf in Resources */,
 				5A48062929DBA73F0096B7D8 /* LaunchScreen.storyboard in Resources */,
@@ -1075,6 +1080,15 @@
 				5A5BB4812A6311A8005074DD /* ru */,
 			);
 			name = Localizable.stringsdict;
+			sourceTree = "<group>";
+		};
+		5A5BB4882A63E125005074DD /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5A5BB4872A63E125005074DD /* en */,
+				5A5BB4892A63E14D005074DD /* ru */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
