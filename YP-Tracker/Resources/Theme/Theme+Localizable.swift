@@ -74,6 +74,33 @@ extension Theme {
 				)
 			}
 		}
+		// MARK: - Messages
+		enum Messages {
+			static var emptySearchListMessage: String {
+				NSLocalizedString(
+					"empty.searchList.message",
+					comment: "Сообщение при неудачном поиске по текстовому шаблону"
+				)
+			}
+			static var emptyTrackersListMessage: String {
+				NSLocalizedString(
+					"empty.trackersList.message",
+					comment: "Сообщение при отсутствие трекеров в базе"
+				)
+			}
+			static var emptyCategoriesListMessage: String {
+				NSLocalizedString(
+					"empty.categoriesList.message",
+					comment: "Сообщение при отсутствие категорий в базе"
+				)
+			}
+			static var emptyStatisticsListMessage: String {
+				NSLocalizedString(
+					"empty.statisticsList.message",
+					comment: "Сообщение при отсутствие статистики в базе"
+				)
+			}
+		}
 		// MARK: - Tracker Names
 		enum TrackerNames {
 			static var habit: String {
