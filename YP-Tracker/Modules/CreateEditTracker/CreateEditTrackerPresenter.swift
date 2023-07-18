@@ -11,25 +11,37 @@ final class CreateEditTrackerPresenter: ICreateEditTrackerPresenter {
 
 	typealias Section = CreateEditTrackerModels.ViewModel.Section
 
+	// swiftlint:disable:next function_body_length
 	func present(data: CreateEditTrackerModels.Response) {
 
 		switch data {
-		case let .update(hasSchedule, title, components, isSaveEnabled):
+		case let .update(updateBox):
 
-			self.hasSchedule = hasSchedule
+			self.hasSchedule = updateBox.hasSchedule
 			let newComponents = getNewComponents(
 				hasSchedule: hasSchedule,
-				components: components
+				components: updateBox.components
 			)
 
-			viewController?.render(
-				viewModel: .showAllComponents(
-					hasSchedule: hasSchedule,
-					title: title,
-					components: newComponents,
-					isSaveEnabled: isSaveEnabled
-				)
+			let saveTitle = updateBox.isNewTracker
+			? ActionsNames.createButtonTitle
+			: ActionsNames.saveButtonTitle
+
+			let totalCompletionsString = updateBox.totalCompletions == 0
+			? ""
+			: Theme.DynamicText.daysCount(count: updateBox.totalCompletions)
+
+			let update = CreateEditTrackerModels.ViewModel.UpdateBox(
+				hasSchedule: updateBox.hasSchedule,
+				title: updateBox.title,
+				components: newComponents,
+				isSaveEnabled: updateBox.isSaveEnabled,
+				saveTitle: saveTitle,
+				totalCompletionsString: totalCompletionsString
 			)
+
+			viewController?.render(viewModel: .showAllComponents(update))
+
 		case let .updateSection(section, items, isSaveEnabled):
 			let newItems: Section
 

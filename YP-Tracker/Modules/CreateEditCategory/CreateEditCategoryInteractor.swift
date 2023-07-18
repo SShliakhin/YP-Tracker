@@ -35,14 +35,21 @@ final class CreateEditCategoryInteractor: ICreateEditCategoryInteractor {
 	}
 
 	func viewIsReady() {
-		if case .addCategory = trackerAction {
-			presenter.present(
-				data: .update(
-					title: newCategory.title,
-					isSaveEnabled: false
-				)
+		if case let .editCategory(categoryID) = trackerAction {
+			guard let category = categoriesManager.getCategories()
+					.first(where: { $0.id == categoryID }) else { return }
+			newCategory = TrackerCategory(
+				id: category.id,
+				title: category.title,
+				trackers: []
 			)
 		}
+		presenter.present(
+			data: .update(
+				title: newCategory.title,
+				isSaveEnabled: !newCategory.title.isEmpty
+			)
+		)
 	}
 
 	func didUserDo(request: CreateEditCategoryModels.Request) {
@@ -59,7 +66,17 @@ final class CreateEditCategoryInteractor: ICreateEditCategoryInteractor {
 				)
 			)
 		case .save:
-			categoriesManager.addCategory(title: newCategory.title)
+			if case .addCategory = trackerAction {
+				categoriesManager.addCategory(
+					title: newCategory.title
+				)
+			}
+			if case .editCategory = trackerAction {
+				categoriesManager.editCategoryBy(
+					categoryID: newCategory.id,
+					newtitle: newCategory.title
+				)
+			}
 			didSendEventClosure?(.save)
 		}
 	}

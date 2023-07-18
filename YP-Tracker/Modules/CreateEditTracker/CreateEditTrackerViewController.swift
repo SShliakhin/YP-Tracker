@@ -13,10 +13,12 @@ final class CreateEditTrackerViewController: UIViewController {
 	private var isSaveEnabled = false {
 		didSet {
 			createButton.isEnabled = isSaveEnabled
+			ButtonEvent.save.buttonTitleValue(createButton)
 			ButtonEvent.save.buttonLayerValue(createButton)
 		}
 	}
 
+	private lazy var titleTotalCompletionsLabel: UILabel = makeTitleTotalCompletionsLabel()
 	private lazy var titleTextField: UITextField = makeTitleTextField()
 	private lazy var titleCharactersLimitLabel: UILabel = makeTitleCharactersLimitLabel()
 	private lazy var collectionView: UICollectionView = makeCollectionView()
@@ -69,11 +71,17 @@ final class CreateEditTrackerViewController: UIViewController {
 extension CreateEditTrackerViewController: ICreateEditTrackerViewController {
 	func render(viewModel: CreateEditTrackerModels.ViewModel) {
 		switch viewModel {
-		case let .showAllComponents(hasSchedule, title, components, isSaveEnabled):
-			self.hasSchedule = hasSchedule
-			self.isSaveEnabled = isSaveEnabled
-			titleTextField.text = title
-			dataSource = components
+		case let .showAllComponents(updateBox):
+			self.hasSchedule = updateBox.hasSchedule
+			self.isSaveEnabled = updateBox.isSaveEnabled
+			createButton.setTitle(updateBox.saveTitle, for: .normal)
+			titleTextField.text = updateBox.title
+
+			let totalCompletionsString = updateBox.totalCompletionsString
+			titleTotalCompletionsLabel.text = totalCompletionsString
+			titleTotalCompletionsLabel.isHidden = totalCompletionsString.isEmpty
+
+			dataSource = updateBox.components
 			collectionView.reloadData()
 		case let .showNewSection(section, items, isSaveEnabled):
 			self.isSaveEnabled = isSaveEnabled
@@ -262,20 +270,15 @@ private extension CreateEditTrackerViewController {
 	func arrangeTextFieldBlockStackView() -> UIStackView {
 		let textFieldView = UIView()
 		textFieldView.backgroundColor = Theme.color(usage: .background)
-		textFieldView.layer.cornerRadius = Theme.size(kind: .cornerRadius)
+		textFieldView.layer.cornerRadius = Theme.dimension(kind: .cornerRadius)
 
 		textFieldView.addSubview(titleTextField)
 		titleTextField.makeEqualToSuperview(
-			insets: .init(
-				top: .zero,
-				left: Theme.spacing(usage: .standard2),
-				bottom: .zero,
-				right: Theme.spacing(usage: .standard2)
-			)
+			insets: .init(horizontal: Theme.spacing(usage: .standard2))
 		)
 		titleTextField.makeConstraints { make in
 			[
-				make.heightAnchor.constraint(equalToConstant: Theme.size(kind: .textFieldHeight))
+				make.heightAnchor.constraint(equalToConstant: Theme.dimension(kind: .mediumHeight))
 			]
 		}
 
@@ -283,9 +286,15 @@ private extension CreateEditTrackerViewController {
 		vStackView.axis = .vertical
 		vStackView.spacing = Theme.spacing(usage: .standard)
 		[
+			titleTotalCompletionsLabel,
 			textFieldView,
 			titleCharactersLimitLabel
 		].forEach { vStackView.addArrangedSubview($0) }
+
+		vStackView.setCustomSpacing(
+			Theme.spacing(usage: .standard5),
+			after: titleTotalCompletionsLabel
+		)
 
 		return vStackView
 	}
@@ -300,7 +309,7 @@ private extension CreateEditTrackerViewController {
 		].forEach { hStackView.addArrangedSubview($0) }
 		hStackView.makeConstraints { make in
 			[
-				make.heightAnchor.constraint(equalToConstant: Theme.size(kind: .buttonHeight))
+				make.heightAnchor.constraint(equalToConstant: Theme.dimension(kind: .smallHeight))
 			]
 		}
 
@@ -310,10 +319,28 @@ private extension CreateEditTrackerViewController {
 
 // MARK: - UI make
 private extension CreateEditTrackerViewController {
+	func makeTitleTotalCompletionsLabel() -> UILabel {
+		let label = UILabel()
+		label.textAlignment = .center
+		label.textColor = Theme.color(usage: .main)
+		label.font = Theme.font(style: .title1)
+		label.isHidden = true
+
+		return label
+	}
 	func makeTitleTextField() -> UITextField {
 		let textField = UITextField()
 
-		textField.placeholder = Appearance.textFieldPlaceholder
+		let attributes: [NSAttributedString.Key: Any] = [
+			.foregroundColor: Theme.color(usage: .gray),
+			.font: Theme.font(style: .body)
+		]
+
+		textField.attributedPlaceholder = NSAttributedString(
+			string: TrackerNames.textFieldPlaceholder,
+			attributes: attributes
+		)
+
 		textField.backgroundColor = .clear
 		textField.textColor = Theme.color(usage: .main)
 		textField.font = Theme.font(style: .body)
@@ -327,7 +354,7 @@ private extension CreateEditTrackerViewController {
 	}
 	func makeTitleCharactersLimitLabel() -> UILabel {
 		let label = UILabel()
-		label.text = Appearance.titleLimitMessage
+		label.text = TrackerNames.titleLimitMessage
 		label.textAlignment = .center
 		label.textColor = Theme.color(usage: .attention)
 		label.font = Theme.font(style: .body)
@@ -423,7 +450,7 @@ private extension CreateEditTrackerViewController {
 
 		let groupSize = NSCollectionLayoutSize(
 			widthDimension: .fractionalWidth(1.0),
-			heightDimension: .absolute(Theme.size(kind: .textFieldHeight))
+			heightDimension: .absolute(Theme.dimension(kind: .mediumHeight))
 		)
 		let group = NSCollectionLayoutGroup.horizontal(
 			layoutSize: groupSize,
@@ -472,7 +499,7 @@ private extension CreateEditTrackerViewController {
 	func supplementaryHeaderItem() -> NSCollectionLayoutBoundarySupplementaryItem {
 		let itemSize = NSCollectionLayoutSize(
 			widthDimension: .fractionalWidth(1.0),
-			heightDimension: .absolute(Theme.size(kind: .textFieldHeight))
+			heightDimension: .absolute(Theme.dimension(kind: .mediumHeight))
 		)
 		let item = NSCollectionLayoutBoundarySupplementaryItem(
 			layoutSize: itemSize,
@@ -501,16 +528,20 @@ private extension CreateEditTrackerViewController {
 			button.titleLabel?.font = Theme.font(style: .callout)
 			switch self {
 			case .save:
-				button.setTitle(Appearance.titleCreateButton, for: .normal)
-				button.setTitleColor(Theme.color(usage: .white), for: .normal)
+				let titleColor = button.isEnabled
+				? Theme.color(usage: .white)
+				: Theme.color(usage: .allDayWhite)
+
+				button.setTitle(ActionsNames.createButtonTitle, for: .normal)
+				button.setTitleColor(titleColor, for: .normal)
 			case .cancel:
-				button.setTitle(Appearance.titleCancelButton, for: .normal)
+				button.setTitle(ActionsNames.cancelButtonTitle, for: .normal)
 				button.setTitleColor(Theme.color(usage: .attention), for: .normal)
 			}
 		}
 
 		func buttonLayerValue(_ button: UIButton) {
-			button.layer.cornerRadius = Theme.size(kind: .cornerRadius)
+			button.layer.cornerRadius = Theme.dimension(kind: .cornerRadius)
 			switch self {
 			case .save:
 				button.backgroundColor =
@@ -519,7 +550,7 @@ private extension CreateEditTrackerViewController {
 				: Theme.color(usage: .gray)
 			case .cancel:
 				button.backgroundColor = Theme.color(usage: .white)
-				button.layer.borderWidth = Theme.size(kind: .smallBorder)
+				button.layer.borderWidth = Theme.dimension(kind: .smallBorder)
 				button.layer.borderColor = Theme.color(usage: .attention).cgColor
 			}
 		}
@@ -529,11 +560,7 @@ private extension CreateEditTrackerViewController {
 // MARK: - Appearance
 private extension CreateEditTrackerViewController {
 	enum Appearance {
-		static let textFieldPlaceholder = "Введите название трекера"
 		static let textFieldLimit = 38
-		static let titleLimitMessage = "Ограничение 38 символов"
-		static let titleCreateButton = "Создать"
-		static let titleCancelButton = "Отменить"
 		static let colllectionViewHeightWithSchedule: CGFloat = 618.0
 		static let colllectionViewHeight: CGFloat = 543.0
 		static let itemHeight = 52.0

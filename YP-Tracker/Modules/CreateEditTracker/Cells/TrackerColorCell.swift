@@ -70,15 +70,15 @@ private extension TrackerColorCell {
 private extension TrackerColorCell {
 	func makeBagroundView() -> UIView {
 		let view = UIView()
-		view.layer.borderWidth = Theme.size(kind: .largeBorder)
-		view.layer.cornerRadius = Theme.size(kind: .largeRadius)
+		view.layer.borderWidth = Theme.dimension(kind: .largeBorder)
+		view.layer.cornerRadius = Theme.dimension(kind: .largeRadius)
 		view.clipsToBounds = true
 
 		return view
 	}
 	func makeColorView() -> UIView {
 		let view = UIView()
-		view.layer.cornerRadius = Theme.size(kind: .smallRadius)
+		view.layer.cornerRadius = Theme.dimension(kind: .smallRadius)
 		view.clipsToBounds = true
 
 		return view

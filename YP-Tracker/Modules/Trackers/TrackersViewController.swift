@@ -6,24 +6,25 @@ protocol ITrackersViewController: AnyObject {
 }
 
 final class TrackersViewController: UIViewController {
-	let interactor: ITrackersInteractor
+	private let interactor: ITrackersInteractor
 	private var dataSource: [TrackersModels.ViewModel.Section] = []
 
 	private var searchText = "" {
-		didSet {
-			if searchText != oldValue {
-				searchController.searchBar.searchTextField.text = searchText
-				interactor.didUserDo(request: .newSearchText(searchText))
-			}
-		}
+		didSet { if searchText != oldValue { didTypeSearchText(searchText) } }
 	}
 
+	// MARK: - UI Elements
 	private lazy var addTrackerBarButtonItem: UIBarButtonItem = makeAddTrackerBarButtonItem()
-	private lazy var datePicker: UIDatePicker = makeDatePicker()
+	private lazy var datePicker = YPDatePickerLabelView()
+		.updateAppearance(with: YPDatePickerLabelAppearance.defaultValue)
+		.updateAction { [weak self] date in
+			self?.didDateSelect(date: date)
+		}
 	private lazy var searchController: UISearchController = makeSearchController()
 
 	private lazy var collectionView: UICollectionView = makeCollectionView()
-	private lazy var emptyView = makeEmptyView()
+	private lazy var emptyView = EmptyView()
+		.update(with: EmptyInputData.emptyStartTrackers)
 	private lazy var filtersButton = makeFiltersButton()
 
 	// MARK: - Inits
@@ -52,13 +53,15 @@ final class TrackersViewController: UIViewController {
 
 		interactor.viewIsReady()
 	}
-}
 
-// MARK: - Event
-extension TrackersViewController {
-	enum Event {
-		case addTracker(TrackerConditions)
-		case selectFilter(TrackerConditions)
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		interactor.didUserDo(request: .analyticsEvent(.screenOpen))
+	}
+
+	override func viewDidDisappear(_ animated: Bool) {
+		super.viewDidDisappear(animated)
+		interactor.didUserDo(request: .analyticsEvent(.screenClose))
 	}
 }
 
@@ -67,8 +70,67 @@ private extension TrackersViewController {
 	@objc func didTapAddTrackerButton(_ sender: Any) {
 		interactor.didUserDo(request: .addTracker)
 	}
-	@objc func didDateSelect(_ sender: Any) {
-		interactor.didUserDo(request: .newDate(datePicker.date))
+	func didDateSelect(date: Date) {
+		interactor.didUserDo(request: .newDate(date))
+	}
+	func didTypeSearchText(_ text: String) {
+		searchController.searchBar.searchTextField.text = text
+		interactor.didUserDo(request: .newSearchText(text))
+	}
+
+	func makeContextMenuByPlace(section: Int, row: Int) -> UIContextMenuConfiguration {
+		let pinUnpinTitle = dataSource[section].trackers[row].isPinned
+		? ActionsNames.menuTrackerUnpin
+		: ActionsNames.menuTrackerPin
+
+		let pinUnpinAction = UIAction(title: pinUnpinTitle) { [weak self] _ in
+			self?.interactor.didUserDo(request: .pinUnpin(section, row))
+		}
+
+		let editAction = UIAction(title: ActionsNames.menuEdit) { [weak self] _ in
+			self?.interactor.didUserDo(request: .editTracker(section, row))
+		}
+
+		let deleteAction = UIAction(
+			title: ActionsNames.menuDelete,
+			attributes: .destructive
+		) { [weak self] _ in
+			self?.deleteRequestByPlace(section: section, row: row)
+		}
+
+		return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
+			UIMenu(
+				children:
+					[
+						pinUnpinAction,
+						editAction,
+						deleteAction
+					]
+			)
+		}
+	}
+
+	func deleteRequestByPlace(section: Int, row: Int) {
+		let alert = UIAlertController(
+			title: nil,
+			message: TrackerNames.deleteRequestMessage,
+			preferredStyle: .actionSheet
+		)
+		alert.addAction(
+			.init(
+				title: ActionsNames.deleteButtonTitle,
+				style: .destructive
+			) { [weak self] _ in
+				self?.interactor.didUserDo(request: .deleteTracker(section, row))
+			}
+		)
+		alert.addAction(
+			.init(
+				title: ActionsNames.cancelButtonTitle,
+				style: .cancel
+			)
+		)
+		present(alert, animated: true)
 	}
 }
 
@@ -81,7 +143,7 @@ extension TrackersViewController: ITrackersViewController {
 			dataSource = sections
 
 			searchText = conditions.searchText
-			datePicker.setDate(conditions.date, animated: true)
+			datePicker.updateTitle(with: conditions.dateString)
 
 			if conditions.hasAnyTrackers {
 				emptyView.update(with: EmptyInputData.emptySearchTrackers)
@@ -90,6 +152,22 @@ extension TrackersViewController: ITrackersViewController {
 
 			collectionView.reloadData()
 		}
+	}
+}
+
+// MARK: UIContextMenuInteractionDelegate
+
+extension TrackersViewController: UIContextMenuInteractionDelegate {
+	func contextMenuInteraction(
+		_ interaction: UIContextMenuInteraction,
+		configurationForMenuAtLocation location: CGPoint
+	) -> UIContextMenuConfiguration? {
+		guard
+			let location = interaction.view?.convert(location, to: collectionView),
+			let indexPath = collectionView.indexPathForItem(at: location)
+		else { return nil }
+
+		return makeContextMenuByPlace(section: indexPath.section, row: indexPath.row)
 	}
 }
 
@@ -109,7 +187,8 @@ extension TrackersViewController: UICollectionViewDataSource {
 		cellForItemAt indexPath: IndexPath
 	) -> UICollectionViewCell {
 
-		let model = dataSource[indexPath.section].trackers[indexPath.row]
+		var model = dataSource[indexPath.section].trackers[indexPath.row]
+		model.userInteraction = UIContextMenuInteraction(delegate: self) // интересно, так норм? перехват модели и вставка UI
 		return collectionView.dequeueReusableCell(withModel: model, for: indexPath)
 	}
 
@@ -126,12 +205,6 @@ extension TrackersViewController: UICollectionViewDataSource {
 			for: indexPath
 		)
 	}
-}
-
-// MARK: - UICollectionViewDelegate
-
-extension TrackersViewController: UICollectionViewDelegate {
-	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) { }
 }
 
 // MARK: - UISearchResultsUpdating
@@ -155,7 +228,7 @@ private extension TrackersViewController {
 	}
 	func setConstraints() {
 		[
-			UIView(frame: .zero), // сделать навбар непрокручиваемым
+			UIView(frame: .zero),
 			collectionView,
 			emptyView,
 			filtersButton
@@ -196,48 +269,35 @@ private extension TrackersViewController {
 
 		return button
 	}
-	func makeDatePicker() -> UIDatePicker {
-		let picker = UIDatePicker()
-
-		picker.datePickerMode = .date
-		picker.preferredDatePickerStyle = .compact
-		picker.locale = Locale(identifier: "ru-RU")
-
-		picker.addTarget(self, action: #selector(didDateSelect), for: .valueChanged)
-
-		return picker
-	}
 	func makeSearchController() -> UISearchController {
-		// VC сам покажет результат
 		let search = UISearchController(searchResultsController: nil)
-		// подписываемся
 		search.searchResultsUpdater = self
-		// рекомендации - вводим строку поиска и сразу видим результат
 		search.obscuresBackgroundDuringPresentation = false
 
-		search.searchBar.placeholder = Appearance.searchPlacholder
+		let attributes: [NSAttributedString.Key: Any] = [
+			.foregroundColor: Theme.color(usage: .placeholder),
+			.font: Theme.font(style: .body)
+		]
+
+		search.searchBar.searchTextField.attributedPlaceholder = NSAttributedString(
+			string: TrackerNames.searchPlaceholder,
+			attributes: attributes
+		)
+
 		search.searchBar.searchTextField.font = Theme.font(style: .body)
 		search.searchBar.searchTextField.textColor = Theme.color(usage: .main)
-
-		// хардкод для изменения надписи кнопки отмена, инетересно есть другой более правильный способ???
-		search.searchBar.setValue(Appearance.searchCancelButtonTitle, forKey: "cancelButtonText")
+		search.searchBar.searchTextField.backgroundColor = Theme.color(usage: .allDaySearchBase)
 
 		return search
-	}
-	func makeEmptyView() -> EmptyView {
-		let view = EmptyView()
-		view.update(with: EmptyInputData.emptyStartTrackers)
-
-		return view
 	}
 	func makeFiltersButton() -> UIButton {
 		let button = UIButton()
 
-		button.setTitle(Appearance.filtersButtonTitle, for: .normal)
+		button.setTitle(TrackerNames.filtersButtonTitle, for: .normal)
 		button.setTitleColor(Theme.color(usage: .allDayWhite), for: .normal)
 		button.titleLabel?.font = Theme.font(style: .body)
 		button.backgroundColor = Theme.color(usage: .accent)
-		button.layer.cornerRadius = Theme.size(kind: .cornerRadius)
+		button.layer.cornerRadius = Theme.dimension(kind: .cornerRadius)
 
 		button.event = { [weak self] in
 			self?.interactor.didUserDo(request: .selectFilter)
@@ -262,7 +322,6 @@ private extension TrackersViewController {
 		])
 
 		collectionView.dataSource = self
-		collectionView.delegate = self
 
 		collectionView.backgroundColor = .clear
 
@@ -277,20 +336,6 @@ private extension TrackersViewController {
 			guard let self = self else { return nil }
 			return self.createTrackerItemLayout()
 		}
-	}
-
-	func createLayoutSection(
-		group: NSCollectionLayoutGroup,
-		behavior: UICollectionLayoutSectionOrthogonalScrollingBehavior,
-		interGroupSpacing: CGFloat,
-		supplementaryItem: [NSCollectionLayoutBoundarySupplementaryItem]
-	) -> NSCollectionLayoutSection {
-		let section = NSCollectionLayoutSection(group: group)
-		section.orthogonalScrollingBehavior = behavior
-		section.interGroupSpacing = interGroupSpacing
-		section.boundarySupplementaryItems = supplementaryItem
-
-		return section
 	}
 
 	func createTrackerItemLayout() -> NSCollectionLayoutSection {
@@ -328,6 +373,20 @@ private extension TrackersViewController {
 		return section
 	}
 
+	func createLayoutSection(
+		group: NSCollectionLayoutGroup,
+		behavior: UICollectionLayoutSectionOrthogonalScrollingBehavior,
+		interGroupSpacing: CGFloat,
+		supplementaryItem: [NSCollectionLayoutBoundarySupplementaryItem]
+	) -> NSCollectionLayoutSection {
+		let section = NSCollectionLayoutSection(group: group)
+		section.orthogonalScrollingBehavior = behavior
+		section.interGroupSpacing = interGroupSpacing
+		section.boundarySupplementaryItems = supplementaryItem
+
+		return section
+	}
+
 	func supplementaryHeaderItem() -> NSCollectionLayoutBoundarySupplementaryItem {
 		let itemSize = NSCollectionLayoutSize(
 			widthDimension: .fractionalWidth(1.0),
@@ -352,9 +411,6 @@ private extension TrackersViewController {
 // MARK: - Appearance
 private extension TrackersViewController {
 	enum Appearance {
-		static let filtersButtonTitle = "Фильтры"
-		static let datePickerWidth: CGFloat = 104
-		static let searchPlacholder = "Поиск"
-		static let searchCancelButtonTitle = "Отмена"
+		static let datePickerWidth: CGFloat = 77
 	}
 }

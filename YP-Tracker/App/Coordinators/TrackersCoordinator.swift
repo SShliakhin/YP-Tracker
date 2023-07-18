@@ -39,6 +39,19 @@ private extension TrackersCoordinator {
 		addDependency(coordinator)
 		coordinator.start()
 	}
+
+	func runEditTrackerFlow(trackerID: UUID) {
+		let coordinator = coordinatorFactory.makeCreateEditTrackerCoordinator(
+			router: router,
+			trackerAction: .edit(trackerID)
+		)
+		coordinator.finishFlow = { [weak self, weak coordinator] in
+			self?.removeDependency(coordinator)
+			self?.onUpdateTrackers?()
+		}
+		addDependency(coordinator)
+		coordinator.start()
+	}
 }
 
 // MARK: - show Modules
@@ -56,11 +69,13 @@ private extension TrackersCoordinator {
 			switch event {
 			case .addTracker:
 				self?.showSelectTypeTrackerModule()
+			case let .editTracker(trackerID):
+				self?.runEditTrackerFlow(trackerID: trackerID)
 			case let .selectFilter(filter):
 				self?.showSelectFilterModule(currentFilter: filter)
 			}
 		}
-		module.title = Appearance.titleTrackersVC
+		module.title = ScreensTitles.titleTrackersVC
 		router.setRootModule(module)
 	}
 
@@ -74,7 +89,7 @@ private extension TrackersCoordinator {
 				self?.onUpdateFilter?(filter)
 			}
 		}
-		module.title = Appearance.titleFiltersVC
+		module.title = ScreensTitles.titleFiltersVC
 		router.present(UINavigationController(rootViewController: module))
 	}
 
@@ -87,15 +102,7 @@ private extension TrackersCoordinator {
 				self?.runCreateNewTrackerFlow(trackerType: type)
 			}
 		}
-		module.title = Appearance.titleSelectTrackerTypeVC
+		module.title = ScreensTitles.titleSelectTrackerTypeVC
 		router.present(UINavigationController(rootViewController: module))
-	}
-}
-
-private extension TrackersCoordinator {
-	enum Appearance {
-		static let titleTrackersVC = "Трекеры"
-		static let titleFiltersVC = "Фильтры"
-		static let titleSelectTrackerTypeVC = "Создание трекера"
 	}
 }

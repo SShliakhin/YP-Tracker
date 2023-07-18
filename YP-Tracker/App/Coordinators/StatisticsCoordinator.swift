@@ -1,15 +1,19 @@
+import Foundation
+
 final class StatisticsCoordinator: BaseCoordinator {
 	private let factory: IModuleFactory
-	private let router: IRouter
+	private let router: Router
 
 	var finishFlow: (() -> Void)?
 
-	init(router: IRouter, factory: IModuleFactory) {
+	init(router: Router, factory: IModuleFactory) {
 		self.router = router
 		self.factory = factory
 	}
 
-	override func start() {}
+	override func start() {
+		showStatisticsModule()
+	}
 
 	deinit {
 		print("TrackersCoordinator deinit")
@@ -17,4 +21,10 @@ final class StatisticsCoordinator: BaseCoordinator {
 }
 
 // MARK: - show Modules
-private extension StatisticsCoordinator {}
+private extension StatisticsCoordinator {
+	func showStatisticsModule() {
+		let (module, _) = factory.makeStatisticsModule()
+		module.title = ScreensTitles.titleStatisticsVC
+		router.setRootModule(module)
+	}
+}

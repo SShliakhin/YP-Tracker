@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="19574" systemVersion="20G1231" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="19574" systemVersion="20G1351" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="TrackerCategoryCD" representedClassName="TrackerCategoryCD" syncable="YES">
         <attribute name="categoryID" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="title" attributeType="String"/>
@@ -8,6 +8,7 @@
     <entity name="TrackerCD" representedClassName="TrackerCD" syncable="YES">
         <attribute name="color" attributeType="String"/>
         <attribute name="emoji" attributeType="String"/>
+        <attribute name="pinned" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="schedule" attributeType="String" minValueString="0" maxValueString="13" defaultValueString="&quot;&quot;"/>
         <attribute name="title" attributeType="String"/>
         <attribute name="trackerID" attributeType="UUID" usesScalarValueType="NO"/>
@@ -21,7 +22,7 @@
     </entity>
     <elements>
         <element name="TrackerCategoryCD" positionX="-786.9605712890625" positionY="-186.1984252929688" width="128" height="88"/>
-        <element name="TrackerCD" positionX="-620.7967529296875" positionY="-105.1240234375" width="128" height="148"/>
+        <element name="TrackerCD" positionX="-620.7967529296875" positionY="-105.1240234375" width="128" height="163"/>
         <element name="TrackerRecordCD" positionX="-455.98046875" positionY="2.3961181640625" width="128" height="88"/>
     </elements>
 </model>

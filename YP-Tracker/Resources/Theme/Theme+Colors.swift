@@ -33,6 +33,9 @@ extension Theme {
 			static let backgroundNight = UIColor(hex: 0x414141).withAlphaComponent(0.85)
 			static let red = UIColor(hex: 0xF56B6C)
 			static let blue = UIColor(hex: 0x3772E7)
+			static let allDayBackround = UIColor(hex: 0xF0F0F0)
+			static let allDaySearchBase = UIColor(hex: 0x767680)
+			static let placeholderNight = UIColor(hex: 0xEBEBF5)
 		}
 	}
 
@@ -59,6 +62,14 @@ extension Theme {
 		]
 	}
 
+	static func getGradientBorderColors() -> [UIColor] {
+		[
+			FlatColor.Tracker.blue,
+			FlatColor.Tracker.lightGreen,
+			FlatColor.Tracker.red
+		]
+	}
+
 	enum Color {
 		case main
 		case accent
@@ -70,8 +81,13 @@ extension Theme {
 		case lightGray
 		case clear
 		case allDayWhite
+		case allDayBlack
+		case allDayBackground
+		case allDaySearchBase
+		case placeholder
 	}
 
+	// swiftlint:disable:next function_body_length
 	static func color(usage: Color) -> UIColor {
 		let customColor: UIColor
 
@@ -108,6 +124,20 @@ extension Theme {
 			customColor = FlatColor.DayNight.white.withAlphaComponent(0.3)
 		case .allDayWhite:
 			customColor = FlatColor.DayNight.white
+		case .allDayBlack:
+			customColor = FlatColor.DayNight.black
+		case .allDayBackground:
+			customColor = FlatColor.DayNight.allDayBackround
+		case .allDaySearchBase:
+			customColor = UIColor.color(
+				light: FlatColor.DayNight.allDaySearchBase.withAlphaComponent(0.12),
+				dark: FlatColor.DayNight.allDaySearchBase.withAlphaComponent(0.24)
+			)
+		case .placeholder:
+			customColor = UIColor.color(
+				light: FlatColor.DayNight.gray,
+				dark: FlatColor.DayNight.placeholderNight
+			)
 		}
 
 		return customColor

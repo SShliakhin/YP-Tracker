@@ -62,6 +62,29 @@ extension CategoriesManagerCD: ICategoriesManager {
 		return objects.compactMap { TrackerRecord.convertFromCD(object: $0) }
 	}
 
+	func getTrackerEditBoxByID(_ trackerID: UUID) -> TrackerEditBox? {
+		guard let trackerCD = findObjectByUUID(
+			id: trackerID,
+			key: "trackerID",
+			withRequest: TrackerCD.fetchRequest()
+		) else { return nil }
+		guard let categoryCD = trackerCD.trackerCategory else { return nil }
+		guard
+			let tracker = Tracker.convertFromCD(object: trackerCD),
+			let categoryID = categoryCD.categoryID,
+			let categoryTitle = categoryCD.title
+		else { return nil }
+
+		let totalCompletions = trackerCD.trackerRecords?.count ?? 0
+
+		return TrackerEditBox(
+			tracker: tracker,
+			categoryID: categoryID,
+			categoryTitle: categoryTitle,
+			totalTrackerCompletions: totalCompletions
+		)
+	}
+
 	func addCategory(title: String) {
 		// как вариант можно поискать по названию уже имеющуюся
 		// удалить вокруг пробелы и не учитывать регистр
@@ -99,6 +122,23 @@ extension CategoriesManagerCD: ICategoriesManager {
 
 	func editTracker(tracker: Tracker, categoryID: UUID) {
 		updateCreateTracker(from: tracker, withCategoryID: categoryID)
+	}
+
+	func pinUnpinTracker(_ tracker: Tracker) {
+		guard
+			let trackerCD = findObjectByUUID(
+				id: tracker.id,
+				key: "trackerID",
+				withRequest: TrackerCD.fetchRequest()
+			),
+			let categoryCD = trackerCD.trackerCategory
+		else { return }
+
+		saveTrackerCD(
+			trackerCD,
+			from: tracker,
+			withCategoryCD: categoryCD
+		)
 	}
 
 	func removeTrackerBy(trackerID: UUID) {
@@ -172,12 +212,26 @@ private extension CategoriesManagerCD {
 			trackerCD = TrackerCD(context: mainContext)
 		}
 
+		saveTrackerCD(
+			trackerCD,
+			from: tracker,
+			withCategoryCD: categoryCD
+		)
+	}
+
+	func saveTrackerCD(
+		_ trackerCD: TrackerCD,
+		from tracker: Tracker,
+		withCategoryCD categoryCD: TrackerCategoryCD
+	) {
 		trackerCD.trackerID = tracker.id
 		trackerCD.title = tracker.title
 		trackerCD.emoji = tracker.emoji
 		trackerCD.color = tracker.color
 		trackerCD.schedule = tracker.scheduleCD
 		trackerCD.trackerCategory = categoryCD
+		trackerCD.pinned = tracker.pinned
+
 		mainContext.saveContext()
 	}
 
@@ -261,7 +315,8 @@ extension Tracker {
 			title: title,
 			emoji: emoji,
 			color: color,
-			schedule: schedule
+			schedule: schedule,
+			pinned: trackerCD.pinned
 		)
 	}
 }

@@ -62,7 +62,7 @@ private extension OnboardingViewController {
 					constant: -Appearance.buttonBottomAnchorConstant
 				),
 				make.heightAnchor.constraint(
-					equalToConstant: Theme.size(kind: .buttonHeight)
+					equalToConstant: Theme.dimension(kind: .smallHeight)
 				)
 			]
 		}
@@ -74,11 +74,14 @@ private extension OnboardingViewController {
 	func makeActionButton() -> UIButton {
 		let button = UIButton()
 
-		button.setTitle(Appearance.buttonTitle, for: .normal)
-		button.setTitleColor(Theme.color(usage: .white), for: .normal)
+		button.setTitle(
+			Theme.Texts.OnboardingPages.buttonTitle,
+			for: .normal
+		)
+		button.setTitleColor(Theme.color(usage: .allDayWhite), for: .normal)
 		button.titleLabel?.font = Theme.font(style: .callout)
-		button.backgroundColor = Theme.color(usage: .black)
-		button.layer.cornerRadius = Theme.size(kind: .cornerRadius)
+		button.backgroundColor = Theme.color(usage: .allDayBlack)
+		button.layer.cornerRadius = Theme.dimension(kind: .cornerRadius)
 
 		button.event = { [weak self] in
 			self?.interactor.didUserDo(request: .finishOnboarding)
@@ -91,7 +94,6 @@ private extension OnboardingViewController {
 // MARK: - Appearance
 private extension OnboardingViewController {
 	enum Appearance {
-		static let buttonTitle = "Вот это технологии!"
 		static let buttonBottomAnchorConstant: CGFloat = 50
 	}
 }

@@ -2,13 +2,13 @@ import UIKit
 final class TabbarCoordinator: BaseCoordinator {
 	private let factory: IModuleFactory
 	private let coordinatorFactory: ICoordinatorFactory
-	private let router: IRouter
+	private let router: Router
 
 	var finishFlow: (() -> Void)?
 
 	private var tabbarController: UITabBarController?
 
-	init(router: IRouter, factory: IModuleFactory, coordinatorFactory: ICoordinatorFactory) {
+	init(router: Router, factory: IModuleFactory, coordinatorFactory: ICoordinatorFactory) {
 		self.router = router
 		self.factory = factory
 		self.coordinatorFactory = coordinatorFactory
@@ -27,6 +27,17 @@ final class TabbarCoordinator: BaseCoordinator {
 private extension TabbarCoordinator {
 	func runTrackersFlowInTab(navCotroller: UINavigationController) {
 		let coordinator = coordinatorFactory.makeTrackersCoordinator(navController: navCotroller)
+		coordinator.finishFlow = { [weak self, weak coordinator] in
+			self?.router.dismissModule()
+			self?.removeDependency(coordinator)
+			self?.finishFlow?()
+		}
+		addDependency(coordinator)
+		coordinator.start()
+	}
+
+	func runStatisticsFlowInTab(navCotroller: UINavigationController) {
+		let coordinator = coordinatorFactory.makeStatisticsCoordinator(navController: navCotroller)
 		coordinator.finishFlow = { [weak self, weak coordinator] in
 			self?.router.dismissModule()
 			self?.removeDependency(coordinator)
@@ -54,7 +65,8 @@ private extension TabbarCoordinator {
 			case let .statistics(navController):
 				action = { [unowned self] in
 					if navController.viewControllers.isEmpty {
-						self?.showStatisticsModuleInTab(router: navController)
+						// self?.showStatisticsModuleInTab(router: navController)
+						self?.runStatisticsFlowInTab(navCotroller: navController)
 					}
 				}
 			case let .viewDidLoad(navController):
@@ -75,7 +87,8 @@ private extension TabbarCoordinator {
 	}
 
 	func showStatisticsModuleInTab(router: UINavigationController) {
-		let module = factory.makeStatisticsModule()
+		let (module, _) = factory.makeStatisticsModule()
+		module.title = ScreensTitles.titleStatisticsVC
 		router.pushViewController(module, animated: true)
 	}
 }

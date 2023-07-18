@@ -78,7 +78,7 @@ private extension YPPresenter {
 		return .showSchedule(
 			.init(
 				dataSource: dataSource,
-				titleButtonAction: Appearance.readyButtonTitle
+				titleButtonAction: ActionsNames.readyButtonTitle
 			)
 		)
 	}
@@ -106,7 +106,7 @@ private extension YPPresenter {
 		return .showCategories(
 			.init(
 				dataSource: dataSource,
-				titleButtonAction: Appearance.addCategoryButtonTitle
+				titleButtonAction: CategoryNames.addCategoryButtonTitle
 			)
 		)
 	}
@@ -122,12 +122,5 @@ private extension YPPresenter {
 			outCorner = [.bottom]
 		}
 		return (hasDivider, outCorner)
-	}
-}
-
-private extension YPPresenter {
-	enum Appearance {
-		static let readyButtonTitle = "Готово"
-		static let addCategoryButtonTitle = "Добавить категорию"
 	}
 }

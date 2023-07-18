@@ -4,10 +4,14 @@ enum TrackersModels {
 	enum Request {
 		case newSearchText(String)
 		case newDate(Date)
-		case completeUncompleteTracker(Int, Int)
 		case newFilter(TrackerFilter)
+		case completeUncompleteTracker(Int, Int)
+		case editTracker(Int, Int)
+		case deleteTracker(Int, Int)
+		case pinUnpin(Int, Int)
 		case addTracker
 		case selectFilter
+		case analyticsEvent(AnalyticsEvent.EventType)
 	}
 
 	enum Response {

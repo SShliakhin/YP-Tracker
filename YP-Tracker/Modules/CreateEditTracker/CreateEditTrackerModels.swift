@@ -7,15 +7,15 @@ enum CreateEditTrackerModels {
 	}
 
 	enum Request {
-		case newTitle(String) // введено новое название - валидировать возможность сохранения
-		case selectCategory // переход на экран выбора категории - необходимо запомните состояние трекера
-		case newCategory(UUID, String) // прийдет извне
-		case selectSchedule // переход на экран выбора расписания - необходимо запомните состояние трекера
-		case newSchedule([Int: Bool]) // прийдет извне
-		case newEmoji(Int, Int) // выделена новое эмоджи - обновить секцию эмоджи + валидность сохранения
-		case newColor(Int, Int) // выделен новый цвет - обновить секцию эмоджи + валидность сохранения
-		case cancel // отмена - выход
-		case save // сохранить состояние трекера - обновить существующий или добавить новый
+		case newTitle(String)
+		case selectCategory
+		case newCategory(UUID, String)
+		case selectSchedule
+		case newSchedule([Int: Bool])
+		case newEmoji(Int, Int)
+		case newColor(Int, Int)
+		case cancel
+		case save
 	}
 
 	enum Response {
@@ -28,17 +28,25 @@ enum CreateEditTrackerModels {
 			var description: String {
 				switch self {
 				case .category:
-					return Appearance.categoryTitle
+					return Theme.Texts.TrackerSectionsNames.categoryTitle
 				case .schedule:
-					return Appearance.scheduleTitle
+					return Theme.Texts.TrackerSectionsNames.scheduleTitle
 				case .emoji:
-					return Appearance.emojiTitle
+					return Theme.Texts.TrackerSectionsNames.emojiTitle
 				case .color:
-					return Appearance.colorTitle
+					return Theme.Texts.TrackerSectionsNames.colorTitle
 				}
 			}
 		}
-		case update(hasSchedule: Bool, title: String, components: [Section], isSaveEnabled: Bool)
+		struct UpdateBox {
+			let hasSchedule: Bool
+			let title: String
+			let components: [Section]
+			let isSaveEnabled: Bool
+			let isNewTracker: Bool
+			let totalCompletions: Int
+		}
+		case update(UpdateBox)
 		case updateSection(section: Int, items: Section, isSaveEnabled: Bool)
 		case updateSaveEnabled(isSaveEnabled: Bool)
 	}
@@ -53,27 +61,26 @@ enum CreateEditTrackerModels {
 			var description: String {
 				switch self {
 				case .category:
-					return Appearance.categoryTitle
+					return Theme.Texts.TrackerSectionsNames.categoryTitle
 				case .schedule:
-					return Appearance.scheduleTitle
+					return Theme.Texts.TrackerSectionsNames.scheduleTitle
 				case .emoji:
-					return Appearance.emojiTitle
+					return Theme.Texts.TrackerSectionsNames.emojiTitle
 				case .color:
-					return Appearance.colorTitle
+					return Theme.Texts.TrackerSectionsNames.colorTitle
 				}
 			}
 		}
-		case showAllComponents(hasSchedule: Bool, title: String, components: [Section], isSaveEnabled: Bool)
+		struct UpdateBox {
+			let hasSchedule: Bool
+			let title: String
+			let components: [Section]
+			let isSaveEnabled: Bool
+			let saveTitle: String
+			let totalCompletionsString: String
+		}
+		case showAllComponents(UpdateBox)
 		case showNewSection(section: Int, items: Section, isSaveEnabled: Bool)
 		case showSaveEnabled(isSaveEnabled: Bool)
-	}
-}
-
-private extension CreateEditTrackerModels {
-	enum Appearance {
-		static let categoryTitle = "Категория"
-		static let scheduleTitle = "Расписание"
-		static let emojiTitle = "Emoji"
-		static let colorTitle = "Цвет"
 	}
 }

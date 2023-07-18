@@ -8,27 +8,18 @@ struct EmptyInputData {
 extension EmptyInputData {
 	static let emptySearchTrackers = EmptyInputData(
 		image: Theme.image(kind: .trackerEmptyPlaceholder),
-		message: Appearance.emptySearchListMessage
+		message: Theme.Texts.Messages.emptySearchListMessage
 	)
 	static let emptyStartTrackers = EmptyInputData(
 		image: Theme.image(kind: .trackerStartPlaceholder),
-		message: Appearance.emptyTrackersListMessage
+		message: Theme.Texts.Messages.emptyTrackersListMessage
 	)
 	static let emptyStartCategories = EmptyInputData(
 		image: Theme.image(kind: .trackerStartPlaceholder),
-		message: Appearance.emptyCategoriesListMessage
+		message: Theme.Texts.Messages.emptyCategoriesListMessage
 	)
 	static let emptyStatistics = EmptyInputData(
 		image: Theme.image(kind: .statsPlaceholder),
-		message: Appearance.emptyStatisticsListMessage
+		message: Theme.Texts.Messages.emptyStatisticsListMessage
 	)
-}
-
-private extension EmptyInputData {
-	enum Appearance {
-		static let emptySearchListMessage = "Ничего не найдено"
-		static let emptyTrackersListMessage = "Что будем отслеживать?"
-		static let emptyCategoriesListMessage = "Привычки и события можно\nобъединить по смыслу"
-		static let emptyStatisticsListMessage = "Анализировать пока нечего"
-	}
 }

@@ -17,6 +17,7 @@ extension Theme {
 		case addIcon
 		case checkmarkIcon
 		case chevronIcon
+		case pinned
 	}
 
 	static func image(kind: ImageAsset) -> UIImage {

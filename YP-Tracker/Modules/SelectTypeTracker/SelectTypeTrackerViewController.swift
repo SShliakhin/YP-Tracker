@@ -58,14 +58,14 @@ private extension SelectTypeTrackerViewController {
 			[
 				make.leadingAnchor.constraint(equalTo: stack.leadingAnchor, constant: Theme.spacing(usage: .standardHalf)),
 				make.trailingAnchor.constraint(equalTo: stack.trailingAnchor, constant: -Theme.spacing(usage: .standardHalf)),
-				make.heightAnchor.constraint(equalToConstant: Theme.size(kind: .buttonHeight))
+				make.heightAnchor.constraint(equalToConstant: Theme.dimension(kind: .smallHeight))
 			]
 		}
 		eventButton.makeConstraints { make in
 			[
 				make.leadingAnchor.constraint(equalTo: stack.leadingAnchor, constant: Theme.spacing(usage: .standardHalf)),
 				make.trailingAnchor.constraint(equalTo: stack.trailingAnchor, constant: -Theme.spacing(usage: .standardHalf)),
-				make.heightAnchor.constraint(equalToConstant: Theme.size(kind: .buttonHeight))
+				make.heightAnchor.constraint(equalToConstant: Theme.dimension(kind: .smallHeight))
 			]
 		}
 
@@ -89,7 +89,7 @@ private extension SelectTypeTrackerViewController {
 		button.setTitleColor(Theme.color(usage: .white), for: .normal)
 		button.titleLabel?.font = Theme.font(style: .callout)
 		button.backgroundColor = Theme.color(usage: .black)
-		button.layer.cornerRadius = Theme.size(kind: .cornerRadius)
+		button.layer.cornerRadius = Theme.dimension(kind: .cornerRadius)
 
 		button.event = { [weak self] in
 			self?.interactor.didUserDo(request: .selectType(type))

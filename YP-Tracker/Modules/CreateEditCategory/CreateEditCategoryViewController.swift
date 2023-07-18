@@ -11,6 +11,7 @@ final class CreateEditCategoryViewController: UIViewController {
 	private var isSaveEnabled = false {
 		didSet {
 			actionButton.isEnabled = isSaveEnabled
+			ButtonEvent.save.buttonTitleValue(actionButton)
 			ButtonEvent.save.buttonLayerValue(actionButton)
 		}
 	}
@@ -138,7 +139,7 @@ private extension CreateEditCategoryViewController {
 
 		actionButton.makeConstraints { make in
 			[
-				make.heightAnchor.constraint(equalToConstant: Theme.size(kind: .buttonHeight)),
+				make.heightAnchor.constraint(equalToConstant: Theme.dimension(kind: .smallHeight)),
 				make.leadingAnchor.constraint(
 					equalTo: view.safeAreaLayoutGuide.leadingAnchor,
 					constant: Theme.spacing(usage: .constant20)
@@ -158,20 +159,15 @@ private extension CreateEditCategoryViewController {
 	func arrangeTextFieldBlockStackView() -> UIStackView {
 		let textFieldView = UIView()
 		textFieldView.backgroundColor = Theme.color(usage: .background)
-		textFieldView.layer.cornerRadius = Theme.size(kind: .cornerRadius)
+		textFieldView.layer.cornerRadius = Theme.dimension(kind: .cornerRadius)
 
 		textFieldView.addSubview(titleTextField)
 		titleTextField.makeEqualToSuperview(
-			insets: .init(
-				top: .zero,
-				left: Theme.spacing(usage: .standard2),
-				bottom: .zero,
-				right: Theme.spacing(usage: .standard2)
-			)
+			insets: .init(horizontal: Theme.spacing(usage: .standard2))
 		)
 		titleTextField.makeConstraints { make in
 			[
-				make.heightAnchor.constraint(equalToConstant: Theme.size(kind: .textFieldHeight))
+				make.heightAnchor.constraint(equalToConstant: Theme.dimension(kind: .mediumHeight))
 			]
 		}
 
@@ -192,7 +188,16 @@ private extension CreateEditCategoryViewController {
 	func makeTitleTextField() -> UITextField {
 		let textField = UITextField()
 
-		textField.placeholder = Appearance.textFieldPlaceholder
+		let attributes: [NSAttributedString.Key: Any] = [
+			.foregroundColor: Theme.color(usage: .gray),
+			.font: Theme.font(style: .body)
+		]
+
+		textField.attributedPlaceholder = NSAttributedString(
+			string: CategoryNames.textFieldPlaceholder,
+			attributes: attributes
+		)
+
 		textField.backgroundColor = .clear
 		textField.textColor = Theme.color(usage: .main)
 		textField.font = Theme.font(style: .body)
@@ -206,7 +211,7 @@ private extension CreateEditCategoryViewController {
 	}
 	func makeTitleCharactersLimitLabel() -> UILabel {
 		let label = UILabel()
-		label.text = Appearance.titleLimitMessage
+		label.text = CategoryNames.titleLimitMessage
 		label.textAlignment = .center
 		label.textColor = Theme.color(usage: .attention)
 		label.font = Theme.font(style: .body)
@@ -239,13 +244,17 @@ private extension CreateEditCategoryViewController {
 			button.titleLabel?.font = Theme.font(style: .callout)
 			switch self {
 			case .save:
-				button.setTitle(Appearance.titleEventButton, for: .normal)
-				button.setTitleColor(Theme.color(usage: .white), for: .normal)
+				let titleColor = button.isEnabled
+				? Theme.color(usage: .white)
+				: Theme.color(usage: .allDayWhite)
+
+				button.setTitle(ActionsNames.readyButtonTitle, for: .normal)
+				button.setTitleColor(titleColor, for: .normal)
 			}
 		}
 
 		func buttonLayerValue(_ button: UIButton) {
-			button.layer.cornerRadius = Theme.size(kind: .cornerRadius)
+			button.layer.cornerRadius = Theme.dimension(kind: .cornerRadius)
 			switch self {
 			case .save:
 				button.backgroundColor =
@@ -260,9 +269,6 @@ private extension CreateEditCategoryViewController {
 // MARK: - Appearance
 private extension CreateEditCategoryViewController {
 	enum Appearance {
-		static let textFieldPlaceholder = "Введите название категории"
 		static let textFieldLimit = 24
-		static let titleLimitMessage = "Ограничение 24 символа"
-		static let titleEventButton = "Готово"
 	}
 }

@@ -6,11 +6,12 @@ struct Tracker: Identifiable, Hashable {
 	let emoji: String
 	let color: String
 	let schedule: [Int: Bool]
+	let pinned: Bool
 
 	var scheduleString: String {
 		let allSelectedDays = schedule.filter { $0.value }
 		if allSelectedDays.count == 7 {
-			return "Каждый день"
+			return Theme.Texts.ScheduleNames.everyDay
 		} else {
 			return allSelectedDays
 				.sorted { $0.key < $1.key }
@@ -45,29 +46,19 @@ extension Tracker {
 		var description: String {
 			switch self {
 			case .habit:
-				return Appearance.habit
+				return TrackerNames.habit
 			case .event:
-				return Appearance.event
+				return TrackerNames.event
 			}
 		}
 	}
 	enum Action {
-		case edit(UUID) // редактировать существующий трекер
-		case new(TrackerType) // создать новый трекер, передаем тип
-		case selectCategory(UUID?) // передаем существующие UUID категории
-		case selectSchedule([Int: Bool]) // передаем существующее расписание
+		case edit(UUID)
+		case new(TrackerType)
+		case selectCategory(UUID?)
+		case selectSchedule([Int: Bool])
 		case selectFilter(TrackerFilter)
-		case save
-		case cancel
 		case addCategory
 		case editCategory(UUID)
-	}
-}
-
-// MARK: - Appearance
-private extension Tracker {
-	enum Appearance {
-		static let habit = "Привычка"
-		static let event = "Нерегулярное событие"
 	}
 }

@@ -81,10 +81,15 @@ private extension CreateEditTrackerCoordinator {
 				self?.onUpdateCategory?(id, title)
 			}
 			if case .addCategory = event {
-				self?.showAddCategoryModule(router: module)
+				self?.showCreateEditCategoryModule(
+					trackerAction: .addCategory,
+					titleVC: ScreensTitles.titleAddCategoryVC,
+					router: module
+				)
 			}
+			// внедрить новый функционал по категориям в общий YPModule сложно
 		}
-		module.title = Appearance.titleCategoryVC
+		module.title = ScreensTitles.titleCategoryVC
 		router?.present(UINavigationController(rootViewController: module), animated: true)
 	}
 
@@ -94,18 +99,29 @@ private extension CreateEditTrackerCoordinator {
 		)
 
 		onUpdateCategories = { [weak viewModel] in
-			viewModel?.update()
+			viewModel?.didUserDo(request: .updateView)
 		}
 		viewModel.didSendEventClosure = { [weak self, weak module] event in
 			if case let .selectCategory(id, title) = event {
 				module?.dismiss(animated: true)
 				self?.onUpdateCategory?(id, title)
 			}
-			if case .showCreateEditCategory = event {
-				self?.showAddCategoryModule(router: module)
+			if case .addCategory = event {
+				self?.showCreateEditCategoryModule(
+					trackerAction: .addCategory,
+					titleVC: ScreensTitles.titleAddCategoryVC,
+					router: module
+				)
+			}
+			if case let .editCategory(categoryID) = event {
+				self?.showCreateEditCategoryModule(
+					trackerAction: .editCategory(categoryID),
+					titleVC: ScreensTitles.titleEditCategoryVC,
+					router: module
+				)
 			}
 		}
-		module.title = Appearance.titleCategoryVC
+		module.title = ScreensTitles.titleCategoryVC
 		router?.present(UINavigationController(rootViewController: module), animated: true)
 	}
 
@@ -119,37 +135,39 @@ private extension CreateEditTrackerCoordinator {
 				self?.onUpdateSchedule?(schedule)
 			}
 		}
-		module.title = Appearance.titleScheduleVC
+		module.title = ScreensTitles.titleScheduleVC
 		router?.present(UINavigationController(rootViewController: module), animated: true)
 	}
 
-	func showAddCategoryModule(router: UIViewController?) {
-		let (module, moduleInteractor) = factory.makeCreateEditCategoryModule(trackerAction: .addCategory)
+	func showCreateEditCategoryModule(
+		trackerAction: Tracker.Action,
+		titleVC: String,
+		router: UIViewController?
+	) {
+		let (module, moduleInteractor) = factory.makeCreateEditCategoryModule(trackerAction: trackerAction)
 		moduleInteractor.didSendEventClosure = { [weak self, weak module] event in
 			if case .save = event {
 				module?.dismiss(animated: true)
 				self?.onUpdateCategories?()
 			}
 		}
-		module.title = Appearance.titleAddCategoryVC
+		module.title = titleVC
 		router?.present(UINavigationController(rootViewController: module), animated: true)
 	}
 }
 
 private extension CreateEditTrackerCoordinator {
-	enum Appearance {
-		static let titleHabitVC = "Новая привычка"
-		static let titleEventVC = "Новое нерегулярное событие"
-		static let titleCategoryVC = "Категория"
-		static let titleScheduleVC = "Расписание"
-		static let titleAddCategoryVC = "Новая категория"
-	}
-
 	func makeTitle() -> String {
-		if case Tracker.Action.new(.habit) = trackerAction {
-			return Appearance.titleHabitVC
-		} else {
-			return Appearance.titleEventVC
+		if case let Tracker.Action.new(trackerType) = trackerAction {
+			if trackerType == .habit {
+				return ScreensTitles.titleHabitVC
+			} else {
+				return ScreensTitles.titleEventVC
+			}
 		}
+		if case Tracker.Action.edit = trackerAction {
+			return ScreensTitles.titleEditTrackerVC
+		}
+		return ScreensTitles.defaultTitle
 	}
 }

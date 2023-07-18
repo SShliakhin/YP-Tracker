@@ -8,7 +8,10 @@ extension Theme {
 		case standardHalf
 		case standard3
 		case standard4
+		case standard5
 		case constant20
+		case constant12
+		case constant77
 	}
 
 	static func spacing(usage: Spacing) -> CGFloat {
@@ -25,45 +28,75 @@ extension Theme {
 			customSpacing = 24
 		case .standard4:
 			customSpacing = 32
+		case .standard5:
+			customSpacing = 40
 		case .constant20:
 			customSpacing = 20
+		case .constant12:
+			customSpacing = 12
+		case .constant77:
+			customSpacing = 77
 		}
 
 		return customSpacing
 	}
 
 	// MARK: - Size
-	enum Size {
+	enum Dimension {
 		case cornerRadius
 		case largeRadius
 		case mediumRadius
 		case smallRadius
-		case textFieldHeight
-		case buttonHeight
+		case largeHeight
+		case mediumHeight
+		case smallHeight
 		case largeBorder
 		case smallBorder
 	}
 
-	static func size(kind: Size) -> CGFloat {
-		let customSize: CGFloat
+	static func dimension(kind: Dimension) -> CGFloat {
+		let customDimension: CGFloat
 
 		switch kind {
 		case .cornerRadius:
-			customSize = 16
+			customDimension = 16
 		case .largeRadius:
-			customSize = 12
+			customDimension = 12
 		case .mediumRadius:
-			customSize = 10
+			customDimension = 10
 		case .smallRadius:
-			customSize = 8
-		case .textFieldHeight:
-			customSize = 75
-		case .buttonHeight:
-			customSize = 60
+			customDimension = 8
+		case .largeHeight:
+			customDimension = 90
+		case .mediumHeight:
+			customDimension = 75
+		case .smallHeight:
+			customDimension = 60
 		case .largeBorder:
-			customSize = 3
+			customDimension = 3
 		case .smallBorder:
-			customSize = 1
+			customDimension = 1
+		}
+
+		return customDimension
+	}
+
+	enum Size {
+		case small
+		case medium
+		case large
+	}
+
+	static func size(kind: Size) -> CGSize {
+		let customSize: CGSize
+
+		switch kind {
+		case .small:
+			customSize = .init(width: 24, height: 24)
+		case .medium:
+			customSize = .init(width: 34, height: 34)
+		case .large:
+			customSize = .init(width: 50, height: 50)
 		}
 
 		return customSize

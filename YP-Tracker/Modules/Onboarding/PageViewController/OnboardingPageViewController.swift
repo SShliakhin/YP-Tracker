@@ -43,12 +43,7 @@ private extension OnboardingPageViewController {
 
 		imageView.makeEqualToSuperview()
 		textLabel.makeEqualToSuperviewCenter(
-			insets: .init(
-				top: Appearance.centerIndent,
-				left: .zero,
-				bottom: .zero,
-				right: .zero
-			)
+			insets: .init(top: Appearance.centerIndent)
 		)
 	}
 }
@@ -63,7 +58,7 @@ private extension OnboardingPageViewController {
 	func makeLabel() -> UILabel {
 		let label = UILabel()
 		label.text = page.textValue
-		label.textColor = Theme.color(usage: .main)
+		label.textColor = Theme.color(usage: .allDayBlack)
 		label.font = Theme.font(style: .title1)
 		label.textAlignment = .center
 		label.numberOfLines = .zero

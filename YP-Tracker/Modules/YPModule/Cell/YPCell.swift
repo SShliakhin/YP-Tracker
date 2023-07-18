@@ -87,7 +87,7 @@ extension YPCellModel: ICellViewModel {
 private extension YPCell {
 	func applyStyle() {
 		backgroundColor = Theme.color(usage: .background)
-		layer.cornerRadius = Theme.size(kind: .mediumRadius)
+		layer.cornerRadius = Theme.dimension(kind: .mediumRadius)
 		layer.masksToBounds = true
 	}
 
@@ -111,7 +111,7 @@ private extension YPCell {
 
 		hStack.makeConstraints { make in
 			[
-				make.heightAnchor.constraint(equalToConstant: Theme.size(kind: .textFieldHeight))
+				make.heightAnchor.constraint(equalToConstant: Theme.dimension(kind: .mediumHeight))
 			]
 		}
 
@@ -120,12 +120,9 @@ private extension YPCell {
 			dividerView
 		].forEach { contentView.addSubview($0) }
 
-		hStack.makeEqualToSuperview(insets: .init(
-			top: .zero,
-			left: Theme.spacing(usage: .standard2),
-			bottom: .zero,
-			right: Theme.spacing(usage: .standard2)
-		))
+		hStack.makeEqualToSuperview(
+			insets: .init(horizontal: Theme.spacing(usage: .standard2))
+		)
 
 		dividerView.makeConstraints { make in
 			[

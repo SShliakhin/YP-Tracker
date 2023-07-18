@@ -6,6 +6,9 @@ protocol IServiceFactory {
 	func makeCategoriesManager(repository: ICategoriesRepository) -> ICategoriesManager
 	func makeCategoriesManager(dataStore: ITrackersDataStore) -> ICategoriesManager
 	func makeCategoriesProvider(manager: ICategoriesManager) -> ICategoriesProvider
+	func makeLocalState() -> ILocalState
+	func makeAnalyticsService() -> IAnalyticsService
+	func makeStatisticsService() -> StatisticsIn & StatisticsOut
 }
 
 extension Di: IServiceFactory {
@@ -23,5 +26,17 @@ extension Di: IServiceFactory {
 
 	func makeCategoriesProvider(manager: ICategoriesManager) -> ICategoriesProvider {
 		return CategoriesProvider(categoriesManager: manager)
+	}
+
+	func makeLocalState() -> ILocalState {
+		LocalState(localStateStorage: UserDefaults.standard)
+	}
+
+	func makeAnalyticsService() -> IAnalyticsService {
+		AnalyticsService()
+	}
+
+	func makeStatisticsService() -> StatisticsIn & StatisticsOut {
+		StatisticsService()
 	}
 }

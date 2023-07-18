@@ -78,7 +78,61 @@ extension SelectCategoryViewController: UICollectionViewDelegate {
 		didSelectItemAt indexPath: IndexPath
 	) {
 		collectionView.deselectItem(at: indexPath, animated: true)
-		viewModel.didSelectItemAtIndex(indexPath.row)
+		viewModel.didUserDo(request: .selectItemAtIndex(indexPath.row))
+	}
+
+	func collectionView(
+		_ collectionView: UICollectionView,
+		contextMenuConfigurationForItemAt indexPaths: IndexPath,
+		point: CGPoint
+	) -> UIContextMenuConfiguration? {
+		guard !indexPaths.isEmpty else { return nil }
+
+		return UIContextMenuConfiguration(
+			identifier: nil,
+			previewProvider: nil,
+			actionProvider: { _ in
+				UIMenu(
+					children:
+						[
+							UIAction(
+								title: ActionsNames.menuEdit
+							) { [weak self] _ in
+								self?.viewModel.didUserDo(request: .editCategory(indexPaths.row))
+							},
+							UIAction(
+								title: ActionsNames.menuDelete,
+								attributes: .destructive
+							) { [weak self] _ in
+								self?.deleteRequest(indexPaths)
+							}
+						]
+				)
+			}
+		)
+	}
+
+	private func deleteRequest(_ indexPath: IndexPath) {
+		let alert = UIAlertController(
+			title: nil,
+			message: TrackerNames.deleteRequestMessage,
+			preferredStyle: .actionSheet
+		)
+		alert.addAction(
+			.init(
+				title: ActionsNames.deleteButtonTitle,
+				style: .destructive
+			) { [weak self] _ in
+				self?.viewModel.didUserDo(request: .deleteCategory(indexPath.row))
+			}
+		)
+		alert.addAction(
+			.init(
+				title: ActionsNames.cancelButtonTitle,
+				style: .cancel
+			)
+		)
+		present(alert, animated: true)
 	}
 }
 
@@ -117,7 +171,7 @@ private extension SelectCategoryViewController {
 			[
 				make.leadingAnchor.constraint(equalTo: stack.leadingAnchor, constant: Theme.spacing(usage: .standardHalf)),
 				make.trailingAnchor.constraint(equalTo: stack.trailingAnchor, constant: -Theme.spacing(usage: .standardHalf)),
-				make.heightAnchor.constraint(equalToConstant: Theme.size(kind: .buttonHeight))
+				make.heightAnchor.constraint(equalToConstant: Theme.dimension(kind: .smallHeight))
 			]
 		}
 
@@ -129,10 +183,8 @@ private extension SelectCategoryViewController {
 
 		stack.makeEqualToSuperviewToSafeArea(
 			insets: .init(
-				top: Theme.spacing(usage: .standard3),
-				left: Theme.spacing(usage: .standard2),
-				bottom: Theme.spacing(usage: .standard3),
-				right: Theme.spacing(usage: .standard2)
+				horizontal: Theme.spacing(usage: .standard2),
+				vertical: Theme.spacing(usage: .standard3)
 			)
 		)
 		emptyView.makeEqualToSuperviewCenterToSafeArea()
@@ -157,9 +209,9 @@ private extension SelectCategoryViewController {
 		collectionView.delegate = self
 
 		collectionView.backgroundColor = .clear
-		collectionView.bounces = false // чтобы не скролилось никуда
+		collectionView.bounces = false
 
-		collectionView.layer.cornerRadius = Theme.size(kind: .cornerRadius)
+		collectionView.layer.cornerRadius = Theme.dimension(kind: .cornerRadius)
 		collectionView.clipsToBounds = true
 
 		return collectionView
@@ -174,14 +226,14 @@ private extension SelectCategoryViewController {
 	func makeActionButton() -> UIButton {
 		let button = UIButton()
 
-		button.setTitle(Appearance.actionButtonTitle, for: .normal)
+		button.setTitle(CategoryNames.addCategoryButtonTitle, for: .normal)
 		button.setTitleColor(Theme.color(usage: .white), for: .normal)
 		button.titleLabel?.font = Theme.font(style: .callout)
 		button.backgroundColor = Theme.color(usage: .black)
-		button.layer.cornerRadius = Theme.size(kind: .cornerRadius)
+		button.layer.cornerRadius = Theme.dimension(kind: .cornerRadius)
 
 		button.event = { [weak self] in
-			self?.viewModel.didTapAddCategoryButton()
+			self?.viewModel.didUserDo(request: .tapActionButton)
 		}
 
 		return button
@@ -197,20 +249,6 @@ private extension SelectCategoryViewController {
 		}
 	}
 
-	func createLayoutSection(
-		group: NSCollectionLayoutGroup,
-		behavior: UICollectionLayoutSectionOrthogonalScrollingBehavior,
-		interGroupSpacing: CGFloat,
-		supplementaryItem: [NSCollectionLayoutBoundarySupplementaryItem]
-	) -> NSCollectionLayoutSection {
-		let section = NSCollectionLayoutSection(group: group)
-		section.orthogonalScrollingBehavior = behavior
-		section.interGroupSpacing = interGroupSpacing
-		section.boundarySupplementaryItems = supplementaryItem
-
-		return section
-	}
-
 	func createItemLayout() -> NSCollectionLayoutSection {
 		let itemSize = NSCollectionLayoutSize(
 			widthDimension: .fractionalWidth(1.0),
@@ -220,7 +258,7 @@ private extension SelectCategoryViewController {
 
 		let groupSize = NSCollectionLayoutSize(
 			widthDimension: .fractionalWidth(1.0),
-			heightDimension: .absolute(Theme.size(kind: .textFieldHeight)) // высота
+			heightDimension: .absolute(Theme.dimension(kind: .mediumHeight)) // высота
 		)
 		let group = NSCollectionLayoutGroup.horizontal(
 			layoutSize: groupSize,
@@ -237,11 +275,18 @@ private extension SelectCategoryViewController {
 
 		return section
 	}
-}
 
-// MARK: - Appearance
-private extension SelectCategoryViewController {
-	enum Appearance {
-		static let actionButtonTitle = "Добавить категорию"
+	func createLayoutSection(
+		group: NSCollectionLayoutGroup,
+		behavior: UICollectionLayoutSectionOrthogonalScrollingBehavior,
+		interGroupSpacing: CGFloat,
+		supplementaryItem: [NSCollectionLayoutBoundarySupplementaryItem]
+	) -> NSCollectionLayoutSection {
+		let section = NSCollectionLayoutSection(group: group)
+		section.orthogonalScrollingBehavior = behavior
+		section.interGroupSpacing = interGroupSpacing
+		section.boundarySupplementaryItems = supplementaryItem
+
+		return section
 	}
 }

@@ -129,7 +129,7 @@ private extension YPViewController {
 			[
 				make.leadingAnchor.constraint(equalTo: stack.leadingAnchor, constant: Theme.spacing(usage: .standardHalf)),
 				make.trailingAnchor.constraint(equalTo: stack.trailingAnchor, constant: -Theme.spacing(usage: .standardHalf)),
-				make.heightAnchor.constraint(equalToConstant: Theme.size(kind: .buttonHeight))
+				make.heightAnchor.constraint(equalToConstant: Theme.dimension(kind: .smallHeight))
 			]
 		}
 
@@ -141,10 +141,8 @@ private extension YPViewController {
 
 		stack.makeEqualToSuperviewToSafeArea(
 			insets: .init(
-				top: Theme.spacing(usage: .standard3),
-				left: Theme.spacing(usage: .standard2),
-				bottom: Theme.spacing(usage: .standard3),
-				right: Theme.spacing(usage: .standard2)
+				horizontal: Theme.spacing(usage: .standard2),
+				vertical: Theme.spacing(usage: .standard3)
 			)
 		)
 		emptyView.makeEqualToSuperviewCenterToSafeArea()
@@ -171,7 +169,7 @@ private extension YPViewController {
 		collectionView.backgroundColor = .clear
 		collectionView.bounces = false // чтобы не скролилось никуда
 
-		collectionView.layer.cornerRadius = Theme.size(kind: .cornerRadius)
+		collectionView.layer.cornerRadius = Theme.dimension(kind: .cornerRadius)
 		collectionView.clipsToBounds = true
 
 		return collectionView
@@ -189,7 +187,7 @@ private extension YPViewController {
 		button.setTitleColor(Theme.color(usage: .white), for: .normal)
 		button.titleLabel?.font = Theme.font(style: .callout)
 		button.backgroundColor = Theme.color(usage: .black)
-		button.layer.cornerRadius = Theme.size(kind: .cornerRadius)
+		button.layer.cornerRadius = Theme.dimension(kind: .cornerRadius)
 
 		button.event = { [weak self] in
 			self?.interactor.didUserDo(request: .tapActionButton)
@@ -231,7 +229,7 @@ private extension YPViewController {
 
 		let groupSize = NSCollectionLayoutSize(
 			widthDimension: .fractionalWidth(1.0),
-			heightDimension: .absolute(Theme.size(kind: .textFieldHeight)) // высота
+			heightDimension: .absolute(Theme.dimension(kind: .mediumHeight)) // высота
 		)
 		let group = NSCollectionLayoutGroup.horizontal(
 			layoutSize: groupSize,

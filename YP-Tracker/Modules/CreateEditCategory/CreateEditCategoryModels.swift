@@ -1,7 +1,7 @@
 enum CreateEditCategoryModels {
 	enum Request {
-		case newTitle(String) // введено новое название - валидировать возможность сохранения
-		case save // сохранить состояние категории - обновить существующую или добавить новую
+		case newTitle(String)
+		case save
 	}
 
 	enum Response {

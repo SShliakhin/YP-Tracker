@@ -29,9 +29,10 @@ final class TrackersPresenter: ITrackersPresenter {
 							colorString: val.tracker.color,
 							emoji: val.tracker.emoji,
 							title: val.tracker.title,
-							dayTime: "\(val.allTimes) дн./дней",
+							dayTime: Theme.DynamicText.daysCount(count: val.allTimes),
 							isCompleted: val.completed,
 							isButtonEnabled: isActionEnabled,
+							isPinned: val.tracker.pinned,
 							event: { interactor?.didUserDo(request: .completeUncompleteTracker(index, key)) }
 						)
 					})
@@ -47,5 +48,13 @@ final class TrackersPresenter: ITrackersPresenter {
 private extension TrackersPresenter {
 	func checkIsActionEnabled(date: Date) -> Bool {
 		Calendar.current.startOfDay(for: Date()) >= Calendar.current.startOfDay(for: date)
+	}
+
+	func daysCount(count: Int) -> String {
+		let formatString = NSLocalizedString(
+			"days",
+			comment: "Количество дней - плюрализм"
+		)
+		return String.localizedStringWithFormat(formatString, count)
 	}
 }

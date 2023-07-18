@@ -106,11 +106,6 @@ private extension TabbarViewController {
 
 // MARK: - Appearance
 private extension TabbarViewController {
-	enum Appearance {
-		static let trackersTabTitle = "Трекеры"
-		static let statisticsTabTitle = "Статистика"
-	}
-
 	// swiftlint:disable numbers_smell
 	enum TabbarPage: Int {
 		case trackers
@@ -138,9 +133,9 @@ private extension TabbarViewController {
 		func pageTitleValue() -> String {
 			switch self {
 			case .trackers:
-				return Appearance.trackersTabTitle
+				return Theme.Texts.TabTitles.trackersTabTitle
 			case .statistics:
-				return Appearance.statisticsTabTitle
+				return Theme.Texts.TabTitles.statisticsTabTitle
 			}
 		}
 		func pageIconValue() -> UIImage {

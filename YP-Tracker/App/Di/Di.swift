@@ -16,17 +16,26 @@ final class Di {
 		// let categoriesManager = makeCategoriesManager(repository: repository)
 		// вариант для работы с постоянным хранилищем
 		let categoriesManager = makeCategoriesManager(dataStore: trackersDataStore)
+		let statisticsService = makeStatisticsService()
 
 		// MARK: - подготовка локальных сервисов
 		dependencies = Dependency(
+			localState: makeLocalState(),
 			categoriesManager: categoriesManager,
-			categoriesProvider: makeCategoriesProvider(manager: categoriesManager)
+			categoriesProvider: makeCategoriesProvider(manager: categoriesManager),
+			analyticsService: makeAnalyticsService(),
+			statisticsIn: statisticsService,
+			statisticsOut: statisticsService
 		)
 	}
 
 	struct Dependency: AllDependencies {
+		let localState: ILocalState
 		let categoriesManager: ICategoriesManager
 		let categoriesProvider: ICategoriesProvider
+		let analyticsService: IAnalyticsService
+		let statisticsIn: StatisticsIn
+		let statisticsOut: StatisticsOut
 	}
 }
 
@@ -34,6 +43,12 @@ final class Di {
 
 protocol ITrackersModuleDependency {
 	var categoriesProvider: ICategoriesProvider { get }
+	var analyticsService: IAnalyticsService { get }
+	var statisticsIn: StatisticsIn { get }
+}
+
+protocol IStatisticsModuleDependency {
+	var statisticsOut: StatisticsOut { get }
 }
 
 protocol IYPModuleDependency {
@@ -48,15 +63,51 @@ protocol ICreateEditCategoryModuleDependency {
 	var categoriesManager: ICategoriesManager { get }
 }
 
+protocol IAppCoordinatorDependcy {
+	var localState: ILocalState { get }
+}
+
 protocol IEmptyDependency {}
 
 typealias AllDependencies = (
 	IEmptyDependency &
+	IAppCoordinatorDependcy &
 	ITrackersModuleDependency &
+	IStatisticsModuleDependency &
 	ICreateEditTrackerModuleDependency &
 	ICreateEditCategoryModuleDependency &
 	IYPModuleDependency
 )
+
+// MARK: - ICoordinatorFactory
+
+extension Di: ICoordinatorFactory {
+	func makeApplicationCoordinator(router: Router) -> AppCoordinator {
+		makeApplicationCoordinator(router: router, dep: dependencies)
+	}
+	func makeOnboardingCoordinator(router: Router) -> OnboardingCoordinator {
+		OnboardingCoordinator(router: router, factory: self)
+	}
+	func makeTabbarCoordinator(router: Router) -> TabbarCoordinator {
+		TabbarCoordinator(router: router, factory: self, coordinatorFactory: self)
+	}
+	func makeTrackersCoordinator(navController: UINavigationController) -> TrackersCoordinator {
+		TrackersCoordinator(
+			router: Router(rootController: navController),
+			factory: self,
+			coordinatorFactory: self
+		)
+	}
+	func makeStatisticsCoordinator(navController: UINavigationController) -> StatisticsCoordinator {
+		StatisticsCoordinator(
+			router: Router(rootController: navController),
+			factory: self
+		)
+	}
+	func makeCreateEditTrackerCoordinator(router: Router, trackerAction: Tracker.Action) -> CreateEditTrackerCoordinator {
+		CreateEditTrackerCoordinator(router: router, factory: self, trackerAction: trackerAction)
+	}
+}
 
 // MARK: - ModuleFactory
 
@@ -75,7 +126,7 @@ extension Di: IModuleFactory {
 	func makeTabbarModule() -> UIViewController {
 		makeTabbarModule(dep: dependencies)
 	}
-	func makeStatisticsModule() -> UIViewController {
+	func makeStatisticsModule() -> (UIViewController, StatisticsListViewModel) {
 		makeStatisticsModule(dep: dependencies)
 	}
 	func makeTrackersModule() -> (UIViewController, ITrackersInteractor) {

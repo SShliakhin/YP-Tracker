@@ -1,17 +1,24 @@
 import Foundation
 
 enum CategoriesListEvents {
-	case showCreateEditCategory
+	case addCategory
+	case editCategory(UUID)
 	case selectCategory(UUID, String)
+}
+
+enum CategoriesListRequest {
+	case editCategory(Int)
+	case deleteCategory(Int)
+	case selectItemAtIndex(Int)
+	case tapActionButton
+	case updateView
 }
 
 protocol CategoriesListViewModelInput: AnyObject {
 	var didSendEventClosure: ((CategoriesListEvents) -> Void)? { get set }
 
 	func viewIsReady()
-	func update()
-	func didSelectItemAtIndex(_ index: Int)
-	func didTapAddCategoryButton()
+	func didUserDo(request: CategoriesListRequest)
 }
 
 protocol CategoriesListViewModelOutput: AnyObject {
@@ -106,37 +113,43 @@ extension DefaultCategoriesListViewModel {
 		}
 	}
 
-	func update() {
-		viewIsReady()
-	}
-
-	func didSelectItemAtIndex(_ index: Int) {
-		let category = categories[index]
-		if
-			let selectedItemIndex = selectedItemIndex,
-			selectedItemIndex != index
-		{
-			items.value[selectedItemIndex] = createItem(
-				index: selectedItemIndex,
-				isSelected: false
-			)
-			items.value[index] = createItem(
-				index: index,
-				isSelected: true
-			)
-			self.selectedItemIndex = index
-		} else {
-			selectedItemIndex = index
-			items.value[index] = createItem(
-				index: index,
-				isSelected: true
-			)
+	func didUserDo(request: CategoriesListRequest) {
+		switch request {
+		case .updateView:
+			viewIsReady()
+		case let .selectItemAtIndex(index):
+			let category = categories[index]
+			if
+				let selectedItemIndex = selectedItemIndex,
+				selectedItemIndex != index
+			{
+				items.value[selectedItemIndex] = createItem(
+					index: selectedItemIndex,
+					isSelected: false
+				)
+				items.value[index] = createItem(
+					index: index,
+					isSelected: true
+				)
+				self.selectedItemIndex = index
+			} else {
+				selectedItemIndex = index
+				items.value[index] = createItem(
+					index: index,
+					isSelected: true
+				)
+			}
+			didSendEventClosure?(.selectCategory(category.id, category.title))
+		case .tapActionButton:
+			didSendEventClosure?(.addCategory)
+		case let .editCategory(index):
+			let category = categories[index]
+			didSendEventClosure?(.editCategory(category.id))
+		case let .deleteCategory(index):
+			let category = categories[index]
+			categoriesProvider.removeCategoryByID(category.id)
+			viewIsReady()
 		}
-		didSendEventClosure?(.selectCategory(category.id, category.title))
-	}
-
-	func didTapAddCategoryButton() {
-		didSendEventClosure?(.showCreateEditCategory)
 	}
 }
 

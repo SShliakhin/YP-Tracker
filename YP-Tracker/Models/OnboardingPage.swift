@@ -7,9 +7,9 @@ enum OnboardingPage: CaseIterable {
 	var textValue: String {
 		switch self {
 		case .blue:
-			return Appearance.blueTextValue
+			return Theme.Texts.OnboardingPages.blueTextValue
 		case .red:
-			return Appearance.redTextValue
+			return Theme.Texts.OnboardingPages.redTextValue
 		}
 	}
 
@@ -20,12 +20,5 @@ enum OnboardingPage: CaseIterable {
 		case .red:
 			return Theme.image(kind: .onboardingPage2)
 		}
-	}
-}
-
-private extension OnboardingPage {
-	enum Appearance {
-		static let blueTextValue = "Отслеживайте только\nто, что хотите"
-		static let redTextValue = "Даже если это\nне литры воды и йога"
 	}
 }

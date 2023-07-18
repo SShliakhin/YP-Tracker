@@ -5,6 +5,7 @@ final class TrackerCell: UICollectionViewCell {
 
 	fileprivate lazy var colorBackgroudnView = makeColorBackgroundView()
 	fileprivate lazy var emojiLabel = makeEmojiLabel()
+	fileprivate lazy var pinnedImageView = makePinnedImageView()
 	fileprivate lazy var titleLabel = makeTitleLabel()
 	fileprivate lazy var dayLabel = makeDayLabel()
 	fileprivate lazy var completeButton = makeCompleteButton()
@@ -42,7 +43,9 @@ struct TrackerCellModel {
 	let dayTime: String
 	let isCompleted: Bool
 	let isButtonEnabled: Bool
+	let isPinned: Bool
 	let event: (() -> Void)?
+	var userInteraction: UIContextMenuInteraction?
 }
 
 // MARK: - ICellViewModel
@@ -57,77 +60,78 @@ extension TrackerCellModel: ICellViewModel {
 		cell.dayLabel.text = dayTime
 
 		if isCompleted {
-			cell.completeButton.setImage(UIImage(systemName: "checkmark"), for: .normal)
+			cell.completeButton.setImage(Theme.image(kind: .checkmarkIcon), for: .normal) // UIImage(systemName: "checkmark")
 			cell.completeButton.backgroundColor = color.withAlphaComponent(0.3)
 		} else {
-			cell.completeButton.setImage(UIImage(systemName: "plus"), for: .normal)
+			cell.completeButton.setImage(Theme.image(kind: .addIcon), for: .normal) // UIImage(systemName: "plus")
 			cell.completeButton.backgroundColor = color
 		}
 		cell.completeButton.event = event
 		cell.completeButton.isEnabled = isButtonEnabled
+
+		cell.pinnedImageView.isHidden = !isPinned
+
+		if let userInteraction = userInteraction {
+			cell.colorBackgroudnView.addInteraction(userInteraction)
+		}
 	}
 }
 
 // MARK: - UI
 private extension TrackerCell {
 	func setConstraints() {
+		let topStack = UIStackView()
+		[
+			emojiLabel,
+			UIView(),
+			pinnedImageView
+		].forEach { topStack.addArrangedSubview($0) }
+		[
+			emojiLabel,
+			pinnedImageView
+		].forEach { $0.makeConstraints { $0.size(Theme.size(kind: .small)) } }
+
 		let vStack = UIStackView()
 		vStack.axis = .vertical
 		vStack.spacing = Theme.spacing(usage: .standard)
 		vStack.alignment = .leading
-		vStack.distribution = .fill
 		[
-			emojiLabel,
+			topStack,
 			titleLabel
 		].forEach { vStack.addArrangedSubview($0) }
-
-		emojiLabel.makeConstraints { $0.size(CGSize(width: 24, height: 24)) }
+		topStack.makeConstraints { [$0.trailingAnchor.constraint(equalTo: vStack.trailingAnchor)] }
 
 		colorBackgroudnView.addSubview(vStack)
-		vStack.makeEqualToSuperview(insets: .init(
-			top: 12,
-			left: 12,
-			bottom: 12,
-			right: 12
-		))
+		vStack.makeEqualToSuperview(
+			insets: .init(all: Theme.spacing(usage: .constant12))
+		)
 
-		let hStack = UIStackView()
-		hStack.spacing = Theme.spacing(usage: .standard)
+		let bottomStack = UIStackView()
+		bottomStack.spacing = Theme.spacing(usage: .standard)
 		[
 			dayLabel,
 			completeButton
-		].forEach { hStack.addArrangedSubview($0) }
+		].forEach { bottomStack.addArrangedSubview($0) }
 
-		hStack.makeConstraints { make in
-			[
-				make.heightAnchor.constraint(equalToConstant: 34)
-			]
-		}
-		completeButton.makeConstraints { $0.size(CGSize(width: 34, height: 34)) }
-		dayLabel.makeConstraints { make in
-			[
-				make.centerYAnchor.constraint(equalTo: completeButton.centerYAnchor)
-			]
-		}
-
+		completeButton.makeConstraints { $0.size(Theme.size(kind: .medium)) }
+		dayLabel.makeConstraints { [$0.centerYAnchor.constraint(equalTo: completeButton.centerYAnchor)] }
 		[
 			colorBackgroudnView,
-			hStack
+			bottomStack
 		].forEach { contentView.addSubview($0) }
 
 		colorBackgroudnView.makeConstraints { make in
 			[
-				// make.topAnchor.constraint(equalTo: contentView.topAnchor),
 				make.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
 				make.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-				make.heightAnchor.constraint(equalToConstant: 90)
+				make.heightAnchor.constraint(equalToConstant: Theme.dimension(kind: .largeHeight))
 			]
 		}
-		hStack.makeConstraints { make in
+		bottomStack.makeConstraints { make in
 			[
 				make.topAnchor.constraint(equalTo: colorBackgroudnView.bottomAnchor, constant: Theme.spacing(usage: .standard)),
-				make.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
-				make.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
+				make.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Theme.spacing(usage: .constant12)),
+				make.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Theme.spacing(usage: .constant12)),
 				make.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
 			]
 		}
@@ -138,7 +142,7 @@ private extension TrackerCell {
 private extension TrackerCell {
 	func makeColorBackgroundView() -> UIView {
 		let view = UIView()
-		view.layer.cornerRadius = Theme.size(kind: .cornerRadius)
+		view.layer.cornerRadius = Theme.dimension(kind: .cornerRadius)
 		view.clipsToBounds = true
 
 		return view
@@ -149,17 +153,25 @@ private extension TrackerCell {
 		label.font = Theme.font(style: .caption1)
 		label.textAlignment = .center
 		label.backgroundColor = Theme.color(usage: .clear)
-		label.layer.cornerRadius = Theme.size(kind: .largeRadius)
+		label.layer.cornerRadius = Theme.dimension(kind: .largeRadius)
 		label.clipsToBounds = true
 
 		return label
+	}
+
+	func makePinnedImageView() -> UIImageView {
+		let imageView = UIImageView()
+		imageView.image = Theme.image(kind: .pinned)
+		imageView.tintColor = Theme.color(usage: .allDayWhite)
+
+		return imageView
 	}
 
 	func makeTitleLabel() -> UILabel {
 		let label = UILabel()
 		label.numberOfLines = 2
 		label.font = Theme.font(style: .caption1)
-		label.textColor = Theme.color(usage: .white)
+		label.textColor = Theme.color(usage: .allDayWhite)
 
 		return label
 	}
@@ -175,7 +187,7 @@ private extension TrackerCell {
 
 	func makeCompleteButton() -> UIButton {
 		let button = UIButton()
-		button.setImage(UIImage(systemName: "plus"), for: .normal)
+		button.setImage(Theme.image(kind: .addIcon), for: .normal) // UIImage(systemName: "plus")
 		button.layer.cornerRadius = 17
 		button.clipsToBounds = true
 		button.tintColor = Theme.color(usage: .white)
@@ -199,6 +211,7 @@ struct TrackerCell_Previews: PreviewProvider {
 			dayTime: "5 раз",
 			isCompleted: false,
 			isButtonEnabled: true,
+			isPinned: true,
 			event: nil
 		)
 		model1.setup(cell: view1)
@@ -211,6 +224,7 @@ struct TrackerCell_Previews: PreviewProvider {
 			dayTime: "3 раза",
 			isCompleted: true,
 			isButtonEnabled: false,
+			isPinned: false,
 			event: nil
 		)
 		model2.setup(cell: view2)
@@ -223,6 +237,7 @@ struct TrackerCell_Previews: PreviewProvider {
 			dayTime: "3 раза",
 			isCompleted: false,
 			isButtonEnabled: false,
+			isPinned: false,
 			event: nil
 		)
 		model3.setup(cell: view3)

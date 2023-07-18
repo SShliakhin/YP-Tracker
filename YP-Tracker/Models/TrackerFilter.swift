@@ -1,3 +1,4 @@
+import Foundation
 enum TrackerFilter {
 	case all
 	case today
@@ -13,13 +14,13 @@ extension TrackerFilter: CustomStringConvertible {
 	var description: String {
 		switch self {
 		case .all:
-			return "Все трекеры"
+			return Theme.Texts.TrackerFilterNames.all
 		case .today:
-			return "Трекеры на сегодня"
+			return Theme.Texts.TrackerFilterNames.today
 		case .completed:
-			return "Завершенные"
+			return Theme.Texts.TrackerFilterNames.completed
 		case .uncompleted:
-			return "Не завершенные"
+			return Theme.Texts.TrackerFilterNames.uncompleted
 		}
 	}
 }
